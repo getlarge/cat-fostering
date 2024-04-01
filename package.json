@@ -4,7 +4,10 @@
   "license": "MIT",
   "scripts": {
     "ory:generate:kratos": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts kratos -e .env",
-    "ory:generate:keto": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts keto -e .env"
+    "ory:generate:keto": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts keto -e .env",
+    "docker:dev:up": "docker compose -f docker-compose.yaml -p cat-fostering --env-file .env up -d",
+    "docker:dev:down": "docker compose -f docker-compose.yaml -p cat-fostering --env-file .env down",
+    "docker:dev:log": "docker compose -f docker-compose.yaml -p cat-fostering logs -f --tail=100"
   },
   "private": true,
   "dependencies": {

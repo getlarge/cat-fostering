@@ -1,0 +1,116 @@
+version: '3.2'
+
+networks:
+  ory:
+    driver: bridge
+
+volumes:
+  app_postgres_volume:
+  kratos_postgres_volume:
+  keto_postgres_volume:
+
+services:
+  postgres:
+    image: postgres:16
+    volumes:
+      - app_postgres_volume:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=appdb
+
+  kratos-migrate:
+    image: oryd/kratos:v1.0.0
+    volumes:
+      - ./infra/ory-kratos:/etc/config/kratos:ro
+    command: -c /etc/config/kratos/kratos.yaml migrate sql -e --yes
+    restart: on-failure
+    networks:
+      - ory
+
+  kratos:
+    depends_on:
+      - kratos-migrate
+    image: oryd/kratos:v1.0.0
+    ports:
+      - '4433:4433' # public
+      - '4434:4434' # admin
+    restart: unless-stopped
+    command: serve -c /etc/config/kratos/kratos.yaml --dev --watch-courier
+    volumes:
+      - ./infra/ory-kratos:/etc/config/kratos:ro
+    networks:
+      - ory
+    # for docker on linux
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+  kratos-postgres:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=kratosdb
+    volumes:
+      - kratos_postgres_volume:/var/lib/postgresql/data
+    networks:
+      - ory
+
+  kratos-selfservice-ui-node:
+    image: oryd/kratos-selfservice-ui-node:v1.0.0
+    environment:
+      - KRATOS_PUBLIC_URL=http://kratos:4433
+      - KRATOS_BROWSER_URL=http://127.0.0.1:4433
+      - PORT=4455
+    ports:
+      - '4455:4455'
+    networks:
+      - ory
+    restart: on-failure
+
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    ports:
+      - '1025:1025'
+      - '4436:4436'
+      - '4437:4437'
+    networks:
+      - ory
+
+  keto-migrate:
+    image: oryd/keto:v0.12.0
+    volumes:
+      - ./infra/ory-keto:/etc/config/keto:ro
+      - ./infra/ory-keto/namespaces.ts:/home/ory/namespaces.ts
+    command: ['migrate', 'up', '-y', '-c', '/etc/config/keto/keto.yaml']
+    restart: on-failure
+    networks:
+      - ory
+
+  keto:
+    depends_on:
+      - keto-migrate
+    image: oryd/keto:v0.12.0
+    ports:
+      - '4466:4466' # public
+      - '4467:4467' # admin
+    command: serve -c /etc/config/keto/keto.yaml
+    restart: on-failure
+    volumes:
+      - ./infra/ory-keto:/etc/config/keto:ro
+      - ./infra/ory-keto/namespaces.ts:/home/ory/namespaces.ts
+    networks:
+      - ory
+
+  keto-postgres:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=accesscontroldb
+    volumes:
+      - keto_postgres_volume:/var/lib/postgresql/data
+    networks:
+      - ory
