@@ -1,0 +1,24 @@
+{
+  "name": "cat-fostering-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/cat-fostering-api/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "cat-fostering-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "cat-fostering-api:build:development"
+        },
+        "production": {
+          "buildTarget": "cat-fostering-api:build:production"
+        }
+      }
+    }
+  }
+}
