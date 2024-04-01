@@ -2,7 +2,10 @@
   "name": "cat-fostering",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "ory:generate:kratos": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts kratos -e .env",
+    "ory:generate:keto": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts keto -e .env"
+  },
   "private": true,
   "dependencies": {
     "@getlarge/keto-client-wrapper": "^0.1.0",
