@@ -14,10 +14,6 @@
         "*.js",
         "*.jsx"
       ],
-      "plugins": [
-        "import",
-        "simple-import-sort"
-      ],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -130,7 +126,22 @@
               }
             ]
           }
-        ],
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:@nx/typescript"
+      ],
+      "plugins": [
+        "import",
+        "simple-import-sort"
+      ],
+      "rules": {
         "no-duplicate-imports": "error",
         "no-empty": "error",
         "no-fallthrough": "error",
@@ -170,23 +181,53 @@
     },
     {
       "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "extends": [
-        "plugin:@nx/typescript"
-      ],
-      "rules": {}
-    },
-    {
-      "files": [
         "*.js",
         "*.jsx"
       ],
       "extends": [
         "plugin:@nx/javascript"
       ],
-      "rules": {}
+      "plugins": [
+        "import",
+        "simple-import-sort"
+      ],
+      "rules": {
+        "no-duplicate-imports": "error",
+        "no-empty": "error",
+        "no-fallthrough": "error",
+        "no-param-reassign": "error",
+        "no-unreachable": "error",
+        "no-unreachable-loop": "error",
+        "no-var": "error",
+        "prefer-const": "error",
+        "no-return-await": "error",
+        "require-await": "error",
+        "require-yield": "error",
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              // Side effects.
+              [
+                "^\\u0000"
+              ],
+              // 3rd party.
+              [
+                "^@?\\w"
+              ],
+              // Anything not fitting group above.
+              [
+                "^"
+              ],
+              // Relative imports.
+              [
+                "^\\."
+              ]
+            ]
+          }
+        ],
+        "simple-import-sort/exports": "error"
+      }
     },
     {
       "files": [
