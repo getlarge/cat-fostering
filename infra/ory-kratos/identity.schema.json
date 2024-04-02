@@ -29,13 +29,11 @@
         "name": {
           "type": "object",
           "properties": {
-            "first": {
-              "title": "First Name",
-              "type": "string"
-            },
-            "last": {
-              "title": "Last Name",
-              "type": "string"
+            "username": {
+              "title": "Username",
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 32
             }
           }
         }

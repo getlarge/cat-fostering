@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/cat-fostering-api/src",
   "projectType": "application",
-  "tags": [],
+  "tags": ["type:app", "platform:node"],
   "targets": {
     "serve": {
       "executor": "@nx/js:node",

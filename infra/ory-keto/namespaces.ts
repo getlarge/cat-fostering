@@ -13,17 +13,6 @@ class Group implements Namespace {
   };
 }
 
-class Moderation implements Namespace {
-  related: {
-    editors: SubjectSet<Group, 'members'>[];
-  };
-
-  permits = {
-    edit: (ctx: Context) => this.related.editors.includes(ctx.subject),
-    view: (ctx: Context) => this.permits.edit(ctx),
-  };
-}
-
 class CatProfile implements Namespace {
   related: {
     owners: User[];

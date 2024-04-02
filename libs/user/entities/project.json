@@ -1,0 +1,19 @@
+{
+  "name": "user-entities",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/user/entities/src",
+  "projectType": "library",
+  "tags": ["scope:user", "type:core", "platform:node"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/user/entities",
+        "main": "libs/user/entities/src/index.ts",
+        "tsConfig": "libs/user/entities/tsconfig.lib.json",
+        "assets": ["libs/user/entities/*.md"]
+      }
+    }
+  }
+}

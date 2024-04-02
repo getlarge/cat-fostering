@@ -14,7 +14,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@cat-fostering/catprofile-entities": [
+        "libs/catprofile/entities/src/index.ts"
+      ],
+      "@cat-fostering/fostering-entities": [
+        "libs/fostering/entities/src/index.ts"
+      ],
+      "@cat-fostering/user-entities": ["libs/user/entities/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
