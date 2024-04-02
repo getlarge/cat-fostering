@@ -15,12 +15,14 @@ export const CurrentUser = createParamDecorator(
   }
 );
 
-export function isValidOrySession(x: unknown): x is Session & {
+export type ValidOrySession = Session & {
   identity: Session['identity'] & {
     traits: { email: string; username: string };
     metadata_public: { id: string };
   };
-} {
+};
+
+export function isValidOrySession(x: unknown): x is ValidOrySession {
   return (
     typeof x === 'object' &&
     !!x &&

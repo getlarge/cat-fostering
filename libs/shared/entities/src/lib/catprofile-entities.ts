@@ -72,6 +72,6 @@ export class CatProfileSchema
   @ManyToOne(() => UserSchema, (user) => user.catProfiles)
   owner!: UserSchema;
 
-  @OneToMany(() => Fostering, (fostering) => fostering.catProfile)
+  @OneToMany(() => FosteringSchema, (fostering) => fostering.catProfile)
   fosterings!: FosteringSchema[];
 }

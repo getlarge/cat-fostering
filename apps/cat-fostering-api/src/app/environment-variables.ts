@@ -67,6 +67,10 @@ export class EnvironmentVariables {
   @IsString()
   @IsOptional()
   ORY_KRATOS_API_KEY?: string = null;
+
+  @Expose()
+  @IsString()
+  ORY_ACTION_API_KEY: string;
 }
 
 export function validateEnvironmentVariables(
