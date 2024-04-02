@@ -1,10 +1,23 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "ignorePatterns": [
+    "**/*"
+  ],
+  "plugins": [
+    "@nx"
+  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
+      "plugins": [
+        "import",
+        "simple-import-sort"
+      ],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -13,26 +26,175 @@
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": [
+                  "type:api",
+                  "type:const",
+                  "type:core",
+                  "type:env",
+                  "type:utils",
+                  "type:testing"
+                ]
+              },
+              {
+                "sourceTag": "type:api",
+                "onlyDependOnLibsWithTags": [
+                  "type:api",
+                  "type:const",
+                  "type:core",
+                  "type:env",
+                  "type:utils"
+                ]
+              },
+              {
+                "sourceTag": "type:core",
+                "onlyDependOnLibsWithTags": [
+                  "type:const",
+                  "type:core",
+                  "type:env",
+                  "type:utils"
+                ]
+              },
+              {
+                "sourceTag": "type:const",
+                "onlyDependOnLibsWithTags": [
+                  "type:const"
+                ]
+              },
+              {
+                "sourceTag": "type:env",
+                "onlyDependOnLibsWithTags": [
+                  "type:const",
+                  "type:env"
+                ]
+              },
+              {
+                "sourceTag": "type:testing",
+                "onlyDependOnLibsWithTags": [
+                  "type:const",
+                  "type:env",
+                  "type:utils"
+                ]
+              },
+              {
+                "sourceTag": "type:utils",
+                "onlyDependOnLibsWithTags": [
+                  "type:const",
+                  "type:utils",
+                  "type:env"
+                ]
+              },
+              {
+                "sourceTag": "scope:catprofile",
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:catprofile"
+                ]
+              },
+              {
+                "sourceTag": "scope:fostering",
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:fostering"
+                ]
+              },
+              {
+                "sourceTag": "scope:user",
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:user"
+                ]
+              },
+              {
+                "sourceTag": "platform:node",
+                "onlyDependOnLibsWithTags": [
+                  "platform:node",
+                  "platform:shared"
+                ],
+                "bannedExternalImports": []
+              },
+              {
+                "sourceTag": "platform:shared",
+                "onlyDependOnLibsWithTags": [
+                  "platform:shared"
+                ],
+                "bannedExternalImports": [
+                  "*nestjs*"
+                ]
+              },
+              {
+                "sourceTag": "platform:cli",
+                "onlyDependOnLibsWithTags": [
+                  "*"
+                ]
               }
             ]
           }
-        ]
+        ],
+        "no-duplicate-imports": "error",
+        "no-empty": "error",
+        "no-fallthrough": "error",
+        "no-param-reassign": "error",
+        "no-unreachable": "error",
+        "no-unreachable-loop": "error",
+        "no-var": "error",
+        "prefer-const": "error",
+        "no-return-await": "error",
+        "require-await": "error",
+        "require-yield": "error",
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              // Side effects.
+              [
+                "^\\u0000"
+              ],
+              // 3rd party.
+              [
+                "^@?\\w"
+              ],
+              // Anything not fitting group above.
+              [
+                "^"
+              ],
+              // Relative imports.
+              [
+                "^\\."
+              ]
+            ]
+          }
+        ],
+        "simple-import-sort/exports": "error"
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:@nx/typescript"
+      ],
       "rules": {}
     },
     {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:@nx/javascript"
+      ],
       "rules": {}
     },
     {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "files": [
+        "*.spec.ts",
+        "*.spec.tsx",
+        "*.spec.js",
+        "*.spec.jsx"
+      ],
       "env": {
         "jest": true
       },
