@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cat-fostering/entities": ["libs/shared/entities/src/index.ts"]
+      "@cat-fostering/entities": ["libs/shared/entities/src/index.ts"],
+      "@cat-fostering/nestjs-utils": ["libs/shared/nestjs-utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
