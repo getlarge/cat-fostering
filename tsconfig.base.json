@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@cat-fostering/entities": ["libs/shared/entities/src/index.ts"],
+      "@cat-fostering/nestjs-catprofile-module": [
+        "libs/catprofile/nestjs-module/src/index.ts"
+      ],
       "@cat-fostering/nestjs-user-module": [
         "libs/user/nestjs-module/src/index.ts"
       ],

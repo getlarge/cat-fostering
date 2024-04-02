@@ -43,7 +43,7 @@ export class KratosMappings extends KeywordMappings {
   @Expose()
   @IsOptional()
   @IsString()
-  courier_smtp_from_name?: string = 'Ticketing';
+  courier_smtp_from_name?: string = 'CatFostering';
 
   @Expose()
   @IsOptional()

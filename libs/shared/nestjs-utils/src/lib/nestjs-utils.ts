@@ -2,7 +2,13 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import type { Session } from '@ory/client';
 import type { Request } from 'express';
 
-export function getCurrentUser<U = unknown>(request: Request & { user: U }): U {
+export type CurrentUser = {
+  id: string;
+  email: string;
+  identityId: string;
+};
+
+export function getCurrentUser<U = CurrentUser>(request: Request & { user: U }): U {
   return request['user'];
 }
 
@@ -10,7 +16,7 @@ export const CurrentUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx
       .switchToHttp()
-      .getRequest<Request & { user: unknown }>();
+      .getRequest<Request & { user: CurrentUser }>();
     return getCurrentUser(request);
   }
 );

@@ -1,0 +1,9 @@
+{
+  "name": "nestjs-catprofile-module",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/catprofile/nestjs-module/src",
+  "projectType": "library",
+  "tags": ["scope:catprofile", "type:api", "platform:node"],
+  "// targets": "to see all targets run: nx show project nestjs-catprofile-module --web",
+  "targets": {}
+}
