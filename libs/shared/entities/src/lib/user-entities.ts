@@ -1,8 +1,3 @@
-import {
-  CatProfile,
-  CatProfileSchema,
-} from '@cat-fostering/catprofile-entities';
-import { Fostering, FosteringSchema } from '@cat-fostering/fostering-entities';
 import { Type } from 'class-transformer';
 import {
   IsAlpha,
@@ -14,12 +9,15 @@ import {
   ValidateNested,
 } from 'class-validator';
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
+  Entity,
   Index,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { CatProfile, CatProfileSchema } from './catprofile-entities';
+import { Fostering, FosteringSchema } from './fostering-entities';
 
 export class User {
   @IsUUID()

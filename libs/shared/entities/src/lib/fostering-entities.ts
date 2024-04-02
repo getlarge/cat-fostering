@@ -1,17 +1,15 @@
-import {
-  CatProfile,
-  CatProfileSchema,
-} from '@cat-fostering/catprofile-entities';
-import { User, UserSchema } from '@cat-fostering/user-entities';
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsUUID, ValidateNested } from 'class-validator';
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
+  Entity,
   Index,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { CatProfile, CatProfileSchema } from './catprofile-entities';
+import { User, UserSchema } from './user-entities';
 
 export enum FosteringStatus {
   PENDING = 'PENDING',
@@ -59,7 +57,7 @@ export class FosteringSchema
   status!: FosteringStatus;
 
   @ManyToOne(() => CatProfileSchema, (catProfile) => catProfile.fosterings)
-  catProfile!: string;
+  catProfile!: CatProfileSchema;
 
   @ManyToOne(() => UserSchema, (user) => user.fosteringActivities)
   participant!: UserSchema;

@@ -1,23 +1,24 @@
-import { User, UserSchema } from '@cat-fostering/user-entities';
+import { Type } from 'class-transformer';
 import {
   IsAlpha,
   IsArray,
   IsNumber,
   IsOptional,
-  IsUUID,
   IsUrl,
+  IsUUID,
   Length,
   ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
+  Entity,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Fostering, FosteringSchema } from '@cat-fostering/fostering-entities';
+
+import { Fostering, FosteringSchema } from './fostering-entities';
+import { User, UserSchema } from './user-entities';
 
 export class CatProfile {
   @IsUUID()
