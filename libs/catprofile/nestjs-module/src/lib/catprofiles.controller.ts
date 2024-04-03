@@ -23,7 +23,7 @@ import {
 } from '@nestjs/common';
 
 import { CatProfilesService } from './catprofiles.service';
-import { isOwnerPermission } from './helpers';
+import { isAdminPermission, isOwnerPermission } from './helpers';
 import { CreateCatProfile } from './models/create-catprofile';
 import { UpdateCatProfile } from './models/update-catprofile';
 
@@ -96,13 +96,16 @@ export class CatProfilesController {
     return this.catProfilesService.create(body, user.id);
   }
 
-  @UseGuards(AuthenticationGuard(), AuthorizationGuard())
+  @UseGuards(AuthenticationGuard())
   @Get(':id')
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<CatProfile> {
     return this.catProfilesService.findById(id);
   }
 
-  @OryPermissionChecks(isOwnerPermission)
+  @OryPermissionChecks({
+    type: 'OR',
+    conditions: [isOwnerPermission, isAdminPermission],
+  })
   @UseGuards(AuthenticationGuard(), AuthorizationGuard())
   @UsePipes(
     new ValidationPipe({
@@ -118,8 +121,10 @@ export class CatProfilesController {
     return this.catProfilesService.updateById(id, body);
   }
 
-  // TODO: allow admin to delete
-  @OryPermissionChecks(isOwnerPermission)
+  @OryPermissionChecks({
+    type: 'OR',
+    conditions: [isOwnerPermission, isAdminPermission],
+  })
   @UseGuards(AuthenticationGuard(), AuthorizationGuard())
   @Delete(':id')
   deleteById(@Param('id', ParseUUIDPipe) id: string): Promise<{
