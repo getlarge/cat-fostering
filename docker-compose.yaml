@@ -83,7 +83,6 @@ services:
     image: oryd/keto:v0.12.0
     volumes:
       - ./infra/ory-keto:/etc/config/keto:ro
-      - ./infra/ory-keto/namespaces.ts:/home/ory/namespaces.ts
     command: ['migrate', 'up', '-y', '-c', '/etc/config/keto/keto.yaml']
     restart: on-failure
     networks:
@@ -100,7 +99,6 @@ services:
     restart: on-failure
     volumes:
       - ./infra/ory-keto:/etc/config/keto:ro
-      - ./infra/ory-keto/namespaces.ts:/home/ory/namespaces.ts
     networks:
       - ory
 

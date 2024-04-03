@@ -35,7 +35,8 @@ class Fostering implements Namespace {
 
   permits = {
     approve: (ctx: Context) =>
-      this.related.catProfiles.every((cp) =>
+      // @ts-expect-error - This is a private type from the internal Ory Keto SDK
+      this.related.catProfiles.traverse((cp) =>
         cp.related.owners.includes(ctx.subject)
       ),
     edit: (ctx: Context) => this.related.fosterUsers.includes(ctx.subject),
