@@ -1,5 +1,9 @@
+import { CatProfilesModule } from '@cat-fostering/nestjs-catprofile-module';
+import { FosteringModule } from '@cat-fostering/nestjs-fostering-module';
+import { UsersModule } from '@cat-fostering/nestjs-user-module';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import path from 'node:path';
 
 import { AppController } from './app.controller';
@@ -13,6 +17,18 @@ import { validateEnvironmentVariables } from './environment-variables';
       validate: validateEnvironmentVariables,
       envFilePath: path.resolve(path.join('apps', 'cat-fostering-api', '.env')),
     }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        url: configService.get('POSTGRES_URL'),
+        autoLoadEntities: true,
+        synchronize: true,
+      }),
+    }),
+    UsersModule,
+    CatProfilesModule,
+    FosteringModule,
   ],
   controllers: [AppController],
   providers: [AppService],
