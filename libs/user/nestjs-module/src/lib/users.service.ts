@@ -15,16 +15,15 @@ export class UsersService {
   ) {}
 
   async onSignUp(body: OnOrySignUpDto): Promise<OnOrySignUpDto> {
-    this.logger.debug(`onSignUp`, body);
-    const { email, username } = body.identity.traits;
+    this.logger.log(`onSignUp`, body);
+    const { email } = body.identity.traits;
     const existingUser = await this.userRepository.findOne({
       where: { email },
     });
-
     if (existingUser) {
       throw new HttpException('email already used', HttpStatus.BAD_REQUEST);
     }
-    const result = await this.userRepository.save({ email, username });
+    const result = await this.userRepository.save({ email, name: email });
     body.identity.metadata_public = { id: result.id };
     return { identity: body.identity };
   }
@@ -57,6 +56,10 @@ export class UsersService {
     if (!hasAddressVerified) {
       throw new HttpException('Email not verified', HttpStatus.UNAUTHORIZED);
     }
+    // if (!user.identityId || user.identityId !== identity.id) {
+    //   user.set({ identityId: identity.id });
+    //   await user.save();
+    // }
     return { identity };
   }
 }

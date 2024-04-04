@@ -187,7 +187,7 @@ export class KratosMappings extends KeywordMappings {
   @IsOptional()
   @IsString()
   selfservice_flows_login_after_hook_config_body?: string =
-    'file:///etc/config/kratos/after-login.jsonnet';
+    'file:///etc/config/kratos/after-webhook.jsonnet';
 
   @Expose()
   @IsOptional()
@@ -203,7 +203,7 @@ export class KratosMappings extends KeywordMappings {
   @IsOptional()
   @IsString()
   selfservice_flows_settings_after_hook_config_body?: string =
-    'file:///etc/config/kratos/after-login.jsonnet';
+    'file:///etc/config/kratos/after-webhook.jsonnet';
 
   @Expose()
   @IsOptional()
@@ -224,7 +224,7 @@ export class KratosMappings extends KeywordMappings {
   @IsOptional()
   @IsString()
   selfservice_flows_registration_after_hook_config_body?: string =
-    'file:///etc/config/kratos/after-login.jsonnet';
+    'file:///etc/config/kratos/after-webhook.jsonnet';
 
   @Expose()
   @IsOptional()

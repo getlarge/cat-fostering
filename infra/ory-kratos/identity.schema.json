@@ -25,17 +25,6 @@
               "via": "email"
             }
           }
-        },
-        "name": {
-          "type": "object",
-          "properties": {
-            "username": {
-              "title": "Username",
-              "type": "string",
-              "minLength": 3,
-              "maxLength": 32
-            }
-          }
         }
       },
       "required": ["email"],

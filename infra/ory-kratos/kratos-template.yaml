@@ -127,7 +127,6 @@ selfservice:
 
 log:
   level: '##log_level##'
-  format: json
   leak_sensitive_values: true
 
 secrets:
