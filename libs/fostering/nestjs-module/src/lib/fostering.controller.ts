@@ -85,7 +85,7 @@ export class FosteringController {
   }
 
   @OryPermissionChecks(canRequestFosteringPermission)
-  @UseGuards(AuthenticationGuard())
+  @UseGuards(AuthenticationGuard(), AuthorizationGuard())
   @UsePipes(
     new ValidationPipe({
       transform: true,

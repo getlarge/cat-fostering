@@ -25,7 +25,7 @@ export const catProfileRelationQuery = (
 ) => {
   const relationTuple = relationTupleBuilder()
     .subject('CatProfile', catProfileId)
-    .isIn('fosterUsers')
+    .isIn('catProfiles')
     .of('Fostering', fosteringId);
   return createRelationQuery(relationTuple.toJSON()).unwrapOrThrow();
 };

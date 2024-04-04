@@ -4,6 +4,7 @@ import {
   IsArray,
   IsNumber,
   IsOptional,
+  IsString,
   IsUrl,
   IsUUID,
   Length,
@@ -31,7 +32,7 @@ export class CatProfile {
   @IsNumber()
   age!: number;
 
-  @IsAlpha()
+  @IsString()
   @Length(3, 300)
   description!: string;
 

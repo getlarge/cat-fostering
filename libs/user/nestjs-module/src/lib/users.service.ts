@@ -15,7 +15,7 @@ export class UsersService {
   ) {}
 
   async onSignUp(body: OnOrySignUpDto): Promise<OnOrySignUpDto> {
-    this.logger.log(`onSignUp`, body);
+    this.logger.debug(body, 'onSignUp');
     const { email } = body.identity.traits;
     const existingUser = await this.userRepository.findOne({
       where: { email },
@@ -31,7 +31,7 @@ export class UsersService {
   // TODO: throw error in format supported by Ory hooks response handler + create specific error class
   async onSignIn(body: OnOrySignInDto): Promise<OnOrySignInDto> {
     const { identity } = body;
-    this.logger.debug(`onSignIn`, body);
+    this.logger.debug(body, 'onSignIn');
     const email = identity.traits.email;
     const userId = identity.metadata_public?.id;
     const user = await this.userRepository.findOne({
@@ -56,10 +56,6 @@ export class UsersService {
     if (!hasAddressVerified) {
       throw new HttpException('Email not verified', HttpStatus.UNAUTHORIZED);
     }
-    // if (!user.identityId || user.identityId !== identity.id) {
-    //   user.set({ identityId: identity.id });
-    //   await user.save();
-    // }
     return { identity };
   }
 }
