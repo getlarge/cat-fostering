@@ -1,0 +1,9 @@
+{
+  "name": "nestjs-fostering-module",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/fostering/nestjs-module/src",
+  "projectType": "library",
+  "tags": ["scope:fostering", "type:api", "platform:node"],
+  "// targets": "to see all targets run: nx show project nestjs-fostering-module --web",
+  "targets": {}
+}

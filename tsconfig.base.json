@@ -19,6 +19,9 @@
       "@cat-fostering/nestjs-catprofile-module": [
         "libs/catprofile/nestjs-module/src/index.ts"
       ],
+      "@cat-fostering/nestjs-fostering-module": [
+        "libs/fostering/nestjs-module/src/index.ts"
+      ],
       "@cat-fostering/nestjs-user-module": [
         "libs/user/nestjs-module/src/index.ts"
       ],

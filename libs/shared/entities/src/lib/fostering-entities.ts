@@ -1,12 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsUUID, ValidateNested } from 'class-validator';
-import {
-  Column,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { CatProfile, CatProfileSchema } from './catprofile-entities';
 import { User, UserSchema } from './user-entities';
@@ -52,8 +46,9 @@ export class FosteringSchema
   @Column()
   endDate!: Date;
 
-  @Index()
-  @Column()
+  @Column({
+    default: FosteringStatus.PENDING,
+  })
   status!: FosteringStatus;
 
   @ManyToOne(() => CatProfileSchema, (catProfile) => catProfile.fosterings)

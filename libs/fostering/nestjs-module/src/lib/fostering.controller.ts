@@ -1,4 +1,4 @@
-import { CatProfile } from '@cat-fostering/entities';
+import { Fostering } from '@cat-fostering/entities';
 import { CurrentUser, isValidOrySession } from '@cat-fostering/nestjs-utils';
 import {
   OryAuthorizationGuard,
@@ -9,7 +9,6 @@ import {
   Body,
   CanActivate,
   Controller,
-  Delete,
   Get,
   HttpException,
   Param,
@@ -22,10 +21,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 
-import { CatProfilesService } from './catprofiles.service';
-import { isAdminPermission, isOwnerPermission } from './helpers';
-import { CreateCatProfile } from './models/create-catprofile';
-import { UpdateCatProfile } from './models/update-catprofile';
+import { FosteringService } from './fostering.service';
+import {
+  canApproveFosteringPermission,
+  canReadFosteringPermission,
+  canRejectFosteringPermission,
+  canRequestFosteringPermission,
+} from './helpers';
+import { RequestFostering } from './models/request-fostering';
 
 const AuthenticationGuard = (): Type<CanActivate> =>
   OryAuthenticationGuard({
@@ -71,16 +74,17 @@ const AuthorizationGuard = (): Type<CanActivate> =>
     },
   });
 
-@Controller('catprofiles')
-export class CatProfilesController {
-  constructor(private readonly catProfilesService: CatProfilesService) {}
+@Controller('fostering')
+export class FosteringController {
+  constructor(private readonly fosteringService: FosteringService) {}
 
   @UseGuards(AuthenticationGuard())
   @Get()
-  find(): Promise<CatProfile[]> {
-    return this.catProfilesService.find();
+  find(@CurrentUser() user: CurrentUser): Promise<Fostering[]> {
+    return this.fosteringService.find(user.id);
   }
 
+  @OryPermissionChecks(canRequestFosteringPermission)
   @UseGuards(AuthenticationGuard())
   @UsePipes(
     new ValidationPipe({
@@ -89,47 +93,33 @@ export class CatProfilesController {
     })
   )
   @Post()
-  create(
+  request(
     @CurrentUser() user: CurrentUser,
-    @Body() body: CreateCatProfile
-  ): Promise<CatProfile> {
-    return this.catProfilesService.create(body, user.id);
+    @Body() body: RequestFostering
+  ): Promise<Fostering> {
+    return this.fosteringService.request(body, user.id);
   }
 
-  @UseGuards(AuthenticationGuard())
+  @OryPermissionChecks(canReadFosteringPermission)
+  @UseGuards(AuthenticationGuard(), AuthorizationGuard())
   @Get(':id')
-  findById(@Param('id', ParseUUIDPipe) id: string): Promise<CatProfile> {
-    return this.catProfilesService.findById(id);
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Fostering> {
+    return this.fosteringService.findById(id);
   }
 
-  @OryPermissionChecks({
-    type: 'OR',
-    conditions: [isOwnerPermission, isAdminPermission],
-  })
+  @OryPermissionChecks(canApproveFosteringPermission)
   @UseGuards(AuthenticationGuard(), AuthorizationGuard())
-  @UsePipes(
-    new ValidationPipe({
-      transform: true,
-      transformOptions: { enableImplicitConversion: true },
-    })
-  )
-  @Patch(':id')
-  updateById(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() body: UpdateCatProfile
-  ): Promise<CatProfile> {
-    return this.catProfilesService.updateById(id, body);
+  @Patch(':id/approve')
+  approve(@Param('id', ParseUUIDPipe) id: string): Promise<Fostering> {
+    return this.fosteringService.approve(id);
   }
 
-  @OryPermissionChecks({
-    type: 'OR',
-    conditions: [isOwnerPermission, isAdminPermission],
-  })
+  @OryPermissionChecks(canRejectFosteringPermission)
   @UseGuards(AuthenticationGuard(), AuthorizationGuard())
-  @Delete(':id')
-  deleteById(@Param('id', ParseUUIDPipe) id: string): Promise<{
+  @Patch(':id/reject')
+  reject(@Param('id', ParseUUIDPipe) id: string): Promise<{
     id: string;
   }> {
-    return this.catProfilesService.deleteById(id);
+    return this.fosteringService.reject(id);
   }
 }

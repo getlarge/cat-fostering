@@ -39,6 +39,8 @@ class Fostering implements Namespace {
       this.related.catProfiles.traverse((cp) =>
         cp.related.owners.includes(ctx.subject)
       ),
+    reject: (ctx: Context) => this.permits.approve(ctx),
     edit: (ctx: Context) => this.related.fosterUsers.includes(ctx.subject),
+    read: (ctx: Context) => this.permits.approve(ctx) || this.permits.edit(ctx),
   };
 }

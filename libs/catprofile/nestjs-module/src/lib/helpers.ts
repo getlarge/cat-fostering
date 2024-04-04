@@ -19,6 +19,7 @@ export function adminRelationQuery(catProfileId: string) {
     relationTupleWithAdminGroup.toJSON()
   ).unwrapOrThrow();
 }
+
 export function ownerRelationTuple(catProfileId: string, userId: string) {
   return relationTupleBuilder()
     .subject('User', userId)
