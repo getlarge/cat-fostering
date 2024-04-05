@@ -1,6 +1,7 @@
 import { UserSchema } from '@cat-fostering/entities';
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { inspect } from 'node:util';
 import type { Repository } from 'typeorm';
 
 import { OnOrySignInDto } from './models/ory-sign-in.dto';
@@ -15,7 +16,13 @@ export class UsersService {
   ) {}
 
   async onSignUp(body: OnOrySignUpDto): Promise<OnOrySignUpDto> {
-    this.logger.debug(body, 'onSignUp');
+    this.logger.debug(
+      inspect(body, {
+        showHidden: false,
+        depth: null,
+      }),
+      'onSignUp'
+    );
     const { email } = body.identity.traits;
     const existingUser = await this.userRepository.findOne({
       where: { email },
@@ -31,7 +38,13 @@ export class UsersService {
   // TODO: throw error in format supported by Ory hooks response handler + create specific error class
   async onSignIn(body: OnOrySignInDto): Promise<OnOrySignInDto> {
     const { identity } = body;
-    this.logger.debug(body, 'onSignIn');
+    this.logger.debug(
+      inspect(body, {
+        showHidden: false,
+        depth: null,
+      }),
+      'onSignIn'
+    );
     const email = identity.traits.email;
     const userId = identity.metadata_public?.id;
     const user = await this.userRepository.findOne({
@@ -45,10 +58,8 @@ export class UsersService {
       throw new HttpException('user not found', HttpStatus.NOT_FOUND);
     }
     if (!identity.verifiable_addresses?.length) {
-      throw new HttpException(
-        'A misconfiguration prevents login. Expected to find a verification address but this identity does not have one assigned.',
-        HttpStatus.NOT_FOUND
-      );
+      // this means the identity schema does not require email verification
+      return { identity };
     }
     const hasAddressVerified = identity.verifiable_addresses.some(
       (address) => address.verified
