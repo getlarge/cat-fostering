@@ -71,7 +71,7 @@ const AuthorizationGuard = (): Type<CanActivate> =>
     },
   });
 
-@Controller('catprofiles')
+@Controller('cat-profiles')
 export class CatProfilesController {
   constructor(private readonly catProfilesService: CatProfilesService) {}
 
