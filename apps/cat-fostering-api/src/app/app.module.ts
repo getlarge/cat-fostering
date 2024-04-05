@@ -4,6 +4,7 @@ import { UsersModule } from '@cat-fostering/nestjs-user-module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { LoggerModule } from 'nestjs-pino';
 import path from 'node:path';
 
 import { AppController } from './app.controller';
@@ -17,6 +18,7 @@ import { validateEnvironmentVariables } from './environment-variables';
       validate: validateEnvironmentVariables,
       envFilePath: path.resolve(path.join('apps', 'cat-fostering-api', '.env')),
     }),
+    LoggerModule.forRoot(),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
