@@ -16,7 +16,13 @@ import { validateEnvironmentVariables } from './environment-variables';
     ConfigModule.forRoot({
       isGlobal: true,
       validate: validateEnvironmentVariables,
-      envFilePath: path.resolve(path.join('apps', 'cat-fostering-api', '.env')),
+      envFilePath: path.resolve(
+        path.join(
+          'apps',
+          'cat-fostering-api',
+          process.env['NODE_ENV'] === 'test' ? '.env.test' : '.env'
+        )
+      ),
     }),
     LoggerModule.forRoot(),
     TypeOrmModule.forRootAsync({

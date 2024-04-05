@@ -15,6 +15,9 @@
         "development": {
           "buildTarget": "cat-fostering-api:build:development"
         },
+        "test": {
+          "buildTarget": "cat-fostering-api:build:development"
+        },
         "production": {
           "buildTarget": "cat-fostering-api:build:production"
         }
