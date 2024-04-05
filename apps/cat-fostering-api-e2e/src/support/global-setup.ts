@@ -1,10 +1,27 @@
-/* eslint-disable */
-var __TEARDOWN_MESSAGE__: string;
+import { execSync } from 'node:child_process';
 
-module.exports = async function () {
-  // Start services that that the app needs to run (e.g. database, docker-compose, etc.).
+import { createTestConnection } from './helpers';
+
+const envPath = 'apps/cat-fostering-api/.env.test';
+
+const cwd = process.cwd();
+
+export default async (): Promise<void> => {
   console.log('\nSetting up...\n');
 
-  // Hint: Use `globalThis` to pass variables to global teardown.
-  globalThis.__TEARDOWN_MESSAGE__ = '\nTearing down...\n';
+  const __TEARDOWN_MESSAGE__ = '\nTearing down...\n';
+  globalThis.__TEARDOWN_MESSAGE__ = __TEARDOWN_MESSAGE__;
+
+  execSync(
+    'npx ts-node --project tools/tsconfig.json tools/ory/generate-config.ts keto -e .env.test',
+    { cwd, stdio: 'ignore' }
+  );
+  execSync('docker compose restart keto', { cwd, stdio: 'ignore' });
+  execSync(
+    'npx ts-node --project tools/tsconfig.json tools/ory/generate-config.ts kratos -e .env.test',
+    { cwd, stdio: 'ignore' }
+  );
+  execSync('docker compose restart kratos', { cwd, stdio: 'ignore' });
+
+  globalThis.__DB_CONNECTION__ = await createTestConnection(envPath);
 };
