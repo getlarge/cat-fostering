@@ -1,14 +1,15 @@
-version: v0.12.0-alpha.0
-
-log:
-  level: '##log_level##'
-  leak_sensitive_values: true
-
+# ignored by Ory Network
 dsn: '##keto_dsn##'
 
-namespaces:
-  location: '##namespaces_location##'
+# ignored by Ory Network
+log:
+  level: '##keto_log_level##'
+  leak_sensitive_values: true
 
+namespaces:
+  location: '##keto_namespaces_location##'
+
+# ignored by Ory Network
 serve:
   read:
     host: 0.0.0.0
@@ -16,3 +17,5 @@ serve:
   write:
     host: 0.0.0.0
     port: 4467
+
+version: v0.12.0-alpha.0

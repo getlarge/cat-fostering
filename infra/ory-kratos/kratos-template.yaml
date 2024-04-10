@@ -1,13 +1,238 @@
-version: v1.0.0
+# ignored by Ory Network
+cookies:
+  domain: '##kratos_cookies_domain##'
+  path: /
+  same_site: Lax
 
+courier:
+  smtp:
+    from_name: '##kratos_courier_smtp_from_name##'
+    connection_uri: '##kratos_courier_smtp_connection_uri##'
+
+# ignored by Ory Network
 dsn: '##kratos_dsn##'
 
+feature_flags:
+  cacheable_sessions: false
+  use_continue_with_transitions: false
+
+identity:
+  default_schema_id: default
+  schemas:
+    - id: default
+      url: '##kratos_identity_schemas_default##'
+
+# ignored by Ory Network
+log:
+  level: '##kratos_log_level##'
+  leak_sensitive_values: true
+
+oauth2_provider:
+  override_return_to: true
+
+organizations: []
+
+preview:
+  default_read_consistency_level: strong
+
+# ignored by Ory Network
+secrets:
+  cookie:
+    - '##kratos_secrets_cookie##'
+  cipher:
+    - '##kratos_secrets_cipher##'
+
+selfservice:
+  allowed_return_urls: @@kratos_selfservice_allowed_return_urls@@
+  default_browser_return_url: '##kratos_selfservice_default_browser_return_url##'
+  flows:
+    error:
+      ui_url: '##kratos_selfservice_flows_errors_ui_url##'
+
+    login:
+      after:
+        code:
+          hooks: []
+        hooks: []
+        lookup_secret:
+          hooks: []
+        oidc:
+          hooks: []
+        # passkey:
+        #   hooks: []
+        password:
+          hooks:
+            - hook: web_hook
+              config:
+                method: '##kratos_selfservice_flows_login_after_hook_config_method##'
+                auth:
+                  type: api_key
+                  config:
+                    value: '##kratos_selfservice_flows_login_after_hook_config_auth_config_value##'
+                    in: header
+                    name: X-Ory-API-Key
+                url: '##kratos_selfservice_flows_login_after_hook_config_url##'
+                body: '##kratos_selfservice_flows_login_after_hook_config_body##'
+                can_interrupt: ##kratos_selfservice_flows_login_after_hook_config_can_interrupt##
+                response:
+                  ignore: ##kratos_selfservice_flows_login_after_hook_config_response_ignore##
+                  parse: ##kratos_selfservice_flows_login_after_hook_config_response_parse##
+        totp:
+          hooks: []
+        webauthn:
+          hooks: []
+      before:
+        hooks: []
+      lifespan: 30m0s
+      ui_url: '##kratos_selfservice_flows_login_ui_url##'
+
+    logout:
+      after:
+        default_browser_return_url: '##kratos_selfservice_default_browser_return_url##'
+
+    recovery:
+      after:
+        hooks: []
+      before:
+        hooks: []
+      enabled: true
+      lifespan: 30m0s
+      notify_unknown_recipients: false
+      ui_url: '##kratos_selfservice_flows_recovery_ui_url##'
+      use: code
+
+    registration:
+
+      after:
+        code:
+          hooks: []
+        hooks: []
+        oidc:
+          hooks:
+          - hook: show_verification_ui
+        # passkey:
+        #   hooks:
+        #   - hook: show_verification_ui
+        password:
+          hooks:
+          - hook: web_hook
+            config:
+              method: '##kratos_selfservice_flows_registration_after_hook_config_method##'
+              auth:
+                type: api_key
+                config:
+                  value: '##kratos_selfservice_flows_registration_after_hook_config_auth_config_value##'
+                  in: header
+                  name: X-Ory-API-Key
+              url: '##kratos_selfservice_flows_registration_after_hook_config_url##'
+              body: '##kratos_selfservice_flows_registration_after_hook_config_body##'
+              can_interrupt: ##kratos_selfservice_flows_registration_after_hook_config_can_interrupt##
+              response:
+                ignore: ##kratos_selfservice_flows_registration_after_hook_config_response_ignore##
+                parse: ##kratos_selfservice_flows_registration_after_hook_config_response_parse##
+          - hook: show_verification_ui
+        webauthn:
+          hooks:
+          - hook: show_verification_ui
+      before:
+        hooks: []
+      enabled: true
+      lifespan: 30m0s
+      login_hints: true
+      ui_url: '##kratos_selfservice_flows_registration_ui_url##'
+
+    settings:
+      after:
+        hooks: []
+        lookup_secret:
+          hooks: []
+        oidc:
+          hooks: []
+        # passkey:
+        #   hooks: []
+        password:
+          hooks: []
+        profile:
+          hooks: []
+        totp:
+          hooks: []
+        webauthn:
+          hooks: []
+      before:
+        hooks: []
+      lifespan: 30m0s
+      privileged_session_max_age: 15m0s
+      required_aal: highest_available
+      ui_url: '##kratos_selfservice_flows_settings_ui_url##'
+
+    verification:
+      after:
+        default_browser_return_url: '##kratos_selfservice_default_browser_return_url##'
+        hooks: []
+      before:
+        hooks: []
+      enabled: true
+      lifespan: 30m0s
+      notify_unknown_recipients: false
+      ui_url: '##kratos_selfservice_flows_verification_ui_url##'
+      use: code
+  methods:
+    code:
+      config:
+        lifespan: 15m0s
+      enabled: true
+      mfa_enabled: false
+      passwordless_enabled: false
+    link:
+      config:
+        base_url: ""
+        lifespan: 15m0s
+      enabled: true
+    lookup_secret:
+      enabled: false
+    oidc:
+      config:
+        providers: []
+      enabled: false
+    # passkey:
+    #   config:
+    #     rp:
+    #       display_name: CatFostering
+    #       id: '##kratos_selfservice_flows_methods_passkey_config_rp_id##'
+    #       origins: @@kratos_selfservice_methods_passkey_config_rp_origins@@
+    #   enabled: ##kratos_selfservice_methods_passkey_enabled##
+    password:
+      config:
+        haveibeenpwned_enabled: true
+        identifier_similarity_check_enabled: true
+        ignore_network_errors: true
+        max_breaches: 1
+        min_password_length: 8
+      enabled: true
+    profile:
+      enabled: true
+    totp:
+      config:
+        issuer: CatFostering
+      enabled: true
+    webauthn:
+      config:
+        passwordless: false
+        rp:
+          display_name: CatFostering
+          id: '##kratos_selfservice_methods_webauthn_config_rp_id##'
+          origins: @@kratos_selfservice_methods_webauthn_config_rp_origins@@
+      enabled: ##kratos_selfservice_methods_webauthn_enabled##
+
+# ignored by Ory Network
 serve:
+  admin:
+    base_url: '##kratos_serve_admin_base_url##'
   public:
-    base_url: '##serve_public_base_url##'
+    base_url: '##kratos_serve_public_base_url##'
     cors:
-      enabled: ##serve_public_cors_enabled##
-      allowed_origins: @@serve_public_cors_allowed_origins@@
+      enabled: ##kratos_serve_public_cors_enabled##
+      allowed_origins: @@kratos_serve_public_cors_allowed_origins@@
       allowed_methods:
         - POST
         - GET
@@ -21,138 +246,19 @@ serve:
       exposed_headers:
         - Content-Type
         - Set-Cookie
-  admin:
-    base_url: '##serve_admin_base_url##'
 
-selfservice:
-  default_browser_return_url: '##selfservice_default_browser_return_url##'
-  allowed_return_urls: @@selfservice_allowed_return_urls@@
-
-  methods:
-    password:
-      enabled: true
-      config:
-        haveibeenpwned_enabled: true
-        identifier_similarity_check_enabled: true
-        ignore_network_errors: true
-        max_breaches: 1
-        min_password_length: 8
-    profile:
-      enabled: true
-    totp:
-      config:
-        issuer: CatFostering
-      enabled: true
-    lookup_secret:
-      enabled: true
-    link:
-      enabled: true
-      config:
-        lifespan: 15m
-        base_url: ''
-    code:
-      enabled: true
-
-  flows:
-    error:
-      ui_url: '##selfservice_flows_errors_ui_url##'
-
-    settings:
-      ui_url: '##selfservice_flows_settings_ui_url##'
-      privileged_session_max_age: 15m
-      required_aal: highest_available
-
-    recovery:
-      enabled: true
-      ui_url: '##selfservice_flows_recovery_ui_url##'
-      use: code
-      lifespan: 15m
-      notify_unknown_recipients: false
-
-    verification:
-      enabled: true
-      ui_url: '##selfservice_flows_verification_ui_url##'
-      use: code
-      after:
-        default_browser_return_url: '##selfservice_default_browser_return_url##'
-
-    logout:
-      after:
-        default_browser_return_url: '##selfservice_default_browser_return_url##'
-
-    login:
-      ui_url: '##selfservice_flows_login_ui_url##'
-      lifespan: 10m
-      after:
-        password:
-          hooks:
-            - hook: web_hook
-              config:
-                method: '##selfservice_flows_login_after_hook_config_method##'
-                auth:
-                  type: api_key
-                  config:
-                    value: '##selfservice_flows_login_after_hook_config_auth_config_value##'
-                    in: header
-                    name: X-Ory-API-Key
-                url: '##selfservice_flows_login_after_hook_config_url##'
-                body: '##selfservice_flows_login_after_hook_config_body##'
-                can_interrupt: ##selfservice_flows_login_after_hook_config_can_interrupt##
-                response:
-                  ignore: ##selfservice_flows_login_after_hook_config_response_ignore##
-                  parse: ##selfservice_flows_login_after_hook_config_response_parse##
-
-    registration:
-      lifespan: 10m
-      ui_url: '##selfservice_flows_ui_base_url##/registration'
-      after:
-        password:
-          hooks:
-            - hook: web_hook
-              config:
-                method: '##selfservice_flows_registration_after_hook_config_method##'
-                auth:
-                  type: api_key
-                  config:
-                    value: '##selfservice_flows_registration_after_hook_config_auth_config_value##'
-                    in: header
-                    name: X-Ory-API-Key
-                url: '##selfservice_flows_registration_after_hook_config_url##'
-                body: '##selfservice_flows_registration_after_hook_config_body##'
-                can_interrupt: ##selfservice_flows_registration_after_hook_config_can_interrupt##
-                response:
-                  ignore: ##selfservice_flows_registration_after_hook_config_response_ignore##
-                  parse: ##selfservice_flows_registration_after_hook_config_response_parse##
-            - hook: show_verification_ui
-
-log:
-  level: '##log_level##'
-  leak_sensitive_values: true
-
-secrets:
+# ignored by Ory Network
+session:
   cookie:
-    - '##secrets_cookie##'
-  cipher:
-    - '##secrets_cipher##'
+    domain: '##kratos_session_cookie_domain##'
+    name: '##kratos_session_cookie_name##'
+    path: /
+    persistent: false
+    same_site: Lax
+  lifespan: 72h0m0s
+  whoami:
+    required_aal: highest_available
+    tokenizer:
+      templates: {}
 
-ciphers:
-  algorithm: xchacha20-poly1305
-
-hashers:
-  algorithm: bcrypt
-  bcrypt:
-    cost: 8
-
-identity:
-  default_schema_id: default
-  schemas:
-    - id: default
-      url: '##identity_schemas_default##'
-
-courier:
-  smtp:
-    from_name: '##courier_smtp_from_name##'
-    connection_uri: '##courier_smtp_connection_uri##'
-
-feature_flags:
-  cacheable_sessions: false
+version: v1.1.0

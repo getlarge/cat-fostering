@@ -22,7 +22,7 @@ services:
       - POSTGRES_DB=appdb
 
   kratos-migrate:
-    image: oryd/kratos:v1.0.0
+    image: oryd/kratos:v1.1.0
     volumes:
       - ./infra/ory-kratos:/etc/config/kratos:ro
     command: -c /etc/config/kratos/kratos.yaml migrate sql -e --yes
@@ -33,7 +33,7 @@ services:
   kratos:
     depends_on:
       - kratos-migrate
-    image: oryd/kratos:v1.0.0
+    image: oryd/kratos:v1.1.0
     ports:
       - '4433:4433' # public
       - '4434:4434' # admin

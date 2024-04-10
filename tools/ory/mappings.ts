@@ -43,7 +43,12 @@ export class KratosMappings extends KeywordMappings {
   @Expose()
   @IsOptional()
   @IsString()
-  courier_smtp_from_name?: string = 'CatFostering';
+  kratos_cookie_domain?: string = 'localhost';
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_courier_smtp_from_name?: string = 'CatFostering';
 
   @Expose()
   @IsOptional()
@@ -53,8 +58,7 @@ export class KratosMappings extends KeywordMappings {
     require_valid_protocol: true,
     protocols: ['smtp', 'smtps'],
   })
-  courier_smtp_connection_uri?: string =
-    'smtps://test:test@mailslurper:1025/?skip_ssl_verify=true';
+  kratos_courier_smtp_connection_uri?: string = null;
 
   @Expose()
   @IsOptional()
@@ -64,38 +68,38 @@ export class KratosMappings extends KeywordMappings {
   @Expose()
   @IsOptional()
   @IsString()
-  identity_schemas_default?: string =
+  kratos_identity_schemas_default?: string =
     'file:///etc/config/kratos/identity.schema.json';
 
   @Expose()
   @IsOptional()
-  @IsUrl(isUrlOptions)
-  selfservice_flows_ui_base_url?: string = DEFAULT_SELF_SERVICE_UI_URL;
+  @IsString()
+  kratos_log_level?: string = 'debug';
 
   @Expose()
   @IsOptional()
   @IsUrl(isUrlOptions)
-  selfservice_flows_errors_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/error`;
+  kratos_selfservice_flows_errors_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/error`;
 
   @Expose()
   @IsOptional()
   @IsUrl(isUrlOptions)
-  selfservice_flows_settings_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/settings`;
+  kratos_selfservice_flows_settings_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/settings`;
 
   @Expose()
   @IsOptional()
   @IsUrl(isUrlOptions)
-  selfservice_flows_verification_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/verification`;
+  kratos_selfservice_flows_verification_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/verification`;
 
   @Expose()
   @IsOptional()
   @IsUrl(isUrlOptions)
-  selfservice_flows_recovery_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/recovery`;
+  kratos_selfservice_flows_recovery_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/recovery`;
 
   @Expose()
   @IsOptional()
   @IsUrl(isUrlOptions)
-  selfservice_flows_login_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/login`;
+  kratos_selfservice_flows_login_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/login`;
 
   @Expose()
   @Transform(({ obj, key }) => strToBool(obj[key]), {
@@ -103,36 +107,7 @@ export class KratosMappings extends KeywordMappings {
   })
   @IsOptional()
   @IsBoolean()
-  selfservice_flows_login_after_hook_config_can_interrupt?: boolean = false;
-
-  @Expose()
-  @Transform(({ obj, key }) => strToBool(obj[key]), {
-    toClassOnly: true,
-  })
-  @IsOptional()
-  @IsBoolean()
-  selfservice_flows_login_after_hook_config_response_ignore?: boolean = false;
-
-  @Expose()
-  @Transform(({ obj, key }) => strToBool(obj[key]), {
-    toClassOnly: true,
-  })
-  @IsOptional()
-  @IsBoolean()
-  selfservice_flows_login_after_hook_config_response_parse?: boolean = false;
-
-  @Expose()
-  @IsOptional()
-  @IsUrl(isUrlOptions)
-  selfservice_flows_registration_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/register`;
-
-  @Expose()
-  @Transform(({ obj, key }) => strToBool(obj[key]), {
-    toClassOnly: true,
-  })
-  @IsOptional()
-  @IsBoolean()
-  selfservice_flows_registration_after_hook_config_can_interrupt?: boolean =
+  kratos_selfservice_flows_login_after_hook_config_can_interrupt?: boolean =
     false;
 
   @Expose()
@@ -141,7 +116,7 @@ export class KratosMappings extends KeywordMappings {
   })
   @IsOptional()
   @IsBoolean()
-  selfservice_flows_registration_after_hook_config_response_ignore?: boolean =
+  kratos_selfservice_flows_login_after_hook_config_response_ignore?: boolean =
     false;
 
   @Expose()
@@ -150,18 +125,134 @@ export class KratosMappings extends KeywordMappings {
   })
   @IsOptional()
   @IsBoolean()
-  selfservice_flows_registration_after_hook_config_response_parse?: boolean =
+  kratos_selfservice_flows_login_after_hook_config_response_parse?: boolean =
     false;
 
   @Expose()
   @IsOptional()
-  @IsUrl({
-    require_tld: false,
-    require_protocol: true,
-    require_valid_protocol: true,
-    protocols: ['http', 'https'],
+  @IsUrl(isUrlOptions)
+  kratos_selfservice_flows_registration_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/register`;
+
+  @Expose()
+  @Transform(({ obj, key }) => strToBool(obj[key]), {
+    toClassOnly: true,
   })
-  selfservice_default_browser_return_url?: string;
+  @IsOptional()
+  @IsBoolean()
+  kratos_selfservice_flows_registration_after_hook_config_can_interrupt?: boolean =
+    false;
+
+  @Expose()
+  @Transform(({ obj, key }) => strToBool(obj[key]), {
+    toClassOnly: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  kratos_selfservice_flows_registration_after_hook_config_response_ignore?: boolean =
+    false;
+
+  @Expose()
+  @Transform(({ obj, key }) => strToBool(obj[key]), {
+    toClassOnly: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  kratos_selfservice_flows_registration_after_hook_config_response_parse?: boolean =
+    false;
+
+  @Expose()
+  @IsOptional()
+  @Transform(
+    ({ value }) => (value ? value.split(',').map((v) => v.trim()) : []),
+    { toClassOnly: true }
+  )
+  @IsArray()
+  @IsString({ each: true })
+  kratos_selfservice_allowed_return_urls?: string[] = [];
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_default_browser_return_url?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsUrl(isUrlOptions)
+  kratos_selfservice_flows_login_after_hook_config_url?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsIn(httpMethods)
+  kratos_selfservice_flows_login_after_hook_config_method?: string = 'POST';
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_flows_login_after_hook_config_body?: string =
+    'file:///etc/config/kratos/after-webhook.jsonnet';
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_flows_login_after_hook_config_auth_config_value?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsUrl(isUrlOptions)
+  kratos_selfservice_flows_settings_after_hook_config_url?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_flows_settings_after_hook_config_body?: string =
+    'file:///etc/config/kratos/after-webhook.jsonnet';
+
+  @Expose()
+  @IsOptional()
+  @IsIn(httpMethods)
+  kratos_selfservice_flows_settings_after_hook_config_method?: string = 'POST';
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_flows_settings_after_hook_config_auth_config_value?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsUrl(isUrlOptions)
+  kratos_selfservice_flows_registration_after_hook_config_url?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_flows_registration_after_hook_config_body?: string =
+    'file:///etc/config/kratos/after-webhook.jsonnet';
+
+  @Expose()
+  @IsOptional()
+  @IsIn(httpMethods)
+  kratos_selfservice_flows_registration_after_hook_config_method?: string =
+    'POST';
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_flows_registration_after_hook_config_auth_config_value?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsUrl(isUrlOptions)
+  kratos_selfservice_flows_verification_after_hook_config_url?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_flows_verification_after_hook_config_auth_config_value?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_methods_passkey_config_rp_id?: string;
 
   @Expose()
   @IsOptional()
@@ -171,97 +262,55 @@ export class KratosMappings extends KeywordMappings {
   )
   @IsArray()
   @IsUrl(isUrlOptions, { each: true })
-  selfservice_allowed_return_urls?: string[] = [];
+  kratos_selfservice_methods_passkey_config_rp_origins?: string[] = [];
 
   @Expose()
+  @Transform(({ obj, key }) => strToBool(obj[key]), {
+    toClassOnly: true,
+  })
   @IsOptional()
-  @IsUrl(isUrlOptions)
-  selfservice_flows_login_after_hook_config_url?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsIn(httpMethods)
-  selfservice_flows_login_after_hook_config_method?: string = 'POST';
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  selfservice_flows_login_after_hook_config_body?: string =
-    'file:///etc/config/kratos/after-webhook.jsonnet';
+  @IsBoolean()
+  kratos_selfservice_methods_passkey_enabled?: boolean = false;
 
   @Expose()
   @IsOptional()
   @IsString()
-  selfservice_flows_login_after_hook_config_auth_config_value?: string;
+  kratos_selfservice_methods_webauthn_config_rp_id?: string;
 
   @Expose()
   @IsOptional()
-  @IsUrl(isUrlOptions)
-  selfservice_flows_settings_after_hook_config_url?: string;
+  @Transform(
+    ({ value }) => (value ? value.split(',').map((v) => v.trim()) : []),
+    { toClassOnly: true }
+  )
+  @IsArray()
+  @IsUrl(isUrlOptions, { each: true })
+  kratos_selfservice_methods_webauthn_config_rp_origins?: string[] = [];
 
   @Expose()
+  @Transform(({ obj, key }) => strToBool(obj[key]), {
+    toClassOnly: true,
+  })
   @IsOptional()
-  @IsString()
-  selfservice_flows_settings_after_hook_config_body?: string =
-    'file:///etc/config/kratos/after-webhook.jsonnet';
-
-  @Expose()
-  @IsOptional()
-  @IsIn(httpMethods)
-  selfservice_flows_settings_after_hook_config_method?: string = 'POST';
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  selfservice_flows_settings_after_hook_config_auth_config_value?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsUrl(isUrlOptions)
-  selfservice_flows_registration_after_hook_config_url?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  selfservice_flows_registration_after_hook_config_body?: string =
-    'file:///etc/config/kratos/after-webhook.jsonnet';
-
-  @Expose()
-  @IsOptional()
-  @IsIn(httpMethods)
-  selfservice_flows_registration_after_hook_config_method?: string = 'POST';
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  selfservice_flows_registration_after_hook_config_auth_config_value?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsUrl(isUrlOptions)
-  selfservice_flows_verification_after_hook_config_url?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  selfservice_flows_verification_after_hook_config_auth_config_value?: string;
+  @IsBoolean()
+  kratos_selfservice_methods_webauthn_enabled?: boolean = false;
 
   @Expose()
   @IsOptional()
   @IsString()
   @Length(16)
-  secrets_cookie?: string;
+  kratos_secrets_cookie?: string;
 
   @Expose()
   @IsOptional()
   @IsString()
   @Length(32, 32)
-  secrets_cipher?: string;
+  kratos_secrets_cipher?: string;
 
   @Expose()
   @IsOptional()
   @IsUrl(isUrlOptions)
-  serve_public_base_url?: string = 'http://localhost:4433/';
+  kratos_serve_public_base_url?: string = 'http://localhost:4433/';
 
   @Expose()
   @Transform(({ obj, key }) => obj[key] === 'true' || obj[key] === true, {
@@ -269,7 +318,7 @@ export class KratosMappings extends KeywordMappings {
   })
   @IsOptional()
   @IsBoolean()
-  serve_public_cors_enabled?: boolean = false;
+  kratos_serve_public_cors_enabled?: boolean = false;
 
   @Expose()
   @Transform(
@@ -278,7 +327,7 @@ export class KratosMappings extends KeywordMappings {
   )
   @IsOptional()
   @IsString({ each: true })
-  serve_public_cors_allowed_origins?: string[] = [
+  kratos_serve_public_cors_allowed_origins?: string[] = [
     'http://localhost:4200',
     'http://localhost:4433',
     'http://localhost:4455',
@@ -288,29 +337,34 @@ export class KratosMappings extends KeywordMappings {
   @Expose()
   @IsOptional()
   @IsUrl(isUrlOptions)
-  serve_admin_base_url?: string = 'http://kratos:4434/';
+  kratos_serve_admin_base_url?: string = 'http://kratos:4434/';
 
   @Expose()
   @IsOptional()
   @IsString()
-  session_cookie_domain?: string = 'localhost';
+  kratos_session_cookie_domain?: string = 'localhost';
 
   @Expose()
   @IsOptional()
   @IsString()
-  session_cookie_name?: string = 'ory_kratos_session';
+  kratos_session_cookie_name?: string = 'ory_kratos_session';
 }
 
 export class KetoMappings extends KeywordMappings {
   @Expose()
   @IsOptional()
   @IsString()
-  namespaces_location?: string = 'file:///home/ory/namespaces.ts';
+  keto_dsn?: string = 'memory';
 
   @Expose()
   @IsOptional()
   @IsString()
-  keto_dsn?: string = 'memory';
+  keto_log_level?: string = 'debug';
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  keto_namespaces_location?: string = 'file:///home/ory/namespaces.ts';
 }
 
 export function validateMappings<T extends object>(
