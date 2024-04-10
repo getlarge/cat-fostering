@@ -58,7 +58,7 @@ export class KratosMappings extends KeywordMappings {
     require_valid_protocol: true,
     protocols: ['smtp', 'smtps'],
   })
-  kratos_courier_smtp_connection_uri?: string = null;
+  kratos_courier_smtp_connection_uri?: string = undefined;
 
   @Expose()
   @IsOptional()

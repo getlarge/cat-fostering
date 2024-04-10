@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import {
   generateOryKratosConfig,
   generateOryKetoConfig,
+  updateOryNetworkConfig,
 } from './helpers';
 
 interface BaseOptions {
@@ -27,7 +28,7 @@ async function main() {
           BaseOptions & {
             _: ['kratos'];
           }
-        >,
+        >
       ) => {
         const { envFile } = argv;
         generateOryKratosConfig(envFile);
@@ -41,10 +42,31 @@ async function main() {
           BaseOptions & {
             _: ['keto'];
           }
-        >,
+        >
       ) => {
         const { envFile } = argv;
         generateOryKetoConfig(envFile);
+      },
+    })
+    .command({
+      command: 'network',
+      describe: 'Command to generate and update Ory network config',
+      builder: {
+        projectId: {
+          alias: 'p',
+          description: 'Ory Network project ID',
+          type: 'string',
+        },
+      },
+      handler: (
+        argv: yargs.ArgumentsCamelCase<
+          BaseOptions & {
+            _: ['network'];
+            projectId: string;
+          }
+        >
+      ) => {
+        updateOryNetworkConfig(argv.projectId, argv.envFile);
       },
     })
     .demandCommand(1, 'A valid command must be provided')

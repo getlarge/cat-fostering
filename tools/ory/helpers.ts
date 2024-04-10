@@ -1,8 +1,10 @@
 import type { ClassConstructor } from 'class-transformer';
 import dotenv from 'dotenv';
 import { load, dump } from 'js-yaml';
+import { execSync } from 'node:child_process';
 import { constants, accessSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { inspect } from 'node:util';
 import {
   KetoMappings,
   KeywordMappings,
@@ -13,6 +15,7 @@ import {
 export const INFRA_DIRECTORY = join(__dirname, '..', '..', 'infra');
 export const ORY_KRATOS_DIRECTORY = join(INFRA_DIRECTORY, 'ory-kratos');
 export const ORY_KETO_DIRECTORY = join(INFRA_DIRECTORY, 'ory-keto');
+export const ORY_NETWORK_DIRECTORY = join(INFRA_DIRECTORY, 'ory-network');
 
 type ConfigFilepath = `${string}.yml` | `${string}.yaml` | `${string}.json`;
 
@@ -37,6 +40,8 @@ function keywordStringReplace(input: string, mappings: KeywordMappings) {
       typeof mapping === 'boolean'
     ) {
       input = input.replace(regex, mapping.toString());
+    } else {
+      input = input.replace(regex, '');
     }
   });
   return input;
@@ -98,7 +103,7 @@ export function getOryKetoMappings(envFilePath: string): KetoMappings {
 function storeGeneratedOryConfig(
   config: Record<string, unknown>,
   outputFilePath: ConfigFilepath
-) {
+): string {
   let output: string;
   if (outputFilePath.endsWith('.json')) {
     output = JSON.stringify(config, null, 2);
@@ -111,36 +116,93 @@ function storeGeneratedOryConfig(
     });
   }
   writeFileSync(outputFilePath, output);
+  return output;
 }
 
 export function generateOryKratosConfig(
   envFilePath: string = join(ORY_KRATOS_DIRECTORY, '.env'),
-  configFilepath: ConfigFilepath = join(
-    ORY_KRATOS_DIRECTORY,
-    'kratos-template.yaml'
-  ) as ConfigFilepath,
   outputFilePath: ConfigFilepath = join(
     ORY_KRATOS_DIRECTORY,
     'kratos.yaml'
+  ) as ConfigFilepath,
+  configFilepath: ConfigFilepath = join(
+    ORY_KRATOS_DIRECTORY,
+    'kratos-template.yaml'
   ) as ConfigFilepath
-): void {
+): string {
   const mappings = getOryKratosMappings(envFilePath);
   const config = getOryConfig(configFilepath, mappings);
-  storeGeneratedOryConfig(config, outputFilePath);
+  return storeGeneratedOryConfig(config, outputFilePath);
 }
 
 export function generateOryKetoConfig(
   envFilePath: string = join(ORY_KETO_DIRECTORY, '.env'),
-  configFilepath: ConfigFilepath = join(
-    ORY_KETO_DIRECTORY,
-    'keto-template.yaml'
-  ) as ConfigFilepath,
   outputFilePath: ConfigFilepath = join(
     ORY_KETO_DIRECTORY,
     'keto.yaml'
+  ) as ConfigFilepath,
+  configFilepath: ConfigFilepath = join(
+    ORY_KETO_DIRECTORY,
+    'keto-template.yaml'
   ) as ConfigFilepath
-): void {
+): string {
   const mappings = getOryKetoMappings(envFilePath);
   const config = getOryConfig(configFilepath, mappings);
-  storeGeneratedOryConfig(config, outputFilePath);
+  return storeGeneratedOryConfig(config, outputFilePath);
+}
+
+type OryNetworkConfig = {
+  name: string;
+  services: {
+    identity: {
+      config: Record<string, unknown>;
+    };
+    permission: {
+      config: Record<string, unknown>;
+    };
+  };
+};
+
+/**
+ * @description create input for ory update project <your-project-id> --file config.yaml command
+ * @see https://www.ory.sh/docs/guides/cli/config-with-cli#overwrite--import-configuration
+ */
+export function generateOryNetworkConfig(envFile: string) {
+  const kratosConfigFilePath = join(
+    ORY_NETWORK_DIRECTORY,
+    'identity.yaml'
+  ) as ConfigFilepath;
+  const ketoConfigFilePath = join(
+    ORY_NETWORK_DIRECTORY,
+    'permission.yaml'
+  ) as ConfigFilepath;
+
+  generateOryKetoConfig(envFile, ketoConfigFilePath);
+  generateOryKratosConfig(envFile, kratosConfigFilePath);
+
+  const oryConfig: OryNetworkConfig = {
+    name: 'CatFostering',
+    services: {
+      identity: {
+        config: getOryConfig(kratosConfigFilePath),
+      },
+      permission: {
+        config: getOryConfig(ketoConfigFilePath),
+      },
+    },
+  };
+  return oryConfig;
+}
+
+export function updateOryNetworkConfig(projectId: string, envFile: string) {
+  const oryConfig = generateOryNetworkConfig(envFile);
+  console.log(inspect(oryConfig, { depth: null }));
+  const oryNetworkConfigPath = join(ORY_NETWORK_DIRECTORY, 'config.json');
+  writeFileSync(oryNetworkConfigPath, JSON.stringify(oryConfig));
+  execSync(
+    `ory update project ${projectId} --format json --file ${oryNetworkConfigPath}`,
+    {
+      stdio: 'inherit',
+    }
+  );
 }

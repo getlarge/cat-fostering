@@ -5,6 +5,7 @@
   "scripts": {
     "ory:generate:kratos": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts kratos -e .env",
     "ory:generate:keto": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts keto -e .env",
+    "ory:generate:network": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts network -e .env.development",
     "docker:dev:up": "docker compose -f docker-compose.yaml -p cat-fostering --env-file .env up -d",
     "docker:dev:down": "docker compose -f docker-compose.yaml -p cat-fostering --env-file .env down",
     "docker:dev:log": "docker compose -f docker-compose.yaml -p cat-fostering logs -f --tail=100"
@@ -15,7 +16,7 @@
     "@getlarge/keto-client-wrapper": "^0.2.5",
     "@getlarge/keto-relations-parser": "^0.0.9",
     "@getlarge/kratos-cli": "^0.2.1",
-    "@getlarge/kratos-client-wrapper": "^0.1.6",
+    "@getlarge/kratos-client-wrapper": "^0.1.7",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.2.1",
     "@nestjs/core": "^10.0.2",
