@@ -6,6 +6,13 @@
   },
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "production": [
+      "!{projectRoot}/test/**",
+      "!{projectRoot}/**/*.{spec,test}.ts",
+      "!{projectRoot}/node_modules/**"
+    ]
+  },
   "plugins": [
     {
       "plugin": "@nx/webpack/plugin",
@@ -32,7 +39,7 @@
     "@nx/js:tsc": {
       "cache": true,
       "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
+      "inputs": ["production", "^production"]
     }
   }
 }
