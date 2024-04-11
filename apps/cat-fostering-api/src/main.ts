@@ -2,16 +2,25 @@
 import 'pg';
 
 import { NestFactory } from '@nestjs/core';
-import { ExpressAdapter } from '@nestjs/platform-express';
+import {
+  ExpressAdapter,
+  NestExpressApplication,
+} from '@nestjs/platform-express';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(), {
-    logger: ['error', 'warn', 'log', 'debug', 'verbose'],
-    bufferLogs: true,
-  });
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    new ExpressAdapter(),
+    {
+      logger: ['error', 'warn', 'log', 'debug', 'verbose'],
+      bufferLogs: true,
+    }
+  );
+  app.disable('x-powered-by');
+
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
