@@ -1,0 +1,24 @@
+.git
+*.tar.gz
+*.zip
+.editorconfig
+/.vscode/*
+node_modules
+test
+fixtures
+coverage
+.env
+.env.*
+.clinic
+.github
+.scannerwork
+.vscode
+tmp
+# .gitignore
+# might change if we want to use yarn cache
+.yarn
+.angular
+.env*
+!.env.project
+!.env.vault
+.flaskenv*
