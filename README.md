@@ -1,17 +1,13 @@
+<p align="center">
+  <a href="https://github.com/getlarge/nestjs-ory-integration/" target="blank"><img src="https://ipfs.io/ipfs/QmQ6CMaraTMrv8byJfY64mDM6o7citx1pgEobMKWEJaSCB?filename=ory-nestjs-min.png" width="120" alt="NestOry Logo" /></a>
+</p>
+
 # CatFostering
 
-This demonstration app is a web-based platform (REST API) called `CatFoster`. `CatFoster` serves as a community hub where cat owners who need temporary care for their pets can connect with cat lovers willing to foster animals in their homes.
+This demonstration app is a web-based platform (REST API) called `CatFoster`. The CatFoster application is a simplified example that demonstrates the integration of Ory in a NestJS application. The application will not cover frontend development and deployment, focusing solely on the backend implementation.
 
 > **Note**
-> The [CatFoster](https://github.com/getlarge/cat-fostering/blob/main) application is a simplified example to demonstrate the integration of Ory in a NestJS application. The focus is on showcasing the authentication and authorization features of Ory within a real-world use case. The application will not cover frontend development and deployment, focusing solely on the backend implementation.
-
-The journey to integrate Ory in the `CatFoster` application will be divided into three main phases:
-
-1. **Design Phase:** We will outline the architecture, user flows, entities, and permissions for the `CatFoster` application. This phase will help us understand the requirements and functionalities of the application before diving into the implementation.
-
-2. **Implementation Phase:** We will create a new [Nx](https://nx.dev) workspace, set up a NestJS application, configure [Ory Kratos](https://ory.sh/kratos) and Ory Keto using Docker Compose, and implement the necessary modules, services, controllers, and entities to integrate Ory into the CatFoster application.
-
-3. **Testing Phase:** We will start with manual testing and then write end-to-end tests for the application by running the application locally. This phase will show how to set up an Ory environment for testing.
+> The [CatFoster](https://github.com/getlarge/cat-fostering/blob/main) application is a simplified example to demonstrate the integration of Ory in a NestJS application. The focus is on showcasing the authentication and authorization features of Ory within a real-world use case. The application will not cover frontend development and deployment, focusing solely on showcasing the backend implementation of the authentication and authorization features of Ory.
 
 > **Note**
 > If this is your first time working with Ory, I recommend reading the [Introduction to Ory](./Introduction-to-ory.md) article to familiarize yourself with the core components and concepts of Ory.
