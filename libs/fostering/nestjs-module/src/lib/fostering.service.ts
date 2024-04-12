@@ -55,12 +55,8 @@ export class FosteringService {
     fosteringId: string,
     userId: string
   ) {
-    const createRelationshipBody = participantRelationQuery(
-      fosteringId,
-      userId
-    );
     await this.oryRelationshipsService.createRelationship({
-      createRelationshipBody,
+      createRelationshipBody: participantRelationQuery(fosteringId, userId),
     });
   }
 
@@ -68,12 +64,11 @@ export class FosteringService {
     fosteringId: string,
     catProfileId: string
   ) {
-    const createRelationshipBody = catProfileRelationQuery(
-      fosteringId,
-      catProfileId
-    );
     await this.oryRelationshipsService.createRelationship({
-      createRelationshipBody,
+      createRelationshipBody: catProfileRelationQuery(
+        fosteringId,
+        catProfileId
+      ),
     });
   }
 
@@ -81,12 +76,8 @@ export class FosteringService {
     catProfileId: string,
     userId: string
   ) {
-    const deleteRelationshipBody = participantRelationQuery(
-      catProfileId,
-      userId
-    );
     await this.oryRelationshipsService.deleteRelationships(
-      deleteRelationshipBody
+      participantRelationQuery(catProfileId, userId)
     );
   }
 
@@ -94,12 +85,8 @@ export class FosteringService {
     fosteringId: string,
     catProfileId: string
   ) {
-    const deleteRelationshipBody = catProfileRelationQuery(
-      fosteringId,
-      catProfileId
-    );
     await this.oryRelationshipsService.deleteRelationships(
-      deleteRelationshipBody
+      catProfileRelationQuery(fosteringId, catProfileId)
     );
   }
 
