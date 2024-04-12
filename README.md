@@ -7,9 +7,6 @@
 This demonstration app is a web-based platform (REST API) called `CatFoster`. The CatFoster application is a simplified example that demonstrates the integration of Ory in a NestJS application. The application will not cover frontend development and deployment, focusing solely on the backend implementation.
 
 > **Note**
-> The [CatFoster](https://github.com/getlarge/cat-fostering/blob/main) application is a simplified example to demonstrate the integration of Ory in a NestJS application. The focus is on showcasing the authentication and authorization features of Ory within a real-world use case. The application will not cover frontend development and deployment, focusing solely on showcasing the backend implementation of the authentication and authorization features of Ory.
-
-> **Note**
 > If this is your first time working with Ory, I recommend reading the [Introduction to Ory](./Introduction-to-ory.md) article to familiarize yourself with the core components and concepts of Ory.
 
 ## Key Features
