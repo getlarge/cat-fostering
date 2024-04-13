@@ -43,30 +43,26 @@ export class CatProfilesService {
   }
 
   private async createAdminRelationship(catProfileId: string) {
-    const createRelationshipBody = adminRelationQuery(catProfileId);
     await this.oryRelationshipsService.createRelationship({
-      createRelationshipBody,
+      createRelationshipBody: adminRelationQuery(catProfileId),
     });
   }
 
   private async createOwnerRelationship(catProfileId: string, userId: string) {
-    const createRelationshipBody = ownerRelationQuery(catProfileId, userId);
     await this.oryRelationshipsService.createRelationship({
-      createRelationshipBody,
+      createRelationshipBody: ownerRelationQuery(catProfileId, userId),
     });
   }
 
   private async deleteAdminRelationship(catProfileId: string) {
-    const deleteRelationshipBody = adminRelationQuery(catProfileId);
     await this.oryRelationshipsService.deleteRelationships(
-      deleteRelationshipBody
+      adminRelationQuery(catProfileId)
     );
   }
 
   private async deleteOwnerRelationship(catProfileId: string, userId: string) {
-    const deleteRelationshipBody = ownerRelationQuery(catProfileId, userId);
     await this.oryRelationshipsService.deleteRelationships(
-      deleteRelationshipBody
+      ownerRelationQuery(catProfileId, userId)
     );
   }
 

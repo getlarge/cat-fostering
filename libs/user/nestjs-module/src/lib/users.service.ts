@@ -28,7 +28,7 @@ export class UsersService {
     const existingUser = await this.userRepository.findOne({
       where: { email },
     });
-    if (existingUser || !existingUser) {
+    if (existingUser) {
       throw new OryWebhookError(
         'email already used',
         [
