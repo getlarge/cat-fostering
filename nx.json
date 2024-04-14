@@ -7,7 +7,10 @@
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
+    "sharedGlobals": [],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
+      "default",
       "{projectRoot}/package.json",
       "!{projectRoot}/test/**",
       "!{projectRoot}/**/*.{spec,test}.ts",
