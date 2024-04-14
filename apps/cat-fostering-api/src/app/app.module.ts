@@ -39,9 +39,9 @@ import {
           infer: true,
         });
         const url = new URL(configService.get('POSTGRES_URL', { infer: true }));
-        url.username = url.username || username;
-        url.password = url.password || password;
-        url.pathname = url.pathname || database;
+        url.username = username || url.username;
+        url.password = password || url.password;
+        url.pathname = database ? `/${database}` : url.pathname;
         return {
           type: 'postgres',
           url: url.toString(),

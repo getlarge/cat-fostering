@@ -10,7 +10,7 @@ import { existsSync, readFileSync } from 'node:fs';
 
 function maybeSecret(value: string) {
   if (!!value && typeof value === 'string' && existsSync(value)) {
-    return readFileSync(value, 'utf-8');
+    return readFileSync(value, 'utf-8').trim();
   }
   return value;
 }
