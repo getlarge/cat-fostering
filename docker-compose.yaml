@@ -5,13 +5,36 @@ networks:
     driver: bridge
 
 volumes:
+  caddy_config:
+  caddy_data:
+    external: true
   app_postgres_volume:
   kratos_postgres_volume:
   keto_postgres_volume:
 
 services:
+  caddy:
+    image: ghcr.io/getlarge/cat-fostering/caddy:latest
+    ports:
+      - '8080:80'
+      - '4443:443'
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - BACKEND_DOMAIN=backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
   postgres:
     image: postgres:16
+    container_name: app_postgres
     volumes:
       - app_postgres_volume:/var/lib/postgresql/data
     ports:
@@ -49,6 +72,7 @@ services:
 
   kratos-postgres:
     image: postgres:16
+    container_name: kratos_postgres
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret
@@ -104,6 +128,7 @@ services:
 
   keto-postgres:
     image: postgres:16
+    container_name: keto_postgres
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret

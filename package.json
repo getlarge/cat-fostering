@@ -9,7 +9,9 @@
     "ory:update:network": "ts-node --project tools/tsconfig.json tools/ory/update-network-config.ts network -e .env.development",
     "docker:dev:up": "docker compose -f docker-compose.yaml -p cat-fostering --env-file .env up -d",
     "docker:dev:down": "docker compose -f docker-compose.yaml -p cat-fostering --env-file .env down",
-    "docker:dev:log": "docker compose -f docker-compose.yaml -p cat-fostering logs -f --tail=100"
+    "docker:dev:log": "docker compose -f docker-compose.yaml -p cat-fostering logs -f --tail=100",
+    "docker:caddy:build": "docker buildx build infra/caddy -f infra/caddy/Dockerfile -t ghcr.io/getlarge/cat-fostering/caddy --load",
+    "docker:caddy:push": "docker buildx build infra/caddy -f infra/caddy/Dockerfile --platform linux/amd64,linux/arm64 -t ghcr.io/getlarge/cat-fostering/caddy --push"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,35 @@
+{
+	email ed@getlarge.eu
+}
+
+(static) {
+	@static {
+		file
+		path *.ico *.css *.js *.gif *.jpg *.jpeg *.png *.svg *.woff *.json
+	}
+	header @static Cache-Control max-age=5184000
+}
+
+(security) {
+	header {
+		# enable HSTS
+		Strict-Transport-Security max-age=31536000;
+		# disable clients from sniffing the media type
+		X-Content-Type-Options nosniff
+		# keep referrer data off of HTTP connections
+		Referrer-Policy no-referrer-when-downgrade
+	}
+}
+
+# TODO: 443 ports in prod
+
+# localhost:80 {
+# 	encode zstd gzip
+# 	import static
+
+# 	reverse_proxy  http://front-end:4000
+# }
+
+{$BACKEND_DOMAIN}:80 {
+	reverse_proxy http://cat-fostering-api:3000
+}
