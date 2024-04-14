@@ -35,7 +35,6 @@ export const createTestConnection = async (envFilePath = '.env.test') => {
     synchronize: true,
     dropSchema: true,
     logging: false,
-    // entities: ['libs/shared/entities/src/lib/*.entities.ts'],
     entities: [UserSchema, CatProfileSchema, FosteringSchema],
   } satisfies Partial<DataSourceOptions>;
   const urlObject = new URL(options.url);

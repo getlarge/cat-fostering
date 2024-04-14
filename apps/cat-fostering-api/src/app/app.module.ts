@@ -9,7 +9,10 @@ import path from 'node:path';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { validateEnvironmentVariables } from './environment-variables';
+import {
+  EnvironmentVariables,
+  validateEnvironmentVariables,
+} from './environment-variables';
 
 @Module({
   imports: [
@@ -27,12 +30,25 @@ import { validateEnvironmentVariables } from './environment-variables';
     LoggerModule.forRoot(),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        url: configService.get('POSTGRES_URL'),
-        autoLoadEntities: true,
-        synchronize: true,
-      }),
+      useFactory: (
+        configService: ConfigService<EnvironmentVariables, true>
+      ) => {
+        const database = configService.get('POSTGRES_DB', { infer: true });
+        const username = configService.get('POSTGRES_USER', { infer: true });
+        const password = configService.get('POSTGRES_PASSWORD', {
+          infer: true,
+        });
+        const url = new URL(configService.get('POSTGRES_URL', { infer: true }));
+        url.username = url.username || username;
+        url.password = url.password || password;
+        url.pathname = url.pathname || database;
+        return {
+          type: 'postgres',
+          url: url.toString(),
+          autoLoadEntities: true,
+          synchronize: true,
+        };
+      },
     }),
     UsersModule,
     CatProfilesModule,
