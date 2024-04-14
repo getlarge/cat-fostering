@@ -1,0 +1,86 @@
+version: '3.2'
+
+volumes:
+  caddy_config:
+  caddy_data:
+    external: true
+  app_postgres_volume:
+
+services:
+  cat-fostering-api:
+    image: ghcr.io/getlarge/cat-fostering/cat-fostering-api:latest
+    environment:
+      - ORY_KETO_ADMIN_URL=https://determined-kare-xyskz239is.projects.oryapis.com
+      - ORY_KETO_PUBLIC_URL=https://determined-kare-xyskz239is.projects.oryapis.com
+      - ORY_KRATOS_ADMIN_URL=https://determined-kare-xyskz239is.projects.oryapis.com
+      - ORY_KRATOS_PUBLIC_URL=https://determined-kare-xyskz239is.projects.oryapis.com
+      - ORY_ACTION_API_KEY=/run/secrets/ory_action_api_key
+      - ORY_KRATOS_API_KEY=/run/secrets/ory_network_api_key
+      - ORY_KETO_API_KEY=/run/secrets/ory_network_api_key
+      - PORT=3000
+      - POSTGRES_URL=postgres://postgres:5432
+      - POSTGRES_DB=cat_fostering
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=/run/secrets/pg_db_password
+    secrets:
+      - ory_action_api_key
+      - ory_network_api_key
+      - pg_db_password
+    ports:
+      - '3000:3000'
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  caddy:
+    image: ghcr.io/getlarge/cat-fostering/caddy:latest
+    ports:
+      - '8080:80'
+      - '4443:443'
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - BACKEND_DOMAIN=backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  postgres:
+    image: postgres:16
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=cat_fostering
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD_FILE=/run/secrets/pg_db_password
+    secrets:
+      - pg_db_password
+    volumes:
+      - app_postgres_volume:/var/lib/postgresql/data
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+secrets:
+  ory_action_api_key:
+    external: true
+  ory_network_api_key:
+    external: true
+  pg_db_password:
+    external: true
