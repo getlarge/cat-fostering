@@ -1,12 +1,12 @@
 import { HttpException } from '@nestjs/common';
 
 export type OryWebhookErrorMessages = {
-  instance_ptr: string;
+  instance_ptr?: string;
   messages: {
     id: number;
     text: string;
     type: string;
-    context: {
+    context?: {
       value: string;
     };
   }[];

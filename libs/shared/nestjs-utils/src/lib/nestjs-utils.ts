@@ -8,7 +8,9 @@ export type CurrentUser = {
   identityId: string;
 };
 
-export function getCurrentUser<U = CurrentUser>(request: Request & { user: U }): U {
+export function getCurrentUser<U = CurrentUser>(
+  request: Request & { user: U }
+): U {
   return request['user'];
 }
 

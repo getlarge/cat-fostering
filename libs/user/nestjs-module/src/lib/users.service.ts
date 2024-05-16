@@ -17,13 +17,7 @@ export class UsersService {
   ) {}
 
   async onSignUp(body: OnOrySignUpDto): Promise<OnOrySignUpDto> {
-    this.logger.debug(
-      inspect(body, {
-        showHidden: false,
-        depth: null,
-      }),
-      'onSignUp'
-    );
+    this.logger.debug(inspect({ method: 'onSignUp', body }, false, null, true));
     const { email } = body.identity.traits;
     const existingUser = await this.userRepository.findOne({
       where: { email },
@@ -37,7 +31,7 @@ export class UsersService {
             messages: [
               {
                 id: 123,
-                text: 'email already used',
+                text: 'invalid email address',
                 type: 'validation',
                 context: {
                   value: email,
@@ -56,13 +50,7 @@ export class UsersService {
 
   async onSignIn(body: OnOrySignInDto): Promise<OnOrySignInDto> {
     const { identity } = body;
-    this.logger.debug(
-      inspect(body, {
-        showHidden: false,
-        depth: null,
-      }),
-      'onSignIn'
-    );
+    this.logger.debug(inspect({ method: 'onSignIn', body }, false, null, true));
     const email = identity.traits.email;
     const userId = identity.metadata_public?.id;
     const user = await this.userRepository.findOne({
@@ -77,10 +65,9 @@ export class UsersService {
         'user not found',
         [
           {
-            instance_ptr: '#/traits/email',
             messages: [
               {
-                id: 123,
+                id: 1234,
                 text: 'user not found',
                 type: 'validation',
                 context: {
@@ -105,10 +92,10 @@ export class UsersService {
         'Email not verified',
         [
           {
-            instance_ptr: '#/verifiable_addresses',
+            instance_ptr: '#/traits/email',
             messages: [
               {
-                id: 123,
+                id: 1234,
                 text: 'Email not verified',
                 type: 'validation',
                 context: {

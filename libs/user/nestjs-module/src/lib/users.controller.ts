@@ -20,8 +20,10 @@ import {
 import type { Request } from 'express';
 
 import { OryActionGuard } from './guards/ory-action.guard';
+import { validationErrorsToOryErrorMessages } from './helpers';
 import { OnOrySignInDto } from './models/ory-sign-in.dto';
 import { OnOrySignUpDto } from './models/ory-sign-up.dto';
+import { OryWebhookError } from './models/ory-webhook.error';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -33,6 +35,14 @@ export class UsersController {
     new ValidationPipe({
       transform: true,
       forbidUnknownValues: true,
+      exceptionFactory: (errors) => {
+        const formattedErrors = validationErrorsToOryErrorMessages(errors);
+        return new OryWebhookError(
+          'Failed to validate input',
+          formattedErrors,
+          400
+        );
+      },
     })
   )
   @Post('on-sign-up')
@@ -46,6 +56,7 @@ export class UsersController {
     new ValidationPipe({
       transform: true,
       forbidUnknownValues: true,
+      // TODO: add error handler
     })
   )
   @Post('on-sign-in')
