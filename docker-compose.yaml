@@ -1,5 +1,3 @@
-version: '3.2'
-
 networks:
   ory:
     driver: bridge
@@ -7,7 +5,7 @@ networks:
 volumes:
   caddy_config:
   caddy_data:
-    external: true
+    external: false
   app_postgres_volume:
   kratos_postgres_volume:
   keto_postgres_volume:

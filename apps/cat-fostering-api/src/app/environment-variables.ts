@@ -1,3 +1,4 @@
+import { applyDecorators } from '@nestjs/common';
 import { Expose, plainToClass, Transform } from 'class-transformer';
 import {
   IsNumber,
@@ -7,13 +8,29 @@ import {
   validateSync,
 } from 'class-validator';
 import { existsSync, readFileSync } from 'node:fs';
+import type { IsURLOptions } from 'validator';
 
-function maybeSecret(value: string) {
-  if (!!value && typeof value === 'string' && existsSync(value)) {
-    return readFileSync(value, 'utf-8').trim();
-  }
-  return value;
-}
+const SecretValue = (options?: { isOptional?: boolean }) => {
+  return applyDecorators(
+    Expose(),
+    Transform(({ obj, key }) => {
+      const value = obj[key];
+      if (!!value && typeof value === 'string' && existsSync(value)) {
+        return readFileSync(value, 'utf-8').trim();
+      }
+      return value;
+    }),
+    IsString(),
+    ...[options?.isOptional ? IsOptional() : undefined].filter(Boolean)
+  );
+};
+
+const urlOptions = {
+  require_protocol: true,
+  require_valid_protocol: true,
+  require_host: true,
+  require_tld: false,
+} satisfies IsURLOptions;
 
 export class EnvironmentVariables {
   @Expose()
@@ -33,10 +50,7 @@ export class EnvironmentVariables {
   @IsOptional()
   POSTGRES_USER?: string = null;
 
-  @Expose()
-  @Transform(({ obj, key }) => maybeSecret(obj[key]))
-  @IsString()
-  @IsOptional()
+  @SecretValue({ isOptional: true })
   POSTGRES_PASSWORD?: string = null;
 
   @Expose()
@@ -45,58 +59,30 @@ export class EnvironmentVariables {
   POSTGRES_DB?: string = null;
 
   @Expose()
-  @IsUrl({
-    require_protocol: true,
-    require_valid_protocol: true,
-    require_host: true,
-    require_tld: false,
-  })
+  @IsUrl(urlOptions)
   ORY_KETO_ADMIN_URL?: string = 'http://localhost:4467';
 
   @Expose()
-  @IsUrl({
-    require_protocol: true,
-    require_valid_protocol: true,
-    require_host: true,
-    require_tld: false,
-  })
+  @IsUrl(urlOptions)
   ORY_KETO_PUBLIC_URL?: string = 'http://localhost:4466';
 
-  @Expose()
-  @Transform(({ obj, key }) => maybeSecret(obj[key]))
-  @IsString()
-  @IsOptional()
+  @SecretValue({ isOptional: true })
   ORY_KETO_API_KEY?: string = null;
 
   @Expose()
-  @IsUrl({
-    require_protocol: true,
-    require_valid_protocol: true,
-    require_host: true,
-    require_tld: false,
-  })
+  @IsUrl(urlOptions)
   @IsOptional()
   ORY_KRATOS_ADMIN_URL?: string = 'http://localhost:4434';
 
   @Expose()
-  @IsUrl({
-    require_protocol: true,
-    require_valid_protocol: true,
-    require_host: true,
-    require_tld: false,
-  })
+  @IsUrl(urlOptions)
   @IsOptional()
   ORY_KRATOS_PUBLIC_URL?: string = 'http://localhost:4433';
 
-  @Expose()
-  @Transform(({ obj, key }) => maybeSecret(obj[key]))
-  @IsString()
-  @IsOptional()
+  @SecretValue({ isOptional: true })
   ORY_KRATOS_API_KEY?: string = null;
 
-  @Expose()
-  @Transform(({ obj, key }) => maybeSecret(obj[key]))
-  @IsString()
+  @SecretValue()
   ORY_ACTION_API_KEY: string;
 }
 
