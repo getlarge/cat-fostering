@@ -7,11 +7,14 @@
   "targets": {
     "serve": {
       "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
+      "defaultConfiguration": "local",
       "options": {
         "buildTarget": "cat-fostering-api:build"
       },
       "configurations": {
+        "local": {
+          "buildTarget": "cat-fostering-api:build:local"
+        },
         "development": {
           "buildTarget": "cat-fostering-api:build:development"
         },
