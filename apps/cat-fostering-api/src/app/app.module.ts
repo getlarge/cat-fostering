@@ -27,7 +27,15 @@ import {
         )
       ),
     }),
-    LoggerModule.forRoot(),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        redact: [
+          'req.headers.authorization',
+          'req.headers.cookie',
+          'req.headers["x-ory-api-key"]',
+        ],
+      },
+    }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (
