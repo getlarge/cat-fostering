@@ -253,7 +253,7 @@ session:
     domain: '##kratos_session_cookie_domain##'
     name: '##kratos_session_cookie_name##'
     path: /
-    persistent: false
+    persistent: true
     same_site: Lax
   lifespan: 72h0m0s
   whoami:
