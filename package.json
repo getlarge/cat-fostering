@@ -6,6 +6,7 @@
     "ory:generate:kratos": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts kratos -e .env",
     "ory:generate:keto": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts keto -e .env",
     "ory:generate:network": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts network -e .env.development",
+    "ory:generate": "npm run ory:generate:kratos && npm run ory:generate:keto && npm run ory:generate:network",
     "ory:update:network": "ts-node --project tools/tsconfig.json tools/ory/update-network-config.ts network -e .env.development",
     "docker:dev:up": "docker compose -p cat-fostering --env-file .env up -d",
     "docker:dev:down": "docker compose -p cat-fostering --env-file .env down",
