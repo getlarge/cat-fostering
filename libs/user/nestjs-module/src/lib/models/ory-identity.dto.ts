@@ -1,4 +1,3 @@
-'created_at';
 import { Identity, IdentityStateEnum } from '@ory/client';
 import { Expose, Type } from 'class-transformer';
 import {
@@ -10,7 +9,6 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-  Length,
   ValidateNested,
 } from 'class-validator';
 
