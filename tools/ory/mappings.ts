@@ -43,7 +43,7 @@ export class KratosMappings extends KeywordMappings {
   @Expose()
   @IsOptional()
   @IsString()
-  kratos_cookie_domain?: string = 'localhost';
+  kratos_cookies_domain?: string = 'localhost';
 
   @Expose()
   @IsOptional()

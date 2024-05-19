@@ -92,7 +92,7 @@ export class UsersService {
         'Email not verified',
         [
           {
-            instance_ptr: '#/traits/email',
+            instance_ptr: '#/identifier',
             messages: [
               {
                 id: 1234,
