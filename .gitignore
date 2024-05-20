@@ -23,6 +23,7 @@ node_modules
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/thunder-tests
 
 # misc
 /.sass-cache
@@ -41,4 +42,4 @@ Thumbs.db
 .nx/cache
 
 *.env*
-!*.env.example
+!*.env.example*
