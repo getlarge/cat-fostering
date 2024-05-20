@@ -48,3 +48,14 @@ export const isOwnerPermission = (ctx: ExecutionContext): string => {
   const catProfileId = req.params['id'];
   return ownerRelationTuple(catProfileId, currentUserId).toString();
 };
+
+export const isEditorPermission = (ctx: ExecutionContext): string => {
+  const req = ctx.switchToHttp().getRequest<Request & { user: CurrentUser }>();
+  const currentUserId = getCurrentUser(req).id;
+  const catProfileId = req.params['id'];
+  return relationTupleBuilder()
+    .subject('User', currentUserId)
+    .isAllowedTo('edit')
+    .of('CatProfile', catProfileId)
+    .toString();
+};

@@ -23,7 +23,11 @@ import {
 } from '@nestjs/common';
 
 import { CatProfilesService } from './catprofiles.service';
-import { isAdminPermission, isOwnerPermission } from './helpers';
+import {
+  isAdminPermission,
+  isEditorPermission,
+  isOwnerPermission,
+} from './helpers';
 import { CreateCatProfile } from './models/create-catprofile';
 import { UpdateCatProfile } from './models/update-catprofile';
 
@@ -121,10 +125,7 @@ export class CatProfilesController {
     return this.catProfilesService.updateById(id, body);
   }
 
-  @OryPermissionChecks({
-    type: 'OR',
-    conditions: [isOwnerPermission, isAdminPermission],
-  })
+  @OryPermissionChecks(isEditorPermission)
   @UseGuards(AuthenticationGuard(), AuthorizationGuard())
   @Delete(':id')
   deleteById(@Param('id', ParseUUIDPipe) id: string): Promise<{
