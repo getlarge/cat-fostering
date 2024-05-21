@@ -1,5 +1,6 @@
 import type { ClassConstructor } from 'class-transformer';
 import dotenv from 'dotenv';
+import { expand } from 'dotenv-expand';
 import { load, dump } from 'js-yaml';
 import { execSync } from 'node:child_process';
 import { constants, accessSync, readFileSync, writeFileSync } from 'node:fs';
@@ -76,7 +77,6 @@ export function getOryConfig<M extends KeywordMappings>(
   mappings?: M
 ): Record<string, unknown> {
   const oryConfigString = loadFileAndReplaceKeywords(configFilepath, mappings);
-
   if (configFilepath.endsWith('.json')) {
     return JSON.parse(oryConfigString);
   }
@@ -88,8 +88,9 @@ function getOryMappings<T extends KeywordMappings>(
   envFilePath: string
 ): T {
   const processEnv: Record<string, string> = {};
-  dotenv.config({ path: envFilePath, processEnv });
-  return validateMappings(cls, processEnv);
+  const { parsed } = dotenv.config({ path: envFilePath, processEnv });
+  const result = expand({ parsed, ignoreProcessEnv: true });
+  return validateMappings(cls, result.parsed);
 }
 
 export function getOryKratosMappings(envFilePath: string): KratosMappings {
