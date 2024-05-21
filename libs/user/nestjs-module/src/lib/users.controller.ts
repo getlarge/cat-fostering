@@ -56,7 +56,14 @@ export class UsersController {
     new ValidationPipe({
       transform: true,
       forbidUnknownValues: true,
-      // TODO: add error handler
+      exceptionFactory: (errors) => {
+        const formattedErrors = validationErrorsToOryErrorMessages(errors);
+        return new OryWebhookError(
+          'Failed to validate input',
+          formattedErrors,
+          400
+        );
+      },
     })
   )
   @Post('on-sign-in')
@@ -94,6 +101,9 @@ export class UsersController {
           email: session.identity.traits.email,
           identityId: session.identity.id,
         };
+      },
+      unauthorizedFactory: () => {
+        return new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
       },
     })
   )
