@@ -4,7 +4,7 @@ import { updateOryNetworkConfig } from './helpers';
 const options = {
   envFile: {
     description: 'Path to .env file',
-    default: '.env.development',
+    default: '.env.staging',
     short: 'e',
     type: 'string',
   },

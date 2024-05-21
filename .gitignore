@@ -43,3 +43,8 @@ Thumbs.db
 
 *.env*
 !*.env.example*
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

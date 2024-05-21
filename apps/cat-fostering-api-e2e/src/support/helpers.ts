@@ -20,7 +20,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-export const createTestConnection = async (envFilePath = '.env.test') => {
+export const createTestConnection = async (envFilePath = '.env.ci') => {
   const variables = existsSync(envFilePath)
     ? parse(readFileSync(envFilePath))
     : {};
