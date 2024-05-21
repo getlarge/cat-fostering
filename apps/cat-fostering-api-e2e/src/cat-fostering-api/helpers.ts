@@ -1,5 +1,5 @@
 import { relationTupleBuilder } from '@getlarge/keto-relations-parser';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { exec, execSync } from 'node:child_process';
 import { promisify } from 'node:util';
 
@@ -127,3 +127,11 @@ export const createCat = async ({
   expect(res.status).toBe(201);
   return res.data;
 };
+
+export const axiosOptionsFactory = (
+  sessionToken: string
+): AxiosRequestConfig => ({
+  headers: {
+    Authorization: `Bearer ${sessionToken}`,
+  },
+});

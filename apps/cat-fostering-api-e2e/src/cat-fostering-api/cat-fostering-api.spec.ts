@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import {
+  axiosOptionsFactory,
   createCat,
   createOryAdminRelation,
   createOryUser,
@@ -71,11 +72,7 @@ describe('E2E API tests', () => {
           description: 'Black and white cat, knows how to open doors',
           age: 3,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${user1.sessionToken}`,
-          },
-        }
+        axiosOptionsFactory(user1.sessionToken)
       );
 
       expect(res.status).toBe(201);
@@ -93,20 +90,14 @@ describe('E2E API tests', () => {
 
       const res = await axios.patch(
         `/api/cat-profiles/${cat.id}`,
-        {
-          age: 3,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user1.sessionToken}`,
-          },
-        }
+        { age: 3 },
+        axiosOptionsFactory(user1.sessionToken)
       );
 
       expect(res.status).toBe(200);
     });
 
-    it('should update a cat profile when user an admin', async () => {
+    it('should update a cat profile when user is an admin', async () => {
       const cat = await createCat({
         name: 'Juliet',
         description: 'White cat, loves to play',
@@ -116,14 +107,8 @@ describe('E2E API tests', () => {
 
       const res = await axios.patch(
         `/api/cat-profiles/${cat.id}`,
-        {
-          age: 2,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user1.sessionToken}`,
-          },
-        }
+        { age: 2 },
+        axiosOptionsFactory(user1.sessionToken)
       );
 
       expect(res.status).toBe(200);
@@ -139,14 +124,8 @@ describe('E2E API tests', () => {
 
       const res = await axios.patch(
         `/api/cat-profiles/${cat.id}`,
-        {
-          age: 9,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user2.sessionToken}`,
-          },
-        }
+        { age: 9 },
+        axiosOptionsFactory(user2.sessionToken)
       );
 
       expect(res.status).toBe(403);
