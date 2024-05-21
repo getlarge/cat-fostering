@@ -1,3 +1,14 @@
+[![Dev.to](https://img.shields.io/badge/dev.to-0A0A0A?style=for-the-badge&logo=dev.to&logoColor=white)](https://dev.to/getlarge/integrating-ory-in-production-with-nestjs-3nic)
+[![Ory](https://img.shields.io/badge/ory-%230A0A0A.svg?style=for-the-badge&logo=ory&logoColor=white)](https://ory.sh/)
+[![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![Jest](https://img.shields.io/badge/jest-%23C21325.svg?style=for-the-badge&logo=jest&logoColor=white)](https://jestjs.io/)
+[![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Nx](https://img.shields.io/badge/nx-143055?style=for-the-badge&logo=nx&logoColor=white)](https://nx.dev/)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+
+[![fork with dotenv-vault](https://badge.dotenv.org/fork.svg?r=1)](https://vault.dotenv.org/project/vlt_a214f90f4b82d8ad4ca0c4b2a458f85f1eb137a0d7ebce91325a339fa48edad1/example)
+
 <p align="center">
   <a href="https://github.com/getlarge/nestjs-ory-integration/" target="blank"><img src="https://ipfs.io/ipfs/QmQ6CMaraTMrv8byJfY64mDM6o7citx1pgEobMKWEJaSCB?filename=ory-nestjs-min.png" width="120" alt="NestOry Logo" /></a>
 </p>
@@ -7,7 +18,7 @@
 This demonstration app is a web-based platform (REST API) called `CatFoster`. The CatFoster application is a simplified example that demonstrates the integration of Ory in a NestJS application. The application will not cover frontend development and deployment, focusing solely on the backend implementation.
 
 > **Note**
-> If this is your first time working with Ory, I recommend reading the [Introduction to Ory](./Introduction-to-ory.md) article to familiarize yourself with the core components and concepts of Ory.
+> If this is your first time working with Ory, I recommend reading the [Introduction to Ory](https://dev.to/getlarge/introduction-to-ory-47nh) article to familiarize yourself with the core components and concepts of Ory.
 
 ## Key Features
 
@@ -31,17 +42,20 @@ This demonstration app is a web-based platform (REST API) called `CatFoster`. Th
 ### Architecture
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#5d9fd8', 'textColor': 'black', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#a0c8e8' }}}%%
 graph TD
-    UI[(Self-service UI)] -->|Login/Manage Account| OryKratos[Ory Kratos<br>Authentication]
-    %%UI -->|View/Search Cats, Request Fostering| NestJSApp[NestJS App]%%
-    NestJSApp -->|Authentication| OryKratos
-    NestJSApp -->|Authorization| OryKeto[Ory Keto<br>Authorization]
-    NestJSApp -->|CRUD Operations| Postgres[(Postgres)]
-    OryKratos -->|User Signup| Webhooks[HTTP Webhooks]
-    Webhooks -->|Replicate User Data| NestJSApp
-    OryKratos -->|Session Management| UI
-    Postgres -->|Store User & Cat Profiles| NestJSApp
+    UI(Self-service UI) -->|Register/Login <br>Manage Account| OryKratos(Ory Kratos)
+    NestJSApp(NestJS App) -->|Verify sessions| OryKratos
+    NestJSApp -->|Create relationships <br> Check permissions| OryKeto(Ory Keto)
+    NestJSApp -->|CRUD Operations \n Store User & Cat Profiles| Postgres[(Postgres)]
+    OryKratos -->|Send webhooks| NestJSApp
 
+
+    style UI fill:#a0c8e8,stroke:#333,stroke-width:2px
+    style OryKratos fill:#ffdd57,stroke:#333,stroke-width:2px
+    style OryKeto fill:#6accbc,stroke:#333,stroke-width:2px
+    style NestJSApp fill:#ff6f61,stroke:#333,stroke-width:2px
+    style Postgres fill:#5d9fd8,stroke:#333,stroke-width:2px
 ```
 
 - **Self-service UI**: This is the frontend where users can log in and manage their accounts. It communicates directly with Ory Kratos for authentication-related tasks.
@@ -51,269 +65,4 @@ graph TD
 - **Ory Keto**: Manages authorization, determining what authenticated users are allowed to do within the application.
 - **Postgres**: The database where user data (replicated from Ory on signup), cat profiles and fostering requests are stored. The NestJS app interacts with Postgres for all data storage and retrieval operations.
 
-### User Flows
-
-To visualize the user flow for the `CatFoster` project, we'll create a series of diagrams using [Mermaid](https://mermaid.js.org/) to illustrate the different interactions a user can have within the system. These interactions include signing up and signing in, creating a cat profile, updating and deleting their cat profiles, requesting to foster a cat, and approving fostering requests.
-
-#### User Sign-Up and Sign-In Flow
-
-```mermaid
----
-title: User Sign Up and Sign In Flow
----
-sequenceDiagram
-    participant U as User
-    participant UI as Self-service UI
-    participant Kratos as Ory Kratos
-
-    U->>UI: Access platform
-    alt User is not signed in
-        UI->>Kratos: Redirects to Sign Up/Sign In
-        Kratos->>U: Shows Sign Up/Sign In Form
-        U->>Kratos: Fills Sign Up Form
-        Kratos->>U: Shows Verification Message
-        U->>Kratos: Verifies Email
-        Kratos->>UI: Redirects to Self-service UI
-        UI->>U: Shows Success Message
-    end
-```
-
-#### Cat Profile Edition Flows
-
-It all starts with the user creating a cat profile. Once the profile is created, the user (**owner** or member of **admin** group) can update or delete it. The following sequence diagrams illustrate these flows.
-
-```mermaid
----
-title: Create Cat Profile
----
-sequenceDiagram
-    participant U as User
-    participant UI as Self-service UI
-    participant Kratos as Ory Kratos
-    participant NestJS as NestJS App
-    participant DB as Postgres Database
-
-    U->>UI: Sign in
-    UI->>Kratos: Authentication Request
-    Kratos->>U: Authentication Success
-    U->>NestJS: Create Cat Profile
-    NestJS-->Kratos: Check session
-    Kratos->>NestJS: Session Valid
-    NestJS->>DB: Stores Cat Profile
-    NestJS->>U: Shows Success Message
-```
-
-```mermaid
----
-title: Update and Delete Cat Profile
----
-sequenceDiagram
-    participant U as User
-    participant Kratos as Ory Kratos
-    participant Keto as Ory Keto
-    participant NestJS as NestJS App
-    participant DB as Postgres Database
-
-    U->>NestJS: Requests to Update/Delete Cat Profile
-    NestJS-->Kratos: Check session
-    Kratos->>NestJS: Session Valid
-    NestJS->>Keto: Checks Authorization (Owns Cat Profile or Is Admin Group member)
-    Keto->>NestJS: Authorization Response
-    alt User Can Change Profile
-      alt Update Profile
-          NestJS->>DB: Updates Profile
-          DB->>NestJS: Update Confirmation
-          NestJS->>U: Shows Success Message
-      else Delete Profile
-          NestJS->>DB: Deletes Profile
-          DB->>NestJS: Deletion Confirmation
-          NestJS->>U: Shows Success Message
-      end
-    else User Cannot Change Profile
-      NestJS->>U: Shows Error/Restriction Message
-    end
-
-```
-
-#### Request Fostering Flow
-
-This flow ensures that users can request to foster a cat only if they meet specific criteria, such as not being the cat's owner and not already fostering this cat. This mechanism helps prevent conflicts and ensures a smooth fostering process.
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant Kratos as Ory Kratos
-    participant Keto as Ory Keto
-    participant NestJS as NestJS App
-    participant DB as Postgres Database
-
-    U->>NestJS: Request to Foster a Cat
-    NestJS-->Kratos: Check session
-    Kratos->>NestJS: Session Valid
-    NestJS->>Keto: Verifies if User Can Foster (Not Owner, Not Already Fostering)
-    Keto->>NestJS: Authorization Response
-    alt User Can Foster
-        U->>NestJS: Submits Request
-        NestJS->>DB: Stores Request
-        DB->>NestJS: Confirmation
-        NestJS->>U: Shows Success Message
-    else User Cannot Foster
-        NestJS->>U: Shows Error/Restriction Message
-    end
-```
-
-#### Approve Fostering Request Flow
-
-This flow ensures that only cat owners can approve fostering requests, maintaining control over who fosters their cats.
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant Kratos as Ory Kratos
-    participant Keto as Ory Keto
-    participant NestJS as NestJS App
-    participant DB as Postgres Database
-
-    U->>NestJS: Approve Fostering Request
-    NestJS-->Kratos: Check session
-    Kratos->>NestJS: Session Valid
-    NestJS->>Keto: Verifies if User Can Approve (Is Owner of Cat Profile)
-    Keto->>NestJS: Authorization Response
-    alt User Can Approve
-        U->>NestJS: Submits Approval
-        NestJS->>DB: Updates Request Status
-        DB->>NestJS: Confirmation
-        NestJS->>U: Shows Success Message
-    else User Cannot Approve
-        NestJS->>U: Shows Error/Restriction Message
-    end
-```
-
-### Entities and Relationships
-
-The diagram below represents the entities of CatProfile, User, and Fostering in your CatFoster application and illustrates their relationships. This diagram shows each entity's attributes and their associations, such as ownership and fostering relationships.
-
-- **User:** Represents users of the system, which can be cat owners, fosters, or both. Attributes include basic user information like `id`, `name`, `email`. Relationships include `ownedCats`, a list of `CatProfile` entities that the user owns, and `fosteringActivities`, a list of `Fostering` entities indicating the cats they are fostering or have fostered.
-
-- **CatProfile:** Represents the profiles of cats available for fostering. Attributes include the cat's `id`, `name`, `age`, `description`, `ownerId` (linking back to the `User` who owns the cat), and `photosUrls`, a list of URLs to photos of the cat. It has a relationship to `Fostering`, which indicates any fostering activities it's involved in.
-
-- **Fostering:** Represents a fostering arrangement between a user (foster) and a cat. Attributes include `id`, `catId` (linking to the `CatProfile` being fostered), `fosterUserId` (linking to the `User` who is fostering the cat), `startDate`, `endDate`, and `status` (which can include states like pending, active, or completed).
-
-```mermaid
-
-classDiagram
-    class User {
-      +String id
-      +String name
-      +String email
-      +List~CatProfile~ catProfiles
-      +List~Fostering~ fosteringActivities
-    }
-
-    class CatProfile {
-      +String id
-      +String name
-      +String age
-      +String description
-      +List~String~ photosUrls
-      +User owner
-      +List~Fostering~ fosterings
-    }
-
-    class Fostering {
-      +String id
-      +Date startDate
-      +Date endDate
-      +String status
-      +User participant
-      +CatProfile catProfile
-    }
-
-    User "1" -- "0..*" CatProfile : owns
-    User "1" -- "0..*" Fostering : participatesIn
-    CatProfile "1" -- "0..*" Fostering : includedIn
-```
-
-### Permissions
-
-In Ory Keto (the authorization component of Ory), developers can express relationships using the [Ory Permission Language](https://www.ory.sh/docs/keto/reference/ory-permission-language). You can compare them to [DDD Aggregates](https://martinfowler.com/bliki/DDD_Aggregate.html), where relations are defined between entities, and permissions are defined based on the context of the user and the entity with which they interact.
-
-Ory uses the following terminology:
-
-- **subjects**: users or groups interacting with the system (e.g., `User`)
-- **objects**: entities in the system (e.g., `CatProfile`, `Fostering`)
-- **relations**: associations between objects (e.g., `owns`, `participatesIn`, `includedIn`)
-- **permissions**: actions that users can perform on objects (e.g., `edit`, `foster`, `approve`)
-
-To manage access control in the `CatFoster` application, we will translate the user flows and entity relationships into Ory permissions:
-
-> **Note**
-> The permissions will be implemented using [Ory Permission Language Code](https://www.ory.sh/docs/keto/#ory-permission-language) in the following steps.
-
-```mermaid
-classDiagram
-
-    NamespaceRelations *-- Namespace
-    NamespacePermissions *-- Namespace
-    Namespace <|-- User
-    Namespace <|-- Group
-    Namespace <|-- CatProfile
-    Group o-- User : "members"
-    CatProfile o-- User : "owners"
-    CatProfile o-- Group : "editors"
-    Fostering o-- CatProfile : "catProfiles"
-    Fostering o-- User : "fosterUsers"
-
-    class Context {
-      <<Interface>>
-      subject: never;
-    }
-
-    class NamespaceRelations {
-        <<Interface>>
-        +[relation: string]: INamespace[]
-    }
-
-    class NamespacePermissions {
-        <<Interface>>
-        +[method: string]: (ctx: Context) => boolean
-    }
-
-    class Namespace {
-        <<Interface>>
-        -related?: NamespaceRelations
-        -permits?: NamespacePermissions
-    }
-
-    class User {
-    }
-
-    note for Group "<i>Users</i> can be <b>members</b> of a <i>Group</i>"
-    class Group {
-        +related.members: User[]
-    }
-
-    note for CatProfile "<i>Users</i> in owners and from specified <i>Group</i> are allowed to <b>edit</b>. \nHowever <i>CatProfile</i> <b>owners</b> cannot <b>foster</b> a Cat. \nImplicitly, anyone can <b>view</b> CatProfile"
-    class CatProfile {
-        +related.editors: Group.members[]
-        +related.owners: User[]
-
-        +permits.edit(ctx: Context): boolean
-        +permits.foster(ctx: Context): boolean
-    }
-
-    note for Fostering "<i>Users</i> can <b>participate</b> in <i>Fostering</i> activities. \nHowever, only <i>CatProfile</i> <i>owners</i> can <b>approve</b> and <b>reject</b> a <i>Fostering</i> request. \nAlso, <i>Users</i> who are <b>fosterUsers</b> can <b>edit</b> <i>Fostering</i> activities. \nBoth <i>CatProfile</i> <i>owners</i> and <i>fosterUsers</i> can <b>read</b> <i>Fostering</i> activities."
-
-    class Fostering {
-        +related.catProfiles: CatProfile[]
-        +related.fosterUsers: User[]
-
-        +permits.approve(ctx: Context): boolean
-        +permits.reject(ctx: Context): boolean
-        +permits.edit(ctx: Context): boolean
-        +permits.read(ctx: Context): boolean
-    }
-```
-
-> **Note**
-> The relations [are always defined as arrays](https://www.ory.sh/docs/keto/modeling/create-permission-model#define-relationships-in-the-opl) to allow multiple users or groups to be associated with a specific entity. The permissions are defined as functions that receive a context object and return a boolean value based on the user's authorization level.
+Check out the complete [Ory Integration guide](https://dev.to/getlarge/integrate-ory-in-a-nestjs-application-4llo) to learn how to integrate Ory Kratos and Ory Keto into your NestJS application.
