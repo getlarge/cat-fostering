@@ -8,10 +8,10 @@
     "ory:generate:network": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts network -e .env.staging",
     "ory:generate": "npm run ory:generate:kratos && npm run ory:generate:keto && npm run ory:generate:network",
     "ory:update:network": "ts-node --project tools/tsconfig.json tools/ory/update-network-config.ts network -e .env.staging",
-    "docker:dev:up": "docker compose -p cat-fostering --env-file .env up -d",
-    "docker:dev:down": "docker compose -p cat-fostering --env-file .env down",
+    "docker:dev:up": "docker compose -p cat-fostering up -d",
+    "docker:dev:down": "docker compose -p cat-fostering down",
     "docker:dev:log": "docker compose -p cat-fostering logs -f --tail=100",
-    "docker:dev:clean": "docker compose -p cat-fostering --env-file .env down -v --rmi all",
+    "docker:dev:clean": "docker compose -p cat-fostering down -v --rmi all",
     "docker:caddy:build": "docker buildx build infra/caddy -f infra/caddy/Dockerfile -t ghcr.io/getlarge/cat-fostering/caddy --load",
     "docker:caddy:push": "docker buildx build infra/caddy -f infra/caddy/Dockerfile --platform linux/amd64,linux/arm64 -t ghcr.io/getlarge/cat-fostering/caddy --push"
   },

@@ -20,7 +20,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-export const createTestConnection = async (envFilePath = '.env.ci') => {
+const getConnectionOptions = (envFilePath = '.env.test') => {
   const variables = existsSync(envFilePath)
     ? parse(readFileSync(envFilePath))
     : {};
@@ -29,14 +29,26 @@ export const createTestConnection = async (envFilePath = '.env.ci') => {
   const source = error
     ? { ...process.env, ...variables }
     : { ...parsed, ...variables };
-  const options = {
+
+  const database = source['POSTGRES_DB'];
+  const username = source['POSTGRES_USER'];
+  const password = source['POSTGRES_PASSWORD'];
+  const url = new URL(source['POSTGRES_URL']);
+  url.username = username || url.username;
+  url.password = password || url.password;
+  url.pathname = database ? `/${database}` : url.pathname;
+  return {
     type: 'postgres',
-    url: source.POSTGRES_URL,
+    url: url.toString(),
     synchronize: true,
     dropSchema: true,
     logging: false,
     entities: [UserSchema, CatProfileSchema, FosteringSchema],
   } satisfies Partial<DataSourceOptions>;
+};
+
+export const createTestConnection = async (envFilePath = '.env.test') => {
+  const options = getConnectionOptions(envFilePath);
   const urlObject = new URL(options.url);
   const database = urlObject.pathname.replace('/', '');
   const username = urlObject.username;
@@ -48,7 +60,7 @@ export const createTestConnection = async (envFilePath = '.env.ci') => {
       const mainDatababase = 'postgres';
       const adminConn = await new DataSource({
         ...options,
-        url: source.POSTGRES_URL.replace(database, mainDatababase),
+        url: options.url.replace(database, mainDatababase),
       }).initialize();
       await adminConn.query(`CREATE DATABASE ${database}`);
       await adminConn.query(

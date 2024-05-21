@@ -15,6 +15,9 @@
         "local": {
           "buildTarget": "cat-fostering-api:build:local"
         },
+        "ci": {
+          "buildTarget": "cat-fostering-api:build:development"
+        },
         "development": {
           "buildTarget": "cat-fostering-api:build:development"
         },

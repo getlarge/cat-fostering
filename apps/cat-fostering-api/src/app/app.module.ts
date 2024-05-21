@@ -23,7 +23,9 @@ import {
         path.join(
           'apps',
           'cat-fostering-api',
-          process.env['NODE_ENV'] === 'test' ? '.env.ci' : '.env'
+          ['local', 'development'].includes(process.env['NODE_ENV'])
+            ? '.env'
+            : `.env.${process.env['NODE_ENV']}`
         )
       ),
     }),
