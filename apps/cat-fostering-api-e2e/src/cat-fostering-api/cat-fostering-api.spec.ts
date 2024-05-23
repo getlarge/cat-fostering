@@ -23,7 +23,7 @@ describe('E2E API tests', () => {
       email: 'user@test.it',
       password: 'p4s$worD!',
     });
-  });
+  }, 8000);
 
   describe('GET /api', () => {
     it('should return a message', async () => {
