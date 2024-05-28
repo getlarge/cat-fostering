@@ -14,6 +14,19 @@ module.exports = {
       assets: ['./src/assets'],
       optimization: false,
       outputHashing: 'none',
+      transformers: [
+        {
+          name: '@nestjs/swagger/plugin',
+          options: {
+            classValidatorShim: true,
+            dtoFileNameSuffix: ['-entities.ts', '.dto.ts'],
+            controllerFileNameSuffix: ['.controller.ts'],
+            dtoKeyOfComment: 'description',
+            controllerKeyOfComment: 'description',
+            introspectComments: true,
+          },
+        },
+      ],
     }),
   ],
 };

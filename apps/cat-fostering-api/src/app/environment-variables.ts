@@ -84,6 +84,14 @@ export class EnvironmentVariables {
 
   @SecretValue()
   ORY_ACTION_API_KEY: string;
+
+  /**
+   * @see tools/ory/mappings.ts
+   */
+  @Expose()
+  @IsString()
+  @IsOptional()
+  ORY_SESSION_COOKIE_NAME?: string = 'ory_kratos_session';
 }
 
 export function validateEnvironmentVariables(
