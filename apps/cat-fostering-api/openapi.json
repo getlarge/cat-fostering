@@ -1,0 +1,794 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api": {
+      "get": {
+        "operationId": "AppController_getData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/users/on-sign-up": {
+      "post": {
+        "operationId": "UsersController_onSignUp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnOrySignUpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnOrySignUpDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "ory-action": []
+          }
+        ]
+      }
+    },
+    "/api/users/on-sign-in": {
+      "post": {
+        "operationId": "UsersController_onSignIn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnOrySignInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnOrySignInDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "ory-action": []
+          }
+        ]
+      }
+    },
+    "/api/users/current-user": {
+      "get": {
+        "operationId": "UsersController_getCurrentUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/cat-profiles": {
+      "get": {
+        "operationId": "CatProfilesController_find",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CatProfile"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "cat-profiles"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "CatProfilesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCatProfile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatProfile"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "cat-profiles"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/cat-profiles/{id}": {
+      "get": {
+        "operationId": "CatProfilesController_findById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatProfile"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "cat-profiles"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "CatProfilesController_updateById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCatProfile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatProfile"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "cat-profiles"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "CatProfilesController_deleteById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "cat-profiles"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/fostering": {
+      "get": {
+        "operationId": "FosteringController_find",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fostering"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fostering"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "FosteringController_request",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestFostering"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fostering"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fostering"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/fostering/{id}": {
+      "get": {
+        "operationId": "FosteringController_findById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fostering"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fostering"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/fostering/{id}/approve": {
+      "patch": {
+        "operationId": "FosteringController_approve",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fostering"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "fostering"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/fostering/{id}/reject": {
+      "patch": {
+        "operationId": "FosteringController_reject",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "fostering"
+        ],
+        "security": [
+          {
+            "cookie": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Cat Fostering API",
+    "description": "Cat Fostering OpenAPI specifications",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": ""
+    },
+    {
+      "name": "cat-profiles",
+      "description": ""
+    },
+    {
+      "name": "fostering",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "ory-action": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-ory-api-key"
+      },
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "ory_kratos_session"
+      }
+    },
+    "schemas": {
+      "OryIdentityTraitDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "OryIdentityDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "schema_id": {
+            "type": "string"
+          },
+          "schema_url": {
+            "type": "string"
+          },
+          "traits": {
+            "$ref": "#/components/schemas/OryIdentityTraitDto"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive"
+            ]
+          },
+          "recovery_addresses": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "verifiable_addresses": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "credentials": {
+            "type": "object"
+          },
+          "metadata_public": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "required": true,
+                "type": "string"
+              }
+            }
+          },
+          "metadata_admin": {
+            "type": "object"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "state_changed_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "schema_id",
+          "schema_url",
+          "traits",
+          "metadata_public"
+        ]
+      },
+      "OnOrySignUpDto": {
+        "type": "object",
+        "properties": {
+          "identity": {
+            "$ref": "#/components/schemas/OryIdentityDto"
+          }
+        },
+        "required": [
+          "identity"
+        ]
+      },
+      "OnOrySignInDto": {
+        "type": "object",
+        "properties": {
+          "identity": {
+            "$ref": "#/components/schemas/OryIdentityDto"
+          }
+        },
+        "required": [
+          "identity"
+        ]
+      },
+      "Fostering": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "startDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "endDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "type": "string"
+          },
+          "catProfile": {
+            "$ref": "#/components/schemas/CatProfile"
+          },
+          "participant": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "id",
+          "startDate",
+          "endDate",
+          "status",
+          "catProfile",
+          "participant"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 32
+          },
+          "email": {
+            "type": "string"
+          },
+          "catProfiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CatProfile"
+            }
+          },
+          "fosteringActivities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Fostering"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email"
+        ]
+      },
+      "CatProfile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 32
+          },
+          "age": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 300
+          },
+          "photosUrls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          },
+          "fosterings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Fostering"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "age",
+          "description",
+          "photosUrls",
+          "owner"
+        ]
+      },
+      "CreateCatProfile": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 32
+          },
+          "age": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "name",
+          "age",
+          "description"
+        ]
+      },
+      "UpdateCatProfile": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 32
+          },
+          "age": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 300
+          }
+        }
+      },
+      "RequestFostering": {
+        "type": "object",
+        "properties": {
+          "catProfileId": {
+            "type": "string"
+          },
+          "startDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "endDate": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "catProfileId",
+          "startDate",
+          "endDate"
+        ]
+      }
+    }
+  }
+}
