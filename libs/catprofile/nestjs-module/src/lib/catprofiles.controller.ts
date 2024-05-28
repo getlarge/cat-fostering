@@ -21,6 +21,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 
 import { CatProfilesService } from './catprofiles.service';
 import {
@@ -28,8 +29,8 @@ import {
   isEditorPermission,
   isOwnerPermission,
 } from './helpers';
-import { CreateCatProfile } from './models/create-catprofile';
-import { UpdateCatProfile } from './models/update-catprofile';
+import { CreateCatProfile } from './models/create-catprofile.dto';
+import { UpdateCatProfile } from './models/update-catprofile.dto';
 
 const AuthenticationGuard = (): Type<CanActivate> =>
   OryAuthenticationGuard({
@@ -75,6 +76,10 @@ const AuthorizationGuard = (): Type<CanActivate> =>
     },
   });
 
+
+@ApiBearerAuth()
+@ApiCookieAuth()
+@ApiTags('cat-profiles')
 @Controller('cat-profiles')
 export class CatProfilesController {
   constructor(private readonly catProfilesService: CatProfilesService) {}

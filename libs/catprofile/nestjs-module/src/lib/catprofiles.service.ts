@@ -11,8 +11,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 
 import { adminRelationQuery, ownerRelationQuery } from './helpers';
-import { CreateCatProfile } from './models/create-catprofile';
-import { UpdateCatProfile } from './models/update-catprofile';
+import { CreateCatProfile } from './models/create-catprofile.dto';
+import { UpdateCatProfile } from './models/update-catprofile.dto';
 
 @Injectable()
 export class CatProfilesService {

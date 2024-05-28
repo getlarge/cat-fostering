@@ -6,7 +6,7 @@ import {
 import type { ExecutionContext } from '@nestjs/common';
 import type { Request } from 'express';
 
-import { RequestFostering } from './models/request-fostering';
+import { RequestFostering } from './models/request-fostering.dto';
 
 export const participantRelationQuery = (
   fosteringId: string,

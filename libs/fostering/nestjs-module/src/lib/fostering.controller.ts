@@ -20,6 +20,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 
 import { FosteringService } from './fostering.service';
 import {
@@ -28,7 +29,7 @@ import {
   canRejectFosteringPermission,
   canRequestFosteringPermission,
 } from './helpers';
-import { RequestFostering } from './models/request-fostering';
+import { RequestFostering } from './models/request-fostering.dto';
 
 const AuthenticationGuard = (): Type<CanActivate> =>
   OryAuthenticationGuard({
@@ -74,6 +75,9 @@ const AuthorizationGuard = (): Type<CanActivate> =>
     },
   });
 
+@ApiBearerAuth()
+@ApiCookieAuth()
+@ApiTags('fostering')
 @Controller('fostering')
 export class FosteringController {
   constructor(private readonly fosteringService: FosteringService) {}

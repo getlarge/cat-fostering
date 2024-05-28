@@ -15,7 +15,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
 
 import { catProfileRelationQuery, participantRelationQuery } from './helpers';
-import { RequestFostering } from './models/request-fostering';
+import { RequestFostering } from './models/request-fostering.dto';
 
 @Injectable()
 export class FosteringService {

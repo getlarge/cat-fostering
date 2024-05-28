@@ -17,6 +17,12 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiCookieAuth,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import type { Request } from 'express';
 
 import { OryActionGuard } from './guards/ory-action.guard';
@@ -27,9 +33,11 @@ import { OryWebhookError } from './models/ory-webhook.error';
 import { UsersService } from './users.service';
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiSecurity('ory-action')
   @UseGuards(OryActionGuard)
   @UsePipes(
     new ValidationPipe({
@@ -51,6 +59,7 @@ export class UsersController {
     return this.usersService.onSignUp(body);
   }
 
+  @ApiSecurity('ory-action')
   @UseGuards(OryActionGuard)
   @UsePipes(
     new ValidationPipe({
@@ -72,6 +81,8 @@ export class UsersController {
     return this.usersService.onSignIn(body);
   }
 
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   @UseGuards(
     OryAuthenticationGuard({
       cookieResolver: (ctx) =>
