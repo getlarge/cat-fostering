@@ -64,9 +64,8 @@ services:
       - ./infra/ory-kratos:/etc/config/kratos:ro
     networks:
       - ory
-    # for docker on linux
-    # extra_hosts:
-    #   - "host.docker.internal:host-gateway"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   kratos-postgres:
     image: postgres:16
@@ -84,7 +83,7 @@ services:
     image: oryd/kratos-selfservice-ui-node:v1.0.0
     environment:
       - KRATOS_PUBLIC_URL=http://kratos:4433
-      - KRATOS_BROWSER_URL=http://127.0.0.1:4433
+      - KRATOS_BROWSER_URL=${KRATOS_BROWSER_URL:-http://127.0.0.1:4433}
       - PORT=4455
     ports:
       - '4455:4455'
