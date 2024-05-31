@@ -13,6 +13,7 @@ import {
   IsString,
   IsUrl,
   Length,
+  ValidateIf,
   validateSync,
 } from 'class-validator';
 
@@ -248,6 +249,48 @@ export class KratosMappings extends KeywordMappings {
   @IsOptional()
   @IsString()
   kratos_selfservice_flows_verification_after_hook_config_auth_config_value?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsUrl(isUrlOptions)
+  kratos_selfservice_methods_oidc_config_base_redirect_uri?: string =
+    'http://localhost:4433/';
+
+  /**
+   * When enabled, a redirect to the following URL will be performed after the user has signed in with the social sign-in provider.
+   * http(s)://<domain-of-ory-kratos>:<public-port>/self-service/methods/oidc/callback/<kratos_selfservice_methods_oidc_config_providers_0_id>
+   */
+  @Expose()
+  @IsString()
+  @ValidateIf(
+    (object) =>
+      object['kratos_selfservice_methods_oidc_enabled'] === true ||
+      object['kratos_selfservice_methods_oidc_enabled'] === 'true'
+  )
+  kratos_selfservice_methods_oidc_config_providers_0_id?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_methods_oidc_config_providers_0_client_id?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_methods_oidc_config_providers_0_client_secret?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  kratos_selfservice_methods_oidc_config_providers_0_mapper_url?: string;
+
+  @Expose()
+  @Transform(({ obj, key }) => strToBool(obj[key]), {
+    toClassOnly: true,
+  })
+  @IsOptional()
+  @IsBoolean()
+  kratos_selfservice_methods_oidc_enabled?: boolean = false;
 
   @Expose()
   @IsOptional()

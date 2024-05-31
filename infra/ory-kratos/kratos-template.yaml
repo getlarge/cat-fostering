@@ -109,6 +109,21 @@ selfservice:
         hooks: []
         oidc:
           hooks:
+          - hook: web_hook
+            config:
+              method: '##kratos_selfservice_flows_registration_after_hook_config_method##'
+              auth:
+                type: api_key
+                config:
+                  value: '##kratos_selfservice_flows_registration_after_hook_config_auth_config_value##'
+                  in: header
+                  name: X-Ory-API-Key
+              url: '##kratos_selfservice_flows_registration_after_hook_config_url##'
+              body: '##kratos_selfservice_flows_registration_after_hook_config_body##'
+              can_interrupt: ##kratos_selfservice_flows_registration_after_hook_config_can_interrupt##
+              response:
+                ignore: ##kratos_selfservice_flows_registration_after_hook_config_response_ignore##
+                parse: ##kratos_selfservice_flows_registration_after_hook_config_response_parse##
           - hook: show_verification_ui
         # passkey:
         #   hooks:
@@ -176,6 +191,7 @@ selfservice:
       notify_unknown_recipients: false
       ui_url: '##kratos_selfservice_flows_verification_ui_url##'
       use: code
+
   methods:
     code:
       config:
@@ -189,11 +205,23 @@ selfservice:
         lifespan: 15m0s
       enabled: true
     lookup_secret:
-      enabled: false
+      enabled: true
     oidc:
       config:
-        providers: []
-      enabled: false
+        base_redirect_uri: "##kratos_selfservice_methods_oidc_config_base_redirect_uri##"
+        providers:
+          - id: "##kratos_selfservice_methods_oidc_config_providers_0_id##"
+            provider: github
+            client_id: "##kratos_selfservice_methods_oidc_config_providers_0_client_id##"
+            client_secret: "##kratos_selfservice_methods_oidc_config_providers_0_client_secret##"
+            issuer_url: https://github.com
+            auth_url: https://github.com/login/oauth/authorize
+            token_url: https://github.com/login/oauth/access_token
+            subject_source: userinfo
+            scope:
+              - "user:email"
+            mapper_url: "##kratos_selfservice_methods_oidc_config_providers_0_mapper_url##"
+      enabled: ##kratos_selfservice_methods_oidc_enabled##
     # passkey:
     #   config:
     #     rp:
