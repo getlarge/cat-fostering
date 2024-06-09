@@ -18,6 +18,7 @@
                   "type:api",
                   "type:const",
                   "type:core",
+                  "type:data-access",
                   "type:env",
                   "type:utils",
                   "type:testing"
@@ -51,6 +52,7 @@
                 "onlyDependOnLibsWithTags": [
                   "type:const",
                   "type:core",
+                  "type:data-access",
                   "type:env",
                   "type:utils"
                 ]
@@ -63,6 +65,16 @@
                 "sourceTag": "type:testing",
                 "onlyDependOnLibsWithTags": [
                   "type:const",
+                  "type:env",
+                  "type:utils"
+                ]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": [
+                  "type:const",
+                  "type:core",
+                  "type:data-access",
                   "type:env",
                   "type:utils"
                 ]

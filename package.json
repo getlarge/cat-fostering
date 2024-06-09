@@ -36,6 +36,7 @@
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
+    "@rx-angular/state": "17.2.0",
     "axios": "^1.6.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
