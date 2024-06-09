@@ -1,0 +1,9 @@
+{
+  "name": "ng-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ng-shared/data-access/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:data-access", "platform:angular"],
+  "// targets": "to see all targets run: nx show project ng-data-access --web",
+  "targets": {}
+}

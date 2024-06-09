@@ -2,8 +2,8 @@
   "name": "cat-fostering-api-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "implicitDependencies": ["cat-fostering-api"],
   "tags": ["type:test", "platform:node"],
+  "implicitDependencies": ["cat-fostering-api"],
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",

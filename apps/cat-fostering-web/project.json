@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/cat-fostering-web/src",
-  "tags": [],
+  "tags": ["type:app", "platform:angular"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -78,9 +78,15 @@
       }
     },
     "extract-openapi-spec": {
-      "inputs": ["apps/cat-fostering-api/openapi.json"],
-      "outputs": ["libs/ng/data-access/src/lib/**/*.ts"],
-      "command": "npx openapi-generator-cli generate -i apps/cat-fostering-api/openapi.json -g typescript-angular -o libs/data-access/src/lib"
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx openapi-generator-cli generate -i apps/cat-fostering-api/openapi.json -g typescript-angular -o libs/ng-shared/data-access/src/lib --skip-validate-spec",
+          "nx run ng-data-access:lint --fix",
+          "nx format --projects ng-data-access"
+        ],
+        "parallel": false
+      }
     }
   }
 }
