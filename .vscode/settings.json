@@ -1,0 +1,7 @@
+{
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/ory/kratos/master/.schema/version.schema.json": [
+      ".kratos.yaml"
+    ]
+  }
+}

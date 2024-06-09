@@ -25,7 +25,10 @@
       "@cat-fostering/nestjs-user-module": [
         "libs/user/nestjs-module/src/index.ts"
       ],
-      "@cat-fostering/nestjs-utils": ["libs/shared/nestjs-utils/src/index.ts"]
+      "@cat-fostering/nestjs-utils": ["libs/shared/nestjs-utils/src/index.ts"],
+      "@cat-fostering/ng-catprofile-components": [
+        "libs/catprofile/ng-components/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
