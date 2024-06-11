@@ -28,7 +28,24 @@ async function bootstrap() {
       bufferLogs: true,
     }
   );
+  const configService =
+    app.get<ConfigService<EnvironmentVariables, true>>(ConfigService);
+
   app.disable('x-powered-by');
+  if (configService.get('NODE_ENV') === 'development') {
+    app.enableCors({
+      allowedHeaders: [
+        'Origin',
+        'X-Requested-With',
+        'Content-Type',
+        'Accept',
+        'Authorization',
+        'Cookie',
+      ],
+      credentials: true,
+      origin: true,
+    });
+  }
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
@@ -36,9 +53,6 @@ async function bootstrap() {
   const logger = app.get(Logger);
   app.useLogger(logger);
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
-
-  const configService =
-    app.get<ConfigService<EnvironmentVariables, true>>(ConfigService);
 
   // Generate OpenAPI spec
   const docBuilder = new DocumentBuilder()
