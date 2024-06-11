@@ -29,18 +29,24 @@
       "@cat-fostering/ng-catprofile-components": [
         "libs/catprofile/ng-components/src/index.ts"
       ],
+      "@cat-fostering/ng-catprofile-state": [
+        "libs/catprofile/ng-state/src/index.ts"
+      ],
       "@cat-fostering/ng-data-acess": [
         "libs/ng-shared/data-access/src/index.ts"
       ],
-      "@catfostering/ng-catprofile-state": [
-        "libs/catprofile/ng-state/src/index.ts"
-      ],
-      "@catfostering/ng-fostering-components": [
+      "@cat-fostering/ng-env": ["libs/ng-shared/env/src/index.ts"],
+      "@cat-fostering/ng-fostering-components": [
         "libs/fostering/ng-components/src/index.ts"
       ],
-      "@catfostering/ng-fostering-state": [
+      "@cat-fostering/ng-fostering-state": [
         "libs/fostering/ng-state/src/index.ts"
-      ]
+      ],
+      "@cat-fostering/ng-state": ["libs/ng-shared/state/src/index.ts"],
+      "@cat-fostering/ng-user-components": [
+        "libs/user/ng-components/src/index.ts"
+      ],
+      "@cat-fostering/ng-user-state": ["libs/user/ng-state/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

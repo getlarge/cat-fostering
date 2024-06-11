@@ -20,6 +20,7 @@
                   "type:core",
                   "type:data-access",
                   "type:env",
+                  "type:ui",
                   "type:utils",
                   "type:testing"
                 ]

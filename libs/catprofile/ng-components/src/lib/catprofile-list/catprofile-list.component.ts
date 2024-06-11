@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { CatProfileStateService } from '@cat-fostering/ng-catprofile-state';
 import { CatProfile } from '@cat-fostering/ng-data-acess';
-import { CatProfileStateService } from '@catfostering/ng-catprofile-state';
 
 @Component({
+  standalone: true,
   selector: 'lib-catprofile-list',
   templateUrl: './catprofile-list.component.html',
   styleUrls: ['./catprofile-list.component.css'],

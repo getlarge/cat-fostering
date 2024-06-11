@@ -1,1 +1,4 @@
-<app-nx-welcome></app-nx-welcome> <router-outlet></router-outlet>
+<button *ngIf="userState.get().isAuthenticated" (click)="logout()">
+  Logout
+</button>
+<router-outlet></router-outlet>

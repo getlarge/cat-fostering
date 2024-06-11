@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FosteringStateService } from '@catfostering/ng-fostering-state';
+import { FosteringStateService } from '@cat-fostering/ng-fostering-state';
 
 @Component({
+  standalone: true,
   selector: 'lib-fostering-request',
   templateUrl: './fostering-request.component.html',
   styleUrls: ['./fostering-request.component.css'],
