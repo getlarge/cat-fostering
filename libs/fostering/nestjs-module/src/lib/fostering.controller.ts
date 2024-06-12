@@ -38,7 +38,8 @@ const AuthenticationGuard = (): Type<CanActivate> =>
       ctx
         .switchToHttp()
         .getRequest()
-        .headers?.authorization?.replace('Bearer ', ''),
+        .headers?.authorization?.replace('Bearer', '')
+        ?.trim(),
     postValidationHook: (ctx, session) => {
       if (!isValidOrySession(session)) {
         throw new HttpException(

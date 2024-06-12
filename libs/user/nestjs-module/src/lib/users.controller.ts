@@ -12,6 +12,7 @@ import {
   HttpCode,
   HttpException,
   HttpStatus,
+  Logger,
   Post,
   UseGuards,
   UsePipes,
@@ -91,7 +92,8 @@ export class UsersController {
         ctx
           .switchToHttp()
           .getRequest<Request>()
-          .headers?.authorization?.replace('Bearer ', '') ?? '',
+          .headers?.authorization?.replace('Bearer', '')
+          ?.trim() ?? '',
       postValidationHook: (ctx, session) => {
         const request = ctx.switchToHttp().getRequest<
           Request & {
@@ -113,7 +115,8 @@ export class UsersController {
           identityId: session.identity.id,
         };
       },
-      unauthorizedFactory: () => {
+      unauthorizedFactory: (ctx, error) => {
+        Logger.error(error);
         return new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
       },
     })

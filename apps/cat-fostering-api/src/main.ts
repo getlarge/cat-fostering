@@ -32,7 +32,8 @@ async function bootstrap() {
     app.get<ConfigService<EnvironmentVariables, true>>(ConfigService);
 
   app.disable('x-powered-by');
-  if (configService.get('NODE_ENV') === 'development') {
+  const localEnv = ['local', 'development', 'test', 'ci'];
+  if (localEnv.includes(configService.get('NODE_ENV'))) {
     app.enableCors({
       allowedHeaders: [
         'Origin',
