@@ -87,9 +87,8 @@ function getOryMappings<T extends KeywordMappings>(
   cls: ClassConstructor<T>,
   envFilePath: string
 ): T {
-  const processEnv: Record<string, string> = {};
-  const { parsed } = dotenv.config({ path: envFilePath, processEnv });
-  const result = expand({ parsed, ignoreProcessEnv: true });
+  const { parsed } = dotenv.config({ path: envFilePath });
+  const result = expand({ parsed, ignoreProcessEnv: false });
   return validateMappings(cls, result.parsed);
 }
 

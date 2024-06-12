@@ -103,6 +103,12 @@ export class KratosMappings extends KeywordMappings {
   kratos_selfservice_flows_login_ui_url?: string = `${DEFAULT_SELF_SERVICE_UI_URL}/login`;
 
   @Expose()
+  @IsOptional()
+  @IsUrl(isUrlOptions)
+  kratos_selfservice_flows_login_default_browser_return_url?: string =
+    DEFAULT_SELF_SERVICE_UI_URL;
+
+  @Expose()
   @Transform(({ obj, key }) => strToBool(obj[key]), {
     toClassOnly: true,
   })
@@ -128,6 +134,12 @@ export class KratosMappings extends KeywordMappings {
   @IsBoolean()
   kratos_selfservice_flows_login_after_hook_config_response_parse?: boolean =
     false;
+
+  @Expose()
+  @IsOptional()
+  @IsUrl(isUrlOptions)
+  kratos_selfservice_flows_logout_default_browser_return_url?: string =
+    DEFAULT_SELF_SERVICE_UI_URL;
 
   @Expose()
   @IsOptional()
