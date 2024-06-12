@@ -32,6 +32,9 @@
       "@cat-fostering/ng-catprofile-state": [
         "libs/catprofile/ng-state/src/index.ts"
       ],
+      "@cat-fostering/ng-components": [
+        "libs/ng-shared/components/src/index.ts"
+      ],
       "@cat-fostering/ng-data-acess": [
         "libs/ng-shared/data-access/src/index.ts"
       ],

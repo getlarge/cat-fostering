@@ -1,4 +1,6 @@
-<button *ngIf="userState.get().isAuthenticated" (click)="logout()">
-  Logout
-</button>
+<lib-header
+  [isAuthenticated]="isAuthenticated$ | async"
+  (logout)="logout()"
+  (login)="login()"
+></lib-header>
 <router-outlet></router-outlet>

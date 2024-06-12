@@ -1,11 +1,17 @@
 import { Route } from '@angular/router';
-import { LoginComponent } from '@cat-fostering/ng-user-components';
+import { NotFoundPageComponent } from '@cat-fostering/ng-components';
 
 import { authenticationGuard } from './auth.guard';
+import { kratosUrlProvider } from './kratos-url.provider';
 
 export const appRoutes: Route[] = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: 'cat-profiles',
+  },
+  {
+    path: 'cat-profiles',
     canActivate: [authenticationGuard()],
     loadComponent: () =>
       import('@cat-fostering/ng-catprofile-components').then(
@@ -13,21 +19,35 @@ export const appRoutes: Route[] = [
       ),
   },
   {
-    path: 'cat-profile/:identifier',
+    path: 'cat-profiles/:identifier',
     canActivate: [authenticationGuard()],
     loadComponent: () =>
       import('@cat-fostering/ng-catprofile-components').then(
-        (m) => m.CatProfileComponent
+        (m) => m.CatProfileDetailComponent
       ),
   },
   {
     path: 'fostering-requests',
+    canActivate: [authenticationGuard()],
     loadComponent: () =>
       import('@cat-fostering/ng-fostering-components').then(
         (m) => m.FosteringRequestComponent
       ),
-    canActivate: [authenticationGuard()],
   },
-  { path: 'login', component: LoginComponent },
+  // {
+  //   path: 'fostering-requests/:indentifier',
+  //   canActivate: [authenticationGuard()],
+  //   loadComponent: () =>
+  //     import('@cat-fostering/ng-fostering-components').then(
+  //       (m) => m.FosteringRequestComponent
+  //     ),
+  // },
+  {
+    path: 'login',
+    resolve: {
+      url: kratosUrlProvider,
+    },
+    component: NotFoundPageComponent,
+  },
   // TODO: add catch-all route and page-not-found route
 ];

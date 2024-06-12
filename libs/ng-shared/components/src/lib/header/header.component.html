@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <button mat-button routerLink="/">Home</button>
+  <button mat-button routerLink="/cat-profiles">Cat Profiles</button>
+  <button mat-button routerLink="/fostering-requests">
+    Fostering Requests
+  </button>
+  <span class="spacer"></span>
+  <button mat-button *rxIf="isAuthenticated" (click)="logout.emit()">
+    Logout
+  </button>
+  <button mat-button *rxIf="!isAuthenticated" (click)="login.emit()">
+    Login
+  </button>
+</mat-toolbar>
