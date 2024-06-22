@@ -2,6 +2,7 @@
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { User, UsersService } from '@cat-fostering/ng-data-acess';
 import { environment } from '@cat-fostering/ng-env';
 import { WithContext, withLoadingEmission } from '@cat-fostering/ng-state';
@@ -23,6 +24,7 @@ interface Actions {
   providedIn: 'root',
 })
 export class UserStateService extends RxState<UserState> {
+  private readonly router = inject(Router);
   private readonly document = inject(DOCUMENT);
   private readonly usersService = inject(UsersService);
   private readonly httpClient = inject(HttpClient);
@@ -37,7 +39,6 @@ export class UserStateService extends RxState<UserState> {
 
   constructor() {
     super();
-    this.initialize();
 
     this.connect(
       'user',
@@ -67,6 +68,8 @@ export class UserStateService extends RxState<UserState> {
         return resultState;
       }
     );
+
+    this.initialize();
   }
 
   initialize(): void {
@@ -86,7 +89,13 @@ export class UserStateService extends RxState<UserState> {
     );
 
   login() {
-    this.document.location.href = `${environment.kratosUrl}/self-service/login/browser`;
+    // this.document.location.href = `${environment.kratosUrl}/self-service/login/browser`;
+    this.router.navigate([
+      '/login',
+      {
+        selfServiceLogin: `${environment.kratosUrl}/self-service/login/browser`,
+      },
+    ]);
   }
 
   logout() {

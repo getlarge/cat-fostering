@@ -19,7 +19,7 @@ export const appRoutes: Route[] = [
       ),
   },
   {
-    path: 'cat-profiles/:identifier',
+    path: 'cat-profiles/:id',
     canActivate: [authenticationGuard()],
     loadComponent: () =>
       import('@cat-fostering/ng-catprofile-components').then(
@@ -35,7 +35,7 @@ export const appRoutes: Route[] = [
       ),
   },
   // {
-  //   path: 'fostering-requests/:indentifier',
+  //   path: 'fostering-requests/:id',
   //   canActivate: [authenticationGuard()],
   //   loadComponent: () =>
   //     import('@cat-fostering/ng-fostering-components').then(

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FosteringStateService } from '@cat-fostering/ng-fostering-state';
 
 @Component({
@@ -6,6 +6,7 @@ import { FosteringStateService } from '@cat-fostering/ng-fostering-state';
   selector: 'lib-fostering-request',
   templateUrl: './fostering-request.component.html',
   styleUrls: ['./fostering-request.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FosteringRequestComponent {
   requests$ = this.fosteringState.select('requests');

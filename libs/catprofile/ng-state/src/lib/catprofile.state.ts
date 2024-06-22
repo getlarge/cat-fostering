@@ -1,51 +1,65 @@
 import { inject, Injectable } from '@angular/core';
-import { CatProfile, CatProfilesService } from '@cat-fostering/ng-data-acess';
+import { Router } from '@angular/router';
+import {
+  CatProfile,
+  CatProfilesService,
+  CreateCatProfile,
+  UpdateCatProfile,
+} from '@cat-fostering/ng-data-acess';
 import {
   optimizedFetch,
   WithContext,
   withLoadingEmission,
 } from '@cat-fostering/ng-state';
-import { patch, toDictionary } from '@rx-angular/cdk/transformations';
+import {
+  deleteProp,
+  patch,
+  toDictionary,
+} from '@rx-angular/cdk/transformations';
 import { RxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
-import { map } from 'rxjs';
+import { concatMap, map, merge, tap } from 'rxjs';
 
 export interface CatProfileState {
-  cats: WithContext<Record<string, CatProfile>>;
-  selectedCat: WithContext<CatProfile | null>;
+  catProfiles: WithContext<Record<string, CatProfile>>;
+  selectedCatProfile: WithContext<CatProfile | null>;
 }
 
 interface Actions {
   findCatProfile: string;
   findCatProfiles: void;
+  createCatProfile: CreateCatProfile;
+  updateCatProfile: [string, UpdateCatProfile];
+  deleteCatProfile: CatProfile;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CatProfileStateService extends RxState<CatProfileState> {
+  private readonly router = inject(Router);
   private readonly catProfilesService = inject(CatProfilesService);
   private readonly actions = rxActions<Actions>();
 
   constructor() {
     super();
     this.set({
-      cats: { value: {} },
-      selectedCat: { value: null },
+      catProfiles: { value: {} },
+      selectedCatProfile: { value: null },
     });
 
     this.connect(
-      'cats',
-      this.actions.findCatProfile$.pipe(() =>
+      'catProfiles',
+      this.actions.findCatProfiles$.pipe(() =>
         this.catProfilesService.catProfilesControllerFind().pipe(
           map((result) => ({ value: toDictionary(result, 'id') })),
           withLoadingEmission()
         )
       ),
       (oldState, newPartial) => {
-        const resultState = patch(oldState?.cats || {}, newPartial);
+        const resultState = patch(oldState?.catProfiles || {}, newPartial);
         resultState.value = patch(
-          oldState?.cats?.value || {},
+          oldState?.catProfiles?.value || {},
           resultState?.value || {}
         );
         return resultState;
@@ -53,12 +67,36 @@ export class CatProfileStateService extends RxState<CatProfileState> {
     );
 
     this.connect(
-      'selectedCat',
+      'catProfiles',
+      this.actions.updateCatProfile$,
+      (state, [id, catProfile]) => {
+        if (state && id) {
+          return patch(state.catProfiles, {
+            [id]: patch(state.catProfiles.value?.[id], catProfile),
+          });
+        }
+        return state.catProfiles;
+      }
+    );
+
+    this.connect(
+      'catProfiles',
+      this.actions.deleteCatProfile$,
+      (state, catProfile) => {
+        if (state && catProfile?.id) {
+          return { value: deleteProp(state.catProfiles.value, catProfile.id) };
+        }
+        return state.catProfiles;
+      }
+    );
+
+    this.connect(
+      'selectedCatProfile',
       this.actions.findCatProfile$.pipe(
-        map((id) => ({ id })),
+        // map((id) => ({ id })),
         optimizedFetch(
-          ({ id }) => id,
-          ({ id }) =>
+          (id) => id,
+          (id) =>
             this.catProfilesService.catProfilesControllerFindById(id).pipe(
               map((catProfile) => ({
                 value: catProfile,
@@ -67,31 +105,58 @@ export class CatProfileStateService extends RxState<CatProfileState> {
             )
         )
       ),
-      (oldState, catProfile) => {
-        const val = toDictionary([catProfile.value], 'id');
-        const resultState = patch(oldState?.cats || {}, val);
-        resultState.value = patch(
-          oldState?.cats?.value || {},
-          resultState?.value || {}
-        );
-        return catProfile;
+      (state, catProfile) => {
+        return patch(state?.selectedCatProfile || {}, catProfile);
       }
     );
+
+    this.hold(this.sideEffects$);
+
+    // this.initialize();
   }
 
-  findCatProfile = this.actions.findCatProfile;
-  findCatProfiles = this.actions.findCatProfiles;
+  readonly findCatProfile = this.actions.findCatProfile;
+  readonly findCatProfiles = this.actions.findCatProfiles;
+  readonly createCatProfile = this.actions.createCatProfile;
+  readonly updateCatProfile = this.actions.updateCatProfile;
+  readonly deleteCatProfile = this.actions.deleteCatProfile;
 
-  catByIdCtx = (id: string) =>
+  private readonly sideEffects$ = merge(
+    this.actions.updateCatProfile$.pipe(
+      concatMap(([id, catProfile]) =>
+        this.catProfilesService.catProfilesControllerUpdateById(id, catProfile)
+      )
+    ),
+    this.actions.createCatProfile$.pipe(
+      concatMap((params) =>
+        this.catProfilesService.catProfilesControllerCreate(params)
+      ),
+      tap((params) => params?.id && this.router.navigate(['cat-profiles']))
+    ),
+    this.actions.deleteCatProfile$.pipe(
+      tap((params) => params.id && this.router.navigate(['cat-profiles'])),
+      concatMap((params) =>
+        this.catProfilesService.catProfilesControllerDeleteById(params.id)
+      )
+    )
+  );
+
+  catByIdCtx$ = (id: string) =>
     this.select(
-      map(({ cats: { value, loading } }) => ({
+      map(({ catProfiles: { value, loading } }) => ({
         loading,
         value: value[id],
       }))
     );
 
+  getCatById(id: string) {
+    const catProfiles = this.get('catProfiles')?.value;
+    console.log(catProfiles);
+    return catProfiles[id];
+  }
+
   selectCat(cat: CatProfile) {
-    this.set({ selectedCat: { value: cat } });
+    this.set({ selectedCatProfile: { value: cat } });
   }
 
   initialize(): void {
