@@ -1,0 +1,382 @@
+{
+    "_id": "db218082-017c-4856-b405-97afaa7f82ee",
+    "colName": "Cat Fostering API",
+    "created": "2024-06-11T12:56:07.226Z",
+    "sortNum": 20000,
+    "folders": [
+        {
+            "_id": "150889eb-aaa6-43cc-9250-70c8dc7d20f3",
+            "name": "users",
+            "containerId": "",
+            "created": "2024-06-11T12:56:07.229Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "81c349b5-559a-45bf-9068-2e79e53d32c7",
+            "name": "cat-profiles",
+            "containerId": "",
+            "created": "2024-06-11T12:56:07.230Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "a5bf281f-53eb-4222-b816-a37aa99e3de6",
+            "name": "fostering",
+            "containerId": "",
+            "created": "2024-06-11T12:56:07.231Z",
+            "sortNum": 30000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "edc0e99a-e783-480e-9317-3810025d3536",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "",
+            "name": "AppController_getData",
+            "url": "/api",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-06-11T12:56:07.229Z",
+            "modified": "2024-06-11T12:56:07.229Z",
+            "headers": [],
+            "params": []
+        },
+        {
+            "_id": "39fd04d0-24e7-48a9-b310-bf0697d8d1c4",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "150889eb-aaa6-43cc-9250-70c8dc7d20f3",
+            "name": "UsersController_onSignUp",
+            "url": "/api/users/on-sign-up",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-06-11T12:56:07.230Z",
+            "modified": "2024-06-11T12:56:07.230Z",
+            "headers": [
+                {
+                    "name": "x-ory-api-key",
+                    "value": "{{x-ory-api-key}}"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"identity\": {\n    \"id\": \"thunder\",\n    \"schema_id\": \"thunder\",\n    \"schema_url\": \"thunder\",\n    \"traits\": {\n      \"email\": \"thunder\"\n    },\n    \"state\": \"active\",\n    \"recovery_addresses\": [\n      {}\n    ],\n    \"verifiable_addresses\": [\n      {}\n    ],\n    \"credentials\": {},\n    \"metadata_public\": {\n      \"id\": \"thunder\"\n    },\n    \"metadata_admin\": {},\n    \"created_at\": \"thunder\",\n    \"updated_at\": \"thunder\",\n    \"state_changed_at\": \"thunder\"\n  }\n}"
+            },
+            "auth": {}
+        },
+        {
+            "_id": "14208963-f86c-48b5-8578-41cf049f3535",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "150889eb-aaa6-43cc-9250-70c8dc7d20f3",
+            "name": "UsersController_onSignIn",
+            "url": "/api/users/on-sign-in",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-06-11T12:56:07.231Z",
+            "modified": "2024-06-11T12:56:07.231Z",
+            "headers": [
+                {
+                    "name": "x-ory-api-key",
+                    "value": "{{x-ory-api-key}}"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"identity\": {\n    \"id\": \"thunder\",\n    \"schema_id\": \"thunder\",\n    \"schema_url\": \"thunder\",\n    \"traits\": {\n      \"email\": \"thunder\"\n    },\n    \"state\": \"active\",\n    \"recovery_addresses\": [\n      {}\n    ],\n    \"verifiable_addresses\": [\n      {}\n    ],\n    \"credentials\": {},\n    \"metadata_public\": {\n      \"id\": \"thunder\"\n    },\n    \"metadata_admin\": {},\n    \"created_at\": \"thunder\",\n    \"updated_at\": \"thunder\",\n    \"state_changed_at\": \"thunder\"\n  }\n}"
+            },
+            "auth": {}
+        },
+        {
+            "_id": "74e6bdb0-382a-4942-9d74-f886f8b2f499",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "150889eb-aaa6-43cc-9250-70c8dc7d20f3",
+            "name": "UsersController_getCurrentUser",
+            "url": "/api/users/current-user",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-06-11T12:56:07.232Z",
+            "modified": "2024-06-20T11:12:52.331Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}",
+                    "isDisabled": true
+                }
+            ]
+        },
+        {
+            "_id": "7c35111c-49f2-4738-96cf-2ef6435d882e",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "81c349b5-559a-45bf-9068-2e79e53d32c7",
+            "name": "CatProfilesController_find",
+            "url": "/api/cat-profiles",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-06-11T12:56:07.233Z",
+            "modified": "2024-06-11T12:56:07.233Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        },
+        {
+            "_id": "d67c1758-7cd7-40f2-9f3e-55496acb1e5f",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "81c349b5-559a-45bf-9068-2e79e53d32c7",
+            "name": "CatProfilesController_create",
+            "url": "/api/cat-profiles",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-06-11T12:56:07.234Z",
+            "modified": "2024-06-12T17:52:06.037Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}",
+                    "isDisabled": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Romeo\",\n  \"age\": 2,\n  \"description\": \"light as a feather\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "1f79446a-d9af-40c8-b1c7-02f491092156",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "81c349b5-559a-45bf-9068-2e79e53d32c7",
+            "name": "CatProfilesController_findById",
+            "url": "/api/cat-profiles/{id}",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-06-11T12:56:07.235Z",
+            "modified": "2024-06-11T12:56:07.235Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "isPath": true,
+                    "value": "thunder"
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        },
+        {
+            "_id": "e925e1b4-56d5-4c0a-92f2-ac633d59f51e",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "81c349b5-559a-45bf-9068-2e79e53d32c7",
+            "name": "CatProfilesController_updateById",
+            "url": "/api/cat-profiles/{id}",
+            "method": "PATCH",
+            "sortNum": 80000,
+            "created": "2024-06-11T12:56:07.236Z",
+            "modified": "2024-06-11T12:56:07.236Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "isPath": true,
+                    "value": "thunder"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"thunder\",\n  \"age\": 22,\n  \"description\": \"thunder\"\n}"
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        },
+        {
+            "_id": "50270c07-f68e-41d6-bb37-537581d5073a",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "81c349b5-559a-45bf-9068-2e79e53d32c7",
+            "name": "CatProfilesController_deleteById",
+            "url": "/api/cat-profiles/{id}",
+            "method": "DELETE",
+            "sortNum": 90000,
+            "created": "2024-06-11T12:56:07.237Z",
+            "modified": "2024-06-11T12:56:07.237Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "isPath": true,
+                    "value": "thunder"
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        },
+        {
+            "_id": "807feac8-fc19-4bb6-b573-94da65a36305",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "a5bf281f-53eb-4222-b816-a37aa99e3de6",
+            "name": "FosteringController_find",
+            "url": "/api/fostering",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2024-06-11T12:56:07.238Z",
+            "modified": "2024-06-11T12:56:07.238Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        },
+        {
+            "_id": "e647ccfb-4843-4b4f-8d49-7ed6816a27cf",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "a5bf281f-53eb-4222-b816-a37aa99e3de6",
+            "name": "FosteringController_request",
+            "url": "/api/fostering",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2024-06-11T12:56:07.239Z",
+            "modified": "2024-06-11T12:56:07.239Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"catProfileId\": \"thunder\",\n  \"startDate\": \"2024-06-11T12:56:07.225Z\",\n  \"endDate\": \"2024-06-11T12:56:07.225Z\"\n}"
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        },
+        {
+            "_id": "2f151cc9-e01b-42d6-b96f-44ffef03d0d4",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "a5bf281f-53eb-4222-b816-a37aa99e3de6",
+            "name": "FosteringController_findById",
+            "url": "/api/fostering/{id}",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2024-06-11T12:56:07.240Z",
+            "modified": "2024-06-11T12:56:07.240Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "isPath": true,
+                    "value": "thunder"
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        },
+        {
+            "_id": "5c50c339-649b-496e-a283-d280761efb22",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "a5bf281f-53eb-4222-b816-a37aa99e3de6",
+            "name": "FosteringController_approve",
+            "url": "/api/fostering/{id}/approve",
+            "method": "PATCH",
+            "sortNum": 130000,
+            "created": "2024-06-11T12:56:07.241Z",
+            "modified": "2024-06-11T12:56:07.241Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "isPath": true,
+                    "value": "thunder"
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        },
+        {
+            "_id": "dd0c65dd-03b5-497d-be7b-caeac7cad160",
+            "colId": "db218082-017c-4856-b405-97afaa7f82ee",
+            "containerId": "a5bf281f-53eb-4222-b816-a37aa99e3de6",
+            "name": "FosteringController_reject",
+            "url": "/api/fostering/{id}/reject",
+            "method": "PATCH",
+            "sortNum": 140000,
+            "created": "2024-06-11T12:56:07.242Z",
+            "modified": "2024-06-11T12:56:07.242Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "ory_kratos_session={{ory_kratos_session}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "isPath": true,
+                    "value": "thunder"
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            }
+        }
+    ],
+    "settings": {
+        "auth": {
+            "type": "bearer",
+            "bearer": "{{sessionToken}}"
+        },
+        "options": {
+            "baseUrl": "{{baseUrl}}"
+        }
+    }
+}
