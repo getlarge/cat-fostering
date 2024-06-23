@@ -19,11 +19,18 @@ export class CatProfileDetailComponent {
 
   constructor() {
     const catProfileId = this.route.snapshot.params['id'];
-    if (catProfileId) {
-      this.state.findCatProfile(catProfileId);
-    }
+    this.fetchCatProfile(catProfileId);
+
     this.route.params.subscribe((params) => {
-      this.state.findCatProfile(params['id']);
+      this.fetchCatProfile(params['id']);
     });
+  }
+
+  fetchCatProfile(id: string): void {
+    if (id === 'new') {
+      this.state.unselectCatProfile();
+    } else {
+      this.state.findCatProfile(id);
+    }
   }
 }

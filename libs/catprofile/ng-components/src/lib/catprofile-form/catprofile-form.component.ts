@@ -19,11 +19,12 @@ import { RxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import { map, startWith, withLatestFrom } from 'rxjs';
+import { filter, map, startWith, withLatestFrom } from 'rxjs';
 
 interface Actions {
   submit: void;
   update: { [key: string]: string };
+  delete: void;
 }
 
 const enum FormMode {
@@ -73,24 +74,30 @@ export class CatProfileFormComponent extends RxState<{
   readonly age$ = this.select('request', 'age');
   readonly valid$ = this.select(
     map((state) => {
-      if (state.mode === FormMode.Create) {
+      if ([FormMode.Create, FormMode.Edit].includes(state.mode)) {
         return !!state?.request?.name?.length;
       }
-      return true;
+      return false;
     })
   );
   private readonly submitEvent$ = this.ui.submit$.pipe(
     withLatestFrom(this.select())
   );
+  private readonly deleteEvent$ = this.ui.delete$.pipe(
+    withLatestFrom(this.select())
+  );
 
   constructor() {
     super();
+
+    console.log('CatProfileFormComponent');
     this.connect('request', this.ui.update$, (state, update) => {
       return patch(state.request, update);
     });
 
     this.connect(
       this.catProfile$.pipe(
+        filter((catProfile) => !!catProfile.value && !catProfile.loading),
         map((catProfile) => ({
           request: {
             id: catProfile.value?.id || '',
@@ -116,10 +123,13 @@ export class CatProfileFormComponent extends RxState<{
       if (state.mode === 'edit') {
         this.state.updateCatProfile([state.request.id, state.request]);
       }
-
       if (state.mode === 'create') {
         this.state.createCatProfile(state.request as CreateCatProfile);
       }
+    });
+
+    this.hold(this.deleteEvent$, ([, state]) => {
+      this.state.deleteCatProfile({ id: state.request.id });
     });
   }
 
@@ -127,7 +137,7 @@ export class CatProfileFormComponent extends RxState<{
     const user = this.usersState.get('user');
     return (
       !!user.value?.id &&
-      user.value?.id === this.state.get('selectedCatProfile').value?.owner?.id
+      user.value.id === this.state.get('selectedCatProfile').value?.owner?.id
     );
   }
 

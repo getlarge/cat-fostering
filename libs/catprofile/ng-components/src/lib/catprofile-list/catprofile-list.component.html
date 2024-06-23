@@ -1,9 +1,23 @@
 <div *rxIf="catProfilesListVisible$; else loading">
+  <mat-card class="cat-profile-card">
+    <mat-card-header>
+      <mat-card-title>Create new profile</mat-card-title>
+    </mat-card-header>
+    <mat-card-content> </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-button
+        (click)="createNewCatProfile()"
+        data-uf="cat-profile-new"
+      >
+        +
+      </button>
+    </mat-card-actions>
+  </mat-card>
   <div
     *rxFor="let catProfile of catProfiles$; index as idx; trackBy: trackById"
-    class="cat-profile-card"
   >
-    <mat-card>
+    <mat-card class="cat-profile-card">
       <mat-card-header>
         <mat-card-title>{{ catProfile.name }}</mat-card-title>
       </mat-card-header>
@@ -14,7 +28,7 @@
       <mat-card-actions>
         <button
           mat-button
-          (click)="selectCat(catProfile)"
+          (click)="selectCatProfile(catProfile)"
           [attr.data-uf]="'cat-profile-' + idx"
         >
           Visit {{ catProfile.name }}

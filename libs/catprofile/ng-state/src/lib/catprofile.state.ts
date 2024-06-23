@@ -30,7 +30,7 @@ interface Actions {
   findCatProfiles: void;
   createCatProfile: CreateCatProfile;
   updateCatProfile: [string, UpdateCatProfile];
-  deleteCatProfile: CatProfile;
+  deleteCatProfile: { id: string };
 }
 
 @Injectable({
@@ -93,7 +93,6 @@ export class CatProfileStateService extends RxState<CatProfileState> {
     this.connect(
       'selectedCatProfile',
       this.actions.findCatProfile$.pipe(
-        // map((id) => ({ id })),
         optimizedFetch(
           (id) => id,
           (id) =>
@@ -111,8 +110,6 @@ export class CatProfileStateService extends RxState<CatProfileState> {
     );
 
     this.hold(this.sideEffects$);
-
-    // this.initialize();
   }
 
   readonly findCatProfile = this.actions.findCatProfile;
@@ -155,8 +152,20 @@ export class CatProfileStateService extends RxState<CatProfileState> {
     return catProfiles[id];
   }
 
-  selectCat(cat: CatProfile) {
-    this.set({ selectedCatProfile: { value: cat } });
+  selectCatProfile(cat: CatProfile) {
+    this.set({
+      selectedCatProfile: {
+        value: cat,
+        loading: false,
+        error: undefined,
+      },
+    });
+  }
+
+  unselectCatProfile() {
+    this.set({
+      selectedCatProfile: { value: null, loading: false, error: undefined },
+    });
   }
 
   initialize(): void {

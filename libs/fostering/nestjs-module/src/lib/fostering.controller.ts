@@ -95,6 +95,7 @@ export class FosteringController {
     new ValidationPipe({
       transform: true,
       transformOptions: { enableImplicitConversion: true },
+      whitelist: true,
     })
   )
   @Post()

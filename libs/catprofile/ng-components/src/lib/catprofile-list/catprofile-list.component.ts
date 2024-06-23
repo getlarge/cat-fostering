@@ -29,12 +29,21 @@ export class CatProfileListComponent {
     map(
       (state) =>
         !!state.catProfiles?.value &&
-        Object.keys(state.catProfiles.value).length > 0
+        !state.catProfiles.loading &&
+        !state.catProfiles.error
     )
   );
 
-  selectCat(cat: CatProfile) {
+  constructor() {
+    this.state.findCatProfiles();
+  }
+
+  selectCatProfile(cat: CatProfile) {
     void this.router.navigate([`/cat-profiles/${cat?.id}`]);
+  }
+
+  createNewCatProfile() {
+    void this.router.navigate([`/cat-profiles/new`]);
   }
 
   trackById(_: number, catProfile: CatProfile) {

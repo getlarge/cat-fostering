@@ -94,7 +94,10 @@ export class CatProfilesController {
   @UsePipes(
     new ValidationPipe({
       transform: true,
-      transformOptions: { enableImplicitConversion: true },
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+      whitelist: true,
     })
   )
   @Post()
@@ -120,6 +123,7 @@ export class CatProfilesController {
     new ValidationPipe({
       transform: true,
       transformOptions: { enableImplicitConversion: true },
+      whitelist: true,
     })
   )
   @Patch(':id')

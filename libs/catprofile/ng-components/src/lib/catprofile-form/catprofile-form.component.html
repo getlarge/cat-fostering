@@ -45,7 +45,6 @@
   </form>
   <ng-container *rxLet="valid$; let valid">
     <button
-      *rxIf="!isReadMode$"
       mat-raised-button
       [disabled]="!valid"
       color="primary"
@@ -54,6 +53,17 @@
       (click)="ui.submit()"
     >
       Save
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      name="delete"
+      aria-label="Delete
+    profile"
+      *rxIf="isEditMode$"
+      (click)="ui.delete()"
+    >
+      Delete
     </button>
   </ng-container>
 </mat-card>
