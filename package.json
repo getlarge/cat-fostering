@@ -22,6 +22,7 @@
     "@getlarge/keto-relations-parser": "^0.0.9",
     "@getlarge/kratos-cli": "^0.2.1",
     "@getlarge/kratos-client-wrapper": "^0.1.8",
+    "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.2.1",
     "@nestjs/core": "^10.0.2",

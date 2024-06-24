@@ -1,14 +1,15 @@
 /**
  * this is a workaround since the TS environment is not yet loaded in the global setup hook
  * @see https://stackoverflow.com/questions/48318230/configure-jest-global-tests-setup-with-ts-file
+ * not needed when using `import { registerTsProject } from '@nx/js/src/internal';`
  **/
-import * as tsConfigPaths from 'tsconfig-paths';
-tsConfigPaths.register({
-  baseUrl: './',
-  paths: {
-    '@cat-fostering/entities': ['libs/shared/entities/src/index.ts'],
-  },
-});
+// import * as tsConfigPaths from 'tsconfig-paths';
+// tsConfigPaths.register({
+//   baseUrl: './',
+//   paths: {
+//     '@cat-fostering/entities': ['libs/shared/entities/src/index.ts'],
+//   },
+// });
 
 import {
   CatProfileSchema,
