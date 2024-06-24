@@ -1,19 +1,10 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
-  "plugins": [
-    "@nx"
-  ],
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -53,16 +44,11 @@
               },
               {
                 "sourceTag": "type:const",
-                "onlyDependOnLibsWithTags": [
-                  "type:const"
-                ]
+                "onlyDependOnLibsWithTags": ["type:const"]
               },
               {
                 "sourceTag": "type:env",
-                "onlyDependOnLibsWithTags": [
-                  "type:const",
-                  "type:env"
-                ]
+                "onlyDependOnLibsWithTags": ["type:const", "type:env"]
               },
               {
                 "sourceTag": "type:testing",
@@ -82,24 +68,15 @@
               },
               {
                 "sourceTag": "scope:catprofile",
-                "onlyDependOnLibsWithTags": [
-                  "scope:shared",
-                  "scope:catprofile"
-                ]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:catprofile"]
               },
               {
                 "sourceTag": "scope:fostering",
-                "onlyDependOnLibsWithTags": [
-                  "scope:shared",
-                  "scope:fostering"
-                ]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:fostering"]
               },
               {
                 "sourceTag": "scope:user",
-                "onlyDependOnLibsWithTags": [
-                  "scope:shared",
-                  "scope:user"
-                ]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:user"]
               },
               {
                 "sourceTag": "platform:node",
@@ -111,18 +88,12 @@
               },
               {
                 "sourceTag": "platform:shared",
-                "onlyDependOnLibsWithTags": [
-                  "platform:shared"
-                ],
-                "bannedExternalImports": [
-                  "*nestjs*"
-                ]
+                "onlyDependOnLibsWithTags": ["platform:shared"],
+                "bannedExternalImports": ["*nestjs*"]
               },
               {
                 "sourceTag": "platform:cli",
-                "onlyDependOnLibsWithTags": [
-                  "*"
-                ]
+                "onlyDependOnLibsWithTags": ["*"]
               }
             ]
           }
@@ -130,17 +101,9 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "extends": [
-        "plugin:@nx/typescript"
-      ],
-      "plugins": [
-        "import",
-        "simple-import-sort"
-      ],
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
+      "plugins": ["import", "simple-import-sort"],
       "rules": {
         "no-duplicate-imports": "error",
         "no-empty": "error",
@@ -156,41 +119,18 @@
         "simple-import-sort/imports": [
           "error",
           {
-            "groups": [
-              // Side effects.
-              [
-                "^\\u0000"
-              ],
-              // 3rd party.
-              [
-                "^@?\\w"
-              ],
-              // Anything not fitting group above.
-              [
-                "^"
-              ],
-              // Relative imports.
-              [
-                "^\\."
-              ]
-            ]
+            "groups": [["^\\u0000"], ["^@?\\w"], ["^"], ["^\\."]]
           }
         ],
-        "simple-import-sort/exports": "error"
+        "simple-import-sort/exports": "error",
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
       }
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nx/javascript"
-      ],
-      "plugins": [
-        "import",
-        "simple-import-sort"
-      ],
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "plugins": ["import", "simple-import-sort"],
       "rules": {
         "no-duplicate-imports": "error",
         "no-empty": "error",
@@ -206,36 +146,16 @@
         "simple-import-sort/imports": [
           "error",
           {
-            "groups": [
-              // Side effects.
-              [
-                "^\\u0000"
-              ],
-              // 3rd party.
-              [
-                "^@?\\w"
-              ],
-              // Anything not fitting group above.
-              [
-                "^"
-              ],
-              // Relative imports.
-              [
-                "^\\."
-              ]
-            ]
+            "groups": [["^\\u0000"], ["^@?\\w"], ["^"], ["^\\."]]
           }
         ],
-        "simple-import-sort/exports": "error"
+        "simple-import-sort/exports": "error",
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
       }
     },
     {
-      "files": [
-        "*.spec.ts",
-        "*.spec.tsx",
-        "*.spec.js",
-        "*.spec.jsx"
-      ],
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
       "env": {
         "jest": true
       },
