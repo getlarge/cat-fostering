@@ -1,9 +1,9 @@
-import yargs from 'yargs';
 import {
   generateOryKratosConfig,
   generateOryKetoConfig,
   generateOryNetworkConfig,
-} from './helpers';
+} from '@cat-fostering/ory-config-generators';
+import yargs from 'yargs';
 
 interface BaseOptions {
   envFile?: string;

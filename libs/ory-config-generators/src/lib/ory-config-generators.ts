@@ -1,11 +1,12 @@
 import type { ClassConstructor } from 'class-transformer';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { expand } from 'dotenv-expand';
-import { load, dump } from 'js-yaml';
+import { dump, load } from 'js-yaml';
 import { execSync } from 'node:child_process';
-import { constants, accessSync, readFileSync, writeFileSync } from 'node:fs';
+import { accessSync, constants, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { inspect } from 'node:util';
+
 import {
   KetoMappings,
   KeywordMappings,
@@ -13,7 +14,9 @@ import {
   validateMappings,
 } from './mappings';
 
-export const INFRA_DIRECTORY = join(__dirname, '..', '..', 'infra');
+export const INFRA_DIRECTORY =
+  process.env['ORY_INFRA_DIRECTORY'] ??
+  join(__dirname, '..', '..', '..', '..', 'infra');
 export const ORY_KRATOS_DIRECTORY = join(INFRA_DIRECTORY, 'ory-kratos');
 export const ORY_KETO_DIRECTORY = join(INFRA_DIRECTORY, 'ory-keto');
 export const ORY_NETWORK_DIRECTORY = join(INFRA_DIRECTORY, 'ory-network');
@@ -26,6 +29,7 @@ function keywordArrayReplace(input: string, mappings: KeywordMappings) {
     const pattern = `@@${key}@@`;
     const patternWithQuotes = `"${pattern}"`;
     const regex = new RegExp(`${patternWithQuotes}|${pattern}`, 'g');
+    // eslint-disable-next-line no-param-reassign
     input = input.replace(regex, JSON.stringify(mappings[key]));
   });
   return input;
@@ -40,8 +44,10 @@ function keywordStringReplace(input: string, mappings: KeywordMappings) {
       typeof mapping === 'number' ||
       typeof mapping === 'boolean'
     ) {
+      // eslint-disable-next-line no-param-reassign
       input = input.replace(regex, mapping.toString());
     } else {
+      // eslint-disable-next-line no-param-reassign
       input = input.replace(regex, '');
     }
   });
@@ -50,7 +56,9 @@ function keywordStringReplace(input: string, mappings: KeywordMappings) {
 function keywordReplace(input: string, mappings: KeywordMappings) {
   // Replace keywords with mappings within input.
   if (mappings && Object.keys(mappings).length > 0) {
+    // eslint-disable-next-line no-param-reassign
     input = keywordArrayReplace(input, mappings);
+    // eslint-disable-next-line no-param-reassign
     input = keywordStringReplace(input, mappings);
   }
   return input;
@@ -58,7 +66,7 @@ function keywordReplace(input: string, mappings: KeywordMappings) {
 
 export function loadFileAndReplaceKeywords(
   file: ConfigFilepath,
-  mappings: KeywordMappings
+  mappings?: KeywordMappings
 ) {
   const f = resolve(file);
   try {
@@ -87,9 +95,14 @@ function getOryMappings<T extends KeywordMappings>(
   cls: ClassConstructor<T>,
   envFilePath: string
 ): T {
-  const processEnv: Record<string, string> = {};
-  const { parsed } = dotenv.config({ path: envFilePath, processEnv });
-  const result = expand({ parsed, ignoreProcessEnv: true });
+  // const processEnv: Record<string, string> = {};
+  // const { parsed } = dotenv.config({ path: envFilePath, processEnv });
+  // const result = expand({ parsed, ignoreProcessEnv: true });
+  const { parsed } = dotenv.config({ path: envFilePath });
+  const result = expand({ parsed });
+  if (!result.parsed) {
+    throw new Error(`Unable to parse env file ${envFilePath}`);
+  }
   return validateMappings(cls, result.parsed);
 }
 

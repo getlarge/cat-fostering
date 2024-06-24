@@ -1,5 +1,5 @@
+import { updateOryNetworkConfig } from '@cat-fostering/ory-config-generators';
 import { parseArgs } from 'node:util';
-import { updateOryNetworkConfig } from './helpers';
 
 const options = {
   envFile: {
