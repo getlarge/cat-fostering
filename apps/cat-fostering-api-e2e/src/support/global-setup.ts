@@ -1,3 +1,6 @@
+import { registerTsProject } from '@nx/js/src/internal';
+const cleanupRegisteredPaths = registerTsProject('../../tsconfig.base.json');
+
 import { execSync } from 'node:child_process';
 
 import { createTestConnection } from './helpers';
@@ -25,3 +28,5 @@ export default async (): Promise<void> => {
 
   globalThis.__DB_CONNECTION__ = await createTestConnection(envPath);
 };
+
+cleanupRegisteredPaths();
