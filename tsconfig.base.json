@@ -46,9 +46,6 @@
         "libs/fostering/ng-state/src/index.ts"
       ],
       "@cat-fostering/ng-state": ["libs/ng-shared/state/src/index.ts"],
-      "@cat-fostering/ng-user-components": [
-        "libs/user/ng-components/src/index.ts"
-      ],
       "@cat-fostering/ng-user-state": ["libs/user/ng-state/src/index.ts"]
     }
   },

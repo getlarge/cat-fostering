@@ -49,5 +49,8 @@ export const appRoutes: Route[] = [
     },
     component: NotFoundPageComponent,
   },
-  // TODO: add catch-all route and page-not-found route
+  {
+    path: '**',
+    component: NotFoundPageComponent,
+  }
 ];
