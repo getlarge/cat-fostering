@@ -95,7 +95,7 @@ export const createOryAdminRelation = ({
   execSync(`npx @getlarge/keto-cli create --tuple '${relationTuple}'`);
 };
 
-export const createCat = async ({
+export const createCatProfile = async ({
   name,
   description,
   age,
@@ -117,6 +117,38 @@ export const createCat = async ({
       name,
       description,
       age,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }
+  );
+  expect(res.status).toBe(201);
+  return res.data;
+};
+
+export const createFosteringRequest = async ({
+  catProfileId,
+  startDate,
+  endDate,
+  sessionToken,
+}: {
+  catProfileId: string;
+  startDate: Date;
+  endDate: Date;
+  sessionToken: string;
+}): Promise<{
+  startDate: Date;
+  endDate: Date;
+  id: string;
+}> => {
+  const res = await axios.post(
+    'api/fostering',
+    {
+      catProfileId,
+      startDate,
+      endDate,
     },
     {
       headers: {
