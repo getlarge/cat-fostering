@@ -7,7 +7,11 @@
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "sharedGlobals": [{ "runtime": "node --version" }],
+    "sharedGlobals": [
+      {
+        "runtime": "node --version"
+      }
+    ],
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
@@ -45,5 +49,6 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     }
-  }
+  },
+  "nxCloudAccessToken": "ZDE5NmQ1N2QtZmZlZS00YTQyLTgzZmMtYzMzYzdiYmQ5YTRmfHJlYWQtd3JpdGU="
 }
