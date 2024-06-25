@@ -11,6 +11,9 @@ export type TestUser = {
 
 const execAsync = promisify(exec);
 
+process.env['DEBUG:KRATOS_CLI'] = 'true';
+process.env['DEBUG:KETO_CLI'] = 'true';
+
 export const login = async ({
   email,
   password,
@@ -25,6 +28,7 @@ export const login = async ({
   const { stdout, stderr } = await execAsync(
     `npx @getlarge/kratos-cli login --email '${email}' --password '${password}'`
   );
+
   if (stderr) {
     throw new Error(stderr.toString());
   }
@@ -41,6 +45,7 @@ export const register = async ({
   const { stderr } = await execAsync(
     `npx @getlarge/kratos-cli register --email '${email}' --password '${password}'`
   );
+
   if (stderr) {
     throw new Error(stderr.toString());
   }
@@ -157,6 +162,26 @@ export const createFosteringRequest = async ({
     }
   );
   expect(res.status).toBe(201);
+  return res.data;
+};
+
+export const getFosteringRequest = async ({
+  id,
+  sessionToken,
+}: {
+  id: string;
+  sessionToken: string;
+}): Promise<{
+  startDate: Date;
+  endDate: Date;
+  id: string;
+}> => {
+  const res = await axios.get(`api/fostering/${id}`, {
+    headers: {
+      Authorization: `Bearer ${sessionToken}`,
+    },
+  });
+  expect(res.status).toBe(200);
   return res.data;
 };
 

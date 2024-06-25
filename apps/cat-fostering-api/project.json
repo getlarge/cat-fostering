@@ -18,16 +18,20 @@
           "port": 9220
         },
         "ci": {
-          "buildTarget": "cat-fostering-api:build:development"
+          "buildTarget": "cat-fostering-api:build:development",
+          "inspect": false
         },
         "development": {
-          "buildTarget": "cat-fostering-api:build:development"
+          "buildTarget": "cat-fostering-api:build:development",
+          "inspect": true,
+          "port": 9220
         },
         "staging": {
           "buildTarget": "cat-fostering-api:build:development"
         },
         "test": {
-          "buildTarget": "cat-fostering-api:build:development"
+          "buildTarget": "cat-fostering-api:build:development",
+          "inspect": false
         },
         "production": {
           "buildTarget": "cat-fostering-api:build:production"
