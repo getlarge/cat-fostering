@@ -95,11 +95,10 @@ function getOryMappings<T extends KeywordMappings>(
   cls: ClassConstructor<T>,
   envFilePath: string
 ): T {
-  // const processEnv: Record<string, string> = {};
-  // const { parsed } = dotenv.config({ path: envFilePath, processEnv });
-  // const result = expand({ parsed, ignoreProcessEnv: true });
-  const { parsed } = dotenv.config({ path: envFilePath });
+  const oldProcessEnv = structuredClone(process.env);
+  const { parsed } = dotenv.config({ path: envFilePath, override: true });
   const result = expand({ parsed });
+  process.env = { ...oldProcessEnv };
   if (!result.parsed) {
     throw new Error(`Unable to parse env file ${envFilePath}`);
   }
