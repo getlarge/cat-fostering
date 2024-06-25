@@ -41,7 +41,8 @@ const DEFAULT_SELF_SERVICE_UI_URL = 'http://localhost:4455';
 const strToBool = (value: string | boolean) =>
   value === 'true' || value === true;
 
-const strToArray = (value: string) => value.split(',').map((v) => v.trim());
+const strToArray = (value?: string) =>
+  value ? value.split(',').map((v) => v.trim()) : [];
 
 export class KratosMappings extends KeywordMappings {
   @Expose()
@@ -166,7 +167,7 @@ export class KratosMappings extends KeywordMappings {
 
   @Expose()
   @IsOptional()
-  @Transform(({ value }) => (value ? strToArray(value) : []), {
+  @Transform(({ value }) => strToArray(value), {
     toClassOnly: true,
   })
   @IsArray()
@@ -301,7 +302,7 @@ export class KratosMappings extends KeywordMappings {
 
   @Expose()
   @IsOptional()
-  @Transform(({ value }) => (value ? strToArray(value) : []), {
+  @Transform(({ value }) => strToArray(value), {
     toClassOnly: true,
   })
   @IsArray()
@@ -323,7 +324,7 @@ export class KratosMappings extends KeywordMappings {
 
   @Expose()
   @IsOptional()
-  @Transform(({ value }) => (value ? strToArray(value) : []), {
+  @Transform(({ value }) => strToArray(value), {
     toClassOnly: true,
   })
   @IsArray()
@@ -364,7 +365,7 @@ export class KratosMappings extends KeywordMappings {
   kratos_serve_public_cors_enabled?: boolean = false;
 
   @Expose()
-  @Transform(({ value }) => (value ? strToArray(value) : []), {
+  @Transform(({ value }) => strToArray(value), {
     toClassOnly: true,
   })
   @IsOptional()

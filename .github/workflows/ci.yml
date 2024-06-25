@@ -46,6 +46,8 @@ jobs:
       - run: sleep 15
 
       - run: docker ps
+      - run: docker compose logs keto
+      - run: docker compose logs kratos
 
       - run: npx nx run cat-fostering-api:serve:ci &
         env:
