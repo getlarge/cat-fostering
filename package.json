@@ -17,6 +17,7 @@
   },
   "private": true,
   "dependencies": {
+    "@dotenvx/dotenvx": "1.0.0",
     "@getlarge/keto-cli": "^0.2.2",
     "@getlarge/keto-client-wrapper": "^0.2.5",
     "@getlarge/keto-relations-parser": "^0.0.9",

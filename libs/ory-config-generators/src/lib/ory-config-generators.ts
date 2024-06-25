@@ -1,6 +1,6 @@
+// @ts-expect-error - Type definitions for the @dotenvx/dotenvx package are not available.
+import * as dotenvX from '@dotenvx/dotenvx';
 import type { ClassConstructor } from 'class-transformer';
-import * as dotenv from 'dotenv';
-import { expand } from 'dotenv-expand';
 import { dump, load } from 'js-yaml';
 import { execSync } from 'node:child_process';
 import { accessSync, constants, readFileSync, writeFileSync } from 'node:fs';
@@ -96,8 +96,7 @@ function getOryMappings<T extends KeywordMappings>(
   envFilePath: string
 ): T {
   const oldProcessEnv = structuredClone(process.env);
-  const { parsed } = dotenv.config({ path: envFilePath, override: true });
-  const result = expand({ parsed });
+  const result = dotenvX.config({ path: envFilePath, override: true });
   process.env = { ...oldProcessEnv };
   if (!result.parsed) {
     throw new Error(`Unable to parse env file ${envFilePath}`);
