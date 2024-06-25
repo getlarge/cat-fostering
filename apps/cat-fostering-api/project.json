@@ -13,7 +13,9 @@
       },
       "configurations": {
         "local": {
-          "buildTarget": "cat-fostering-api:build:local"
+          "buildTarget": "cat-fostering-api:build:local",
+          "inspect": true,
+          "port": 9220
         },
         "ci": {
           "buildTarget": "cat-fostering-api:build:development"
