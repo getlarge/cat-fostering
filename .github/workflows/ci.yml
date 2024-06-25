@@ -10,6 +10,11 @@ permissions:
   actions: read
   contents: read
 
+env:
+  DOTENV_PRIVATE_KEY_CI: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
+  POSTGRES_URL: postgres://dbuser:secret@localhost:5432
+  POSTGRES_DB: cat_fostering_api_e2e
+
 jobs:
   main:
     runs-on: ubuntu-latest
@@ -18,19 +23,29 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Connect your workspace on nx.app and uncomment this to enable task distribution.
       # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "build" targets have been requested
-      - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="build"
+      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
 
       # Cache node_modules
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
       - run: npm ci
+
       - uses: nrwl/nx-set-shas@v4
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
       - run: npx nx affected -t lint test build
+
+      #  can't use --wait --wait-timeout N options since keto and kratos migrate containers will exit before the Keto and Kratos services are ready
+      - run: npx @dotenvx/dotenvx run -- docker compose -p cat-fostering up -d
+
+      - run: sleep 25
+
+      - run: npx nx run cat-fostering-api:serve:ci
+
+      - run: npx nx affected -t e2e
+      # - run: npx nx affected -t e2e-ci
