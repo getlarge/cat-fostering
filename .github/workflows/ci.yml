@@ -40,7 +40,7 @@ jobs:
       # - run: npx nx-cloud record -- echo Hello World
       - run: npx nx affected -t lint test build
 
-      #  can't use --wait --wait-timeout N options since keto and kratos migrate containers will exit before the Keto and Kratos services are ready
+      #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
       - run: npx @dotenvx/dotenvx run -- docker compose --profile ci -p cat-fostering up -d
 
       - run: sleep 15
@@ -52,4 +52,8 @@ jobs:
       - run: sleep 10
 
       - run: npx nx affected -t e2e
+        env:
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
+
+      # to enable DTE for split e2e tests, use the following command instead and update stop-agents-after accordingly
       # - run: npx nx affected -t e2e-ci
