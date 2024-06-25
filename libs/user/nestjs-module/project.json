@@ -5,13 +5,5 @@
   "projectType": "library",
   "tags": ["scope:user", "type:api", "platform:node"],
   "// targets": "to see all targets run: nx show project nestjs-user-module --web",
-  "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "options": {
-        "jestConfig": "libs/shared/nestjs-utils/jest.config.ts",
-        "passWithNoTests": true
-      }
-    }
-  }
+  "targets": {}
 }

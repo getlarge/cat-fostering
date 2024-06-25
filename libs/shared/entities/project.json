@@ -4,13 +4,5 @@
   "sourceRoot": "libs/shared/entities/src",
   "projectType": "library",
   "tags": ["scope:shared", "type:core", "platform:node"],
-  "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "options": {
-        "jestConfig": "libs/shared/entities/jest.config.ts",
-        "passWithNoTests": true
-      }
-    }
-  }
+  "targets": {}
 }

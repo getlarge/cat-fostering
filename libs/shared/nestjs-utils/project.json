@@ -4,13 +4,5 @@
   "sourceRoot": "libs/shared/nestjs-utils/src",
   "projectType": "library",
   "tags": ["scope:shared", "type:utils", "platform:node"],
-  "targets": {
-    "test": {
-      "executor": "@nx/jest:jest",
-      "options": {
-        "jestConfig": "libs/shared/nestjs-utils/jest.config.ts",
-        "passWithNoTests": true
-      }
-    }
-  }
+  "targets": {}
 }
