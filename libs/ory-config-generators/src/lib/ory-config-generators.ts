@@ -1,4 +1,3 @@
-// @ts-expect-error - Type definitions for the @dotenvx/dotenvx package are not available.
 import * as dotenvX from '@dotenvx/dotenvx';
 import type { ClassConstructor } from 'class-transformer';
 import { dump, load } from 'js-yaml';

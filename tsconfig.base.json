@@ -29,7 +29,14 @@
       "@cat-fostering/ory-config-generators": [
         "libs/ory-config-generators/src/index.ts"
       ]
-    }
+    },
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ],
+    "types": [
+      "@dotenvx/dotenvx"
+    ],
   },
   "exclude": ["node_modules", "tmp"]
 }
