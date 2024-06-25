@@ -3,6 +3,7 @@ import {
   generateOryKetoConfig,
   generateOryNetworkConfig,
 } from '@cat-fostering/ory-config-generators';
+import { resolve } from 'node:path';
 import yargs from 'yargs';
 
 interface BaseOptions {
@@ -30,8 +31,7 @@ async function main() {
           }
         >
       ) => {
-        const { envFile } = argv;
-        generateOryKratosConfig(envFile);
+        generateOryKratosConfig(resolve(argv.envFile));
       },
     })
     .command({
@@ -44,8 +44,7 @@ async function main() {
           }
         >
       ) => {
-        const { envFile } = argv;
-        generateOryKetoConfig(envFile);
+        generateOryKetoConfig(resolve(argv.envFile));
       },
     })
     .command({
@@ -58,7 +57,7 @@ async function main() {
           }
         >
       ) => {
-        generateOryNetworkConfig(argv.envFile);
+        generateOryNetworkConfig(resolve(argv.envFile));
       },
     })
     .demandCommand(1, 'A valid command must be provided')

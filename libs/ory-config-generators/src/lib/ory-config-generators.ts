@@ -95,7 +95,7 @@ function getOryMappings<T extends KeywordMappings>(
   envFilePath: string
 ): T {
   const oldProcessEnv = structuredClone(process.env);
-  const result = dotenvX.config({ path: envFilePath, override: true });
+  const result = dotenvX.config({ path: envFilePath, overload: false });
   process.env = { ...oldProcessEnv };
   if (!result.parsed) {
     throw new Error(`Unable to parse env file ${envFilePath}`);

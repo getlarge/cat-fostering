@@ -14,10 +14,12 @@ env:
   DOTENV_PRIVATE_KEY_CI: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
   POSTGRES_URL: postgres://dbuser:secret@localhost:5432
   POSTGRES_DB: cat_fostering_api_e2e
+  BACKEND_DOCKER_HOST: http://172.17.0.1:3000
 
 jobs:
   main:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,6 +42,13 @@ jobs:
       # - run: npx nx-cloud record -- echo Hello World
       - run: npx nx affected -t lint test build
 
+      - run: npx @dotenvx/dotenvx run -- npm run ory:generate:kratos .env.ci
+        env:
+          kratos_selfservice_flows_login_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-in
+          kratos_selfservice_flows_registration_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-up
+
+      - run: npx @dotenvx/dotenvx run -- npm run ory:generate:keto .env.ci
+
       #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
       - run: npx @dotenvx/dotenvx run -- docker compose -f docker-compose.yaml -f docker-compose.ci.yaml --profile ci -p cat-fostering up -d
 
@@ -60,6 +69,8 @@ jobs:
           DEBUG:KRATOS_CLI: true
           DEBUG:KETO_CLI: true
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
+          kratos_selfservice_flows_login_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-in
+          kratos_selfservice_flows_registration_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-up
 
       # to enable DTE for split e2e tests, use the following command instead and update stop-agents-after accordingly
       # - run: npx nx affected -t e2e-ci
