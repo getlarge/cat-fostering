@@ -1,18 +1,17 @@
 services:
   kratos-migrate:
     volumes:
-      - /home/runner/work/cat-fostering/cat-fostering/infra/ory-kratos:/etc/config/kratos:ro
+      - ${PWD:-/home/runner/work/cat-fostering/cat-fostering}/infra/ory-kratos:/etc/config/kratos:ro
 
   kratos:
     volumes:
-      # - ${{ github.workspace }}/infra/ory-kratos:/etc/config/kratos:ro
-      - /home/runner/work/cat-fostering/cat-fostering/infra/ory-kratos:/etc/config/kratos:ro
+      - ${PWD:-/home/runner/work/cat-fostering/cat-fostering}/infra/ory-kratos:/etc/config/kratos:ro
 
   keto-migrate:
     image: oryd/keto:v0.12.0
     volumes:
-      - /home/runner/work/cat-fostering/cat-fostering/infra/ory-keto:/etc/config/keto:ro
+      - ${PWD:-/home/runner/work/cat-fostering/cat-fostering}/infra/ory-keto:/etc/config/keto:ro
 
   keto:
     volumes:
-      - /home/runner/work/cat-fostering/cat-fostering/infra/ory-keto:/etc/config/keto:ro
+      - ${PWD:-/home/runner/work/cat-fostering/cat-fostering}/infra/ory-keto:/etc/config/keto:ro

@@ -1,3 +1,5 @@
+# this workflow can be run locally using act with the following command:
+# act push --var NX_CLOUD_DISTRIBUTED_EXECUTION=false -s DOTENV_PRIVATE_KEY_CI -s GITHUB_TOKEN="$(gh auth token)"
 name: ci
 
 on:
@@ -11,10 +13,12 @@ permissions:
   contents: read
 
 env:
+  CI: true
   DOTENV_PRIVATE_KEY_CI: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
   POSTGRES_URL: postgres://dbuser:secret@localhost:5432
   POSTGRES_DB: cat_fostering_api_e2e
   BACKEND_DOCKER_HOST: http://172.17.0.1:3000
+  NX_CLOUD_DISTRIBUTED_EXECUTION: ${{ vars.NX_CLOUD_DISTRIBUTED_EXECUTION || 'true' }}
 
 jobs:
   main:
@@ -25,10 +29,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "build" targets have been requested
+      - run: pwd
+
       - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
 
-      # Cache node_modules
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -37,17 +41,19 @@ jobs:
       - run: npm ci
 
       - uses: nrwl/nx-set-shas@v4
+        with:
+          workflow-id: 'ci.yml'
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
       - run: npx nx affected -t lint test build
 
-      - run: npx @dotenvx/dotenvx run -- npm run ory:generate:kratos .env.ci
+      - run: npx @dotenvx/dotenvx run -- npm run ory:generate:kratos -- -e .env.ci
         env:
           kratos_selfservice_flows_login_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-in
           kratos_selfservice_flows_registration_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-up
 
-      - run: npx @dotenvx/dotenvx run -- npm run ory:generate:keto .env.ci
+      - run: npx @dotenvx/dotenvx run -- npm run ory:generate:keto -- -e .env.ci
 
       #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
       - run: npx @dotenvx/dotenvx run -- docker compose -f docker-compose.yaml -f docker-compose.ci.yaml --profile ci -p cat-fostering up -d
@@ -58,19 +64,16 @@ jobs:
       - run: docker compose logs keto
       - run: docker compose logs kratos
 
-      - run: npx nx run cat-fostering-api:serve:ci &
-        env:
-          NX_CLOUD_DISTRIBUTED_EXECUTION: false
+      - run: npx nx run cat-fostering-api:serve:ci --no-dte &
 
       - run: sleep 10
 
-      - run: npx nx affected -t e2e
+      - run: npx nx affected -t e2e --no-dte
         env:
           DEBUG:KRATOS_CLI: true
           DEBUG:KETO_CLI: true
-          NX_CLOUD_DISTRIBUTED_EXECUTION: false
           kratos_selfservice_flows_login_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-in
           kratos_selfservice_flows_registration_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-up
 
-      # to enable DTE for split e2e tests, use the following command instead and update stop-agents-after accordingly
+      # to enable DTE for split e2e tests, use the following command instead and set stop-agents-after="e2e-ci"
       # - run: npx nx affected -t e2e-ci

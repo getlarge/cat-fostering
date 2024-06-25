@@ -17,6 +17,9 @@ export default async (): Promise<void> => {
 
   await (globalThis.__DB_CONNECTION__ as DataSource)?.destroy();
 
+  if (process.env.CI) {
+    return;
+  }
   generateOryKetoConfig(dockerEnvPath);
   execSync('docker compose restart keto', { cwd, stdio: 'ignore' });
 
