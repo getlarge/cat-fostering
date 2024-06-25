@@ -45,6 +45,8 @@ jobs:
 
       - run: sleep 15
 
+      - run: docker ps
+
       - run: npx nx run cat-fostering-api:serve:ci &
         env:
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
@@ -53,6 +55,8 @@ jobs:
 
       - run: npx nx affected -t e2e
         env:
+          DEBUG:KRATOS_CLI: true
+          DEBUG:KETO_CLI: true
           NX_CLOUD_DISTRIBUTED_EXECUTION: false
 
       # to enable DTE for split e2e tests, use the following command instead and update stop-agents-after accordingly

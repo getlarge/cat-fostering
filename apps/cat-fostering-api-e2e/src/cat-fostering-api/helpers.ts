@@ -11,9 +11,6 @@ export type TestUser = {
 
 const execAsync = promisify(exec);
 
-process.env['DEBUG:KRATOS_CLI'] = 'true';
-process.env['DEBUG:KETO_CLI'] = 'true';
-
 export const login = async ({
   email,
   password,
@@ -26,13 +23,14 @@ export const login = async ({
   identity: string;
 }> => {
   const { stdout, stderr } = await execAsync(
-    `npx @getlarge/kratos-cli login --email '${email}' --password '${password}'`
+    `npx @getlarge/kratos-cli login --email '${email}' --password '${password}'`,
+    { encoding: 'utf-8' }
   );
-
   if (stderr) {
-    throw new Error(stderr.toString());
+    console.error(stderr);
+    throw new Error(stderr);
   }
-  return JSON.parse(stdout.toString().trim());
+  return JSON.parse(stdout.trim());
 };
 
 export const register = async ({
@@ -42,12 +40,15 @@ export const register = async ({
   email: string;
   password: string;
 }): Promise<void> => {
-  const { stderr } = await execAsync(
-    `npx @getlarge/kratos-cli register --email '${email}' --password '${password}'`
+  const { stdout, stderr } = await execAsync(
+    `npx @getlarge/kratos-cli register --email '${email}' --password '${password}'`,
+    { encoding: 'utf-8' }
   );
 
+  console.log(stdout);
   if (stderr) {
-    throw new Error(stderr.toString());
+    console.error(stderr);
+    throw new Error(stderr);
   }
 };
 
