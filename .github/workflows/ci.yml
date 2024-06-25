@@ -41,11 +41,15 @@ jobs:
       - run: npx nx affected -t lint test build
 
       #  can't use --wait --wait-timeout N options since keto and kratos migrate containers will exit before the Keto and Kratos services are ready
-      - run: npx @dotenvx/dotenvx run -- docker compose -p cat-fostering up -d
+      - run: npx @dotenvx/dotenvx run -- docker compose --profile ci -p cat-fostering up -d
 
-      - run: sleep 25
+      - run: sleep 15
 
-      - run: npx nx run cat-fostering-api:serve:ci
+      - run: npx nx run cat-fostering-api:serve:ci &
+        env:
+          NX_CLOUD_DISTRIBUTED_EXECUTION: false
+
+      - run: sleep 10
 
       - run: npx nx affected -t e2e
       # - run: npx nx affected -t e2e-ci

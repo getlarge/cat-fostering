@@ -29,6 +29,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    profiles:
+      - dev
 
   postgres:
     image: postgres:16
@@ -41,6 +43,9 @@ services:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=appdb
+    profiles:
+      - ci
+      - dev
 
   kratos-migrate:
     image: oryd/kratos:v1.1.0
@@ -50,6 +55,9 @@ services:
     restart: on-failure
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   kratos:
     depends_on:
@@ -65,7 +73,10 @@ services:
     networks:
       - ory
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
+    profiles:
+      - ci
+      - dev
 
   kratos-postgres:
     image: postgres:16
@@ -78,6 +89,9 @@ services:
       - kratos_postgres_volume:/var/lib/postgresql/data
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   kratos-selfservice-ui-node:
     image: oryd/kratos-selfservice-ui-node:v1.0.0
@@ -90,6 +104,8 @@ services:
     networks:
       - ory
     restart: on-failure
+    profiles:
+      - dev
 
   mailslurper:
     image: oryd/mailslurper:latest-smtps
@@ -99,6 +115,9 @@ services:
       - '4437:4437'
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   keto-migrate:
     image: oryd/keto:v0.12.0
@@ -108,6 +127,9 @@ services:
     restart: on-failure
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   keto:
     depends_on:
@@ -122,6 +144,9 @@ services:
       - ./infra/ory-keto:/etc/config/keto:ro
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   keto-postgres:
     image: postgres:16
@@ -134,3 +159,6 @@ services:
       - keto_postgres_volume:/var/lib/postgresql/data
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
