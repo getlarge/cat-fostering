@@ -5,14 +5,11 @@
   "projectType": "library",
   "tags": ["scope:shared", "type:core", "platform:node"],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+    "test": {
+      "executor": "@nx/jest:jest",
       "options": {
-        "outputPath": "dist/libs/shared/entities",
-        "main": "libs/shared/entities/src/index.ts",
-        "tsConfig": "libs/shared/entities/tsconfig.lib.json",
-        "assets": ["libs/shared/entities/*.md"]
+        "jestConfig": "libs/shared/entities/jest.config.ts",
+        "passWithNoTests": true
       }
     }
   }

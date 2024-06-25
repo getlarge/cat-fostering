@@ -5,5 +5,13 @@
   "projectType": "library",
   "tags": ["scope:catprofile", "type:api", "platform:node"],
   "// targets": "to see all targets run: nx show project nestjs-catprofile-module --web",
-  "targets": {}
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "libs/shared/nestjs-utils/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
 }
