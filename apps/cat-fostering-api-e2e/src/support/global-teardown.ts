@@ -17,14 +17,20 @@ export default async (): Promise<void> => {
 
   await (globalThis.__DB_CONNECTION__ as DataSource)?.destroy();
 
-  if (process.env.CI) {
+  if (process.env.CI && !process.env.ACT) {
     return;
   }
   generateOryKetoConfig(dockerEnvPath);
-  execSync('docker compose restart keto', { cwd, stdio: 'ignore' });
+  execSync('docker compose -p cat-fostering restart keto', {
+    cwd,
+    stdio: 'ignore',
+  });
 
   generateOryKratosConfig(dockerEnvPath);
-  execSync('docker compose restart kratos', { cwd, stdio: 'ignore' });
+  execSync('docker compose -p cat-fostering restart kratos', {
+    cwd,
+    stdio: 'ignore',
+  });
 };
 
 cleanupRegisteredPaths();

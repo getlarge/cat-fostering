@@ -34,7 +34,6 @@ services:
 
   postgres:
     image: postgres:16
-    container_name: app_postgres
     volumes:
       - app_postgres_volume:/var/lib/postgresql/data
     ports:
@@ -80,7 +79,6 @@ services:
 
   kratos-postgres:
     image: postgres:16
-    container_name: kratos_postgres
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret
@@ -150,7 +148,6 @@ services:
 
   keto-postgres:
     image: postgres:16
-    container_name: keto_postgres
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret

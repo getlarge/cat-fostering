@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import {
   ClassConstructor,
   Expose,
-  plainToClass,
+  plainToInstance,
   Transform,
 } from 'class-transformer';
 import {
@@ -414,7 +414,7 @@ export function validateMappings<T extends object>(
   mappings: ClassConstructor<T>,
   processEnv: Record<string, string>
 ) {
-  const validatedConfig = plainToClass(mappings, processEnv, {
+  const validatedConfig = plainToInstance(mappings, processEnv, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,
     exposeDefaultValues: true,

@@ -1,5 +1,3 @@
-# this workflow can be run locally using act with the following command:
-# act push --var NX_CLOUD_DISTRIBUTED_EXECUTION=false -s DOTENV_PRIVATE_KEY_CI -s GITHUB_TOKEN="$(gh auth token)"
 name: ci
 
 on:
@@ -17,7 +15,7 @@ env:
   DOTENV_PRIVATE_KEY_CI: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
   POSTGRES_URL: postgres://dbuser:secret@localhost:5432
   POSTGRES_DB: cat_fostering_api_e2e
-  BACKEND_DOCKER_HOST: http://172.17.0.1:3000
+  BACKEND_DOCKER_HOST: ${{ vars.BACKEND_DOCKER_HOST || 'http://172.17.0.1:3000' }}
   NX_CLOUD_DISTRIBUTED_EXECUTION: ${{ vars.NX_CLOUD_DISTRIBUTED_EXECUTION || 'true' }}
 
 jobs:
@@ -32,11 +30,15 @@ jobs:
       - run: pwd
 
       - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
+        if: ${{ !env.ACT }}
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
+          cache-dependency-path: |
+            **/package-lock.json
+            patches/*.patch
 
       - run: npm ci
 
@@ -44,27 +46,29 @@ jobs:
         with:
           workflow-id: 'ci.yml'
 
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      # - run: npx nx-cloud record -- echo Hello World
       - run: npx nx affected -t lint test build
+        if: ${{ !env.ACT }}
 
-      - run: npx @dotenvx/dotenvx run -- npm run ory:generate:kratos -- -e .env.ci
+      - run: echo ${{ env.BACKEND_DOCKER_HOST }}
+
+      - run: |
+          npm run ory:generate:kratos -- -e .env.ci
+          npm run ory:generate:keto -- -e .env.ci
         env:
           kratos_selfservice_flows_login_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-in
           kratos_selfservice_flows_registration_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-up
-
-      - run: npx @dotenvx/dotenvx run -- npm run ory:generate:keto -- -e .env.ci
 
       #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
       - run: npx @dotenvx/dotenvx run -- docker compose -f docker-compose.yaml -f docker-compose.ci.yaml --profile ci -p cat-fostering up -d
 
       - run: sleep 15
 
-      - run: docker ps
-      - run: docker compose logs keto
-      - run: docker compose logs kratos
+      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
+      - run: npx nx-cloud record -- docker ps
+      - run: npx nx-cloud record -- docker compose -p cat-fostering logs keto -n 500
+      - run: npx nx-cloud record -- docker compose -p cat-fostering logs kratos -n 500
 
-      - run: npx nx run cat-fostering-api:serve:ci --no-dte &
+      - run: npx nx run cat-fostering-api:serve:ci --no-dte & ifconfig
 
       - run: sleep 10
 
@@ -72,6 +76,9 @@ jobs:
         env:
           DEBUG:KRATOS_CLI: true
           DEBUG:KETO_CLI: true
+          ORY_KRATOS_PUBLIC_URL: http://127.0.0.1:4433
+          ORY_KETO_ADMIN_URL: http://127.0.0.1:4467
+          ORY_KETO_PUBLIC_URL: http://127.0.0.1:4466
           kratos_selfservice_flows_login_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-in
           kratos_selfservice_flows_registration_after_hook_config_url: ${{ env.BACKEND_DOCKER_HOST }}/api/users/on-sign-up
 

@@ -95,6 +95,7 @@ function getOryMappings<T extends KeywordMappings>(
   envFilePath: string
 ): T {
   const oldProcessEnv = structuredClone(process.env);
+  // const keys = Object.keys(plainToInstance(cls, {}));
   const result = dotenvX.config({ path: envFilePath, overload: false });
   process.env = { ...oldProcessEnv };
   if (!result.parsed) {

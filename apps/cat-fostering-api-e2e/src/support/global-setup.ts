@@ -28,10 +28,16 @@ export default async (): Promise<void> => {
   globalThis.__TEARDOWN_MESSAGE__ = __TEARDOWN_MESSAGE__;
 
   generateOryKetoConfig(dockerEnvPath);
-  execSync('docker compose restart keto', { cwd, stdio: 'ignore' });
+  execSync('docker compose -p cat-fostering restart keto', {
+    cwd,
+    stdio: 'ignore',
+  });
 
   generateOryKratosConfig(dockerEnvPath);
-  execSync('docker compose restart kratos', { cwd, stdio: 'ignore' });
+  execSync('docker compose -p cat-fostering restart kratos', {
+    cwd,
+    stdio: 'ignore',
+  });
 
   globalThis.__DB_CONNECTION__ = await createTestConnection(applicationEnvPath);
 };
