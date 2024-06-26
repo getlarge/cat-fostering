@@ -5,7 +5,7 @@ ci: ## Run CI workflow defined in GitHub Actions CI workflow.
 
   # export GITHUB_TOKEN=$(gh auth token)
   # export DOTENV_PRIVATE_KEY_CI=$(cat .env.keys | grep DOTENV_PRIVATE_KEY_CI | cut -d '=' -f2 | tr -d '"')
-	@act push --container-daemon-socket="unix:///var/run/docker.sock" --bind --env-file='' --var NX_CLOUD_DISTRIBUTED_EXECUTION=false --var BACKEND_DOCKER_HOST="http://api:3000" -s GITHUB_TOKEN="${GITHUB_TOKEN}" -s DOTENV_PRIVATE_KEY_CI=${DOTENV_PRIVATE_KEY_CI} --pull=true -e github_event.tmp --no-cache-server
+	@act push --container-daemon-socket="unix:///var/run/docker.sock" --bind --env-file='' --var NX_CLOUD_DISTRIBUTED_EXECUTION=true -s GITHUB_TOKEN="${GITHUB_TOKEN}" -s DOTENV_PRIVATE_KEY_CI=${DOTENV_PRIVATE_KEY_CI} --pull=true -e github_event.tmp
 	@rm -f github_event.tmp
 
 

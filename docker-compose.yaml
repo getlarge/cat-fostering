@@ -41,7 +41,7 @@ services:
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=appdb
+      - POSTGRES_DB=${POSTGRES_DB:-appdb}
     networks:
       - ory
     profiles:

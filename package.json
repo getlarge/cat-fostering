@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "pg:create:connection": "ts-node --project tools/tsconfig.json tools/pg/connection.ts create",
     "ory:generate:kratos": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts kratos",
     "ory:generate:keto": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts keto",
     "ory:generate:network": "ts-node --project tools/tsconfig.json tools/ory/generate-config.ts network",
