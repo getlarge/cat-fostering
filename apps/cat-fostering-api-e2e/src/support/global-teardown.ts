@@ -7,6 +7,7 @@ import {
 } from '@cat-fostering/ory-config-generators';
 import { join } from 'node:path';
 import { DataSource } from 'typeorm';
+
 import { restartService } from './helpers';
 
 const dockerEnvPath = join(__dirname, '..', '..', '..', '..', '.env');

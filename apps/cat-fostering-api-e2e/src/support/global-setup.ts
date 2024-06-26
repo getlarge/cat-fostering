@@ -19,8 +19,6 @@ const applicationEnvPath = join(
 );
 const dockerEnvPath = join(__dirname, '..', '..', '..', '..', '.env.ci');
 
-const cwd = process.cwd();
-
 export default async (): Promise<void> => {
   console.log('\nSetting up...\n');
 
