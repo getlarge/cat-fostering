@@ -37,7 +37,8 @@ jobs:
 
       - run: pwd
 
-      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci" --with-env-vars="auto"
+      # TODO: ensure vars are shared with agents --with-env-vars="auto"
+      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci"
         if: ${{ !env.ACT }}
 
       - uses: actions/setup-node@v4
