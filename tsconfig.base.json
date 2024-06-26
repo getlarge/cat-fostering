@@ -46,8 +46,14 @@
         "libs/fostering/ng-state/src/index.ts"
       ],
       "@cat-fostering/ng-state": ["libs/ng-shared/state/src/index.ts"],
-      "@cat-fostering/ng-user-state": ["libs/user/ng-state/src/index.ts"]
-    }
+      "@cat-fostering/ng-user-state": ["libs/user/ng-state/src/index.ts"],
+      "@cat-fostering/ory-config-generators": [
+        "libs/ory-config-generators/src/index.ts"
+      ],
+      "@cat-fostering/pg-config": ["libs/pg-config/src/index.ts"]
+    },
+    "typeRoots": ["node_modules/@types", "types"],
+    "types": ["@dotenvx/dotenvx"]
   },
   "exclude": ["node_modules", "tmp"]
 }

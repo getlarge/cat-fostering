@@ -1,9 +1,10 @@
 import 'reflect-metadata';
+
 import {
   ClassConstructor,
   Expose,
+  plainToInstance,
   Transform,
-  plainToClass,
 } from 'class-transformer';
 import {
   IsArray,
@@ -23,7 +24,7 @@ export class KeywordMappings {
   @IsString()
   log_level?: string = 'debug';
 
-  [key: string]: (string | number)[] | string | number | boolean;
+  [key: string]: (string | number)[] | string | number | boolean | undefined;
 }
 
 const isUrlOptions: Parameters<typeof IsUrl>[0] = {
@@ -39,6 +40,9 @@ const DEFAULT_SELF_SERVICE_UI_URL = 'http://localhost:4455';
 
 const strToBool = (value: string | boolean) =>
   value === 'true' || value === true;
+
+const strToArray = (value?: string) =>
+  value ? value.split(',').map((v) => v.trim()) : [];
 
 export class KratosMappings extends KeywordMappings {
   @Expose()
@@ -175,10 +179,9 @@ export class KratosMappings extends KeywordMappings {
 
   @Expose()
   @IsOptional()
-  @Transform(
-    ({ value }) => (value ? value.split(',').map((v) => v.trim()) : []),
-    { toClassOnly: true }
-  )
+  @Transform(({ value }) => strToArray(value), {
+    toClassOnly: true,
+  })
   @IsArray()
   @IsString({ each: true })
   kratos_selfservice_allowed_return_urls?: string[] = [];
@@ -311,10 +314,9 @@ export class KratosMappings extends KeywordMappings {
 
   @Expose()
   @IsOptional()
-  @Transform(
-    ({ value }) => (value ? value.split(',').map((v) => v.trim()) : []),
-    { toClassOnly: true }
-  )
+  @Transform(({ value }) => strToArray(value), {
+    toClassOnly: true,
+  })
   @IsArray()
   @IsUrl(isUrlOptions, { each: true })
   kratos_selfservice_methods_passkey_config_rp_origins?: string[] = [];
@@ -334,10 +336,9 @@ export class KratosMappings extends KeywordMappings {
 
   @Expose()
   @IsOptional()
-  @Transform(
-    ({ value }) => (value ? value.split(',').map((v) => v.trim()) : []),
-    { toClassOnly: true }
-  )
+  @Transform(({ value }) => strToArray(value), {
+    toClassOnly: true,
+  })
   @IsArray()
   @IsUrl(isUrlOptions, { each: true })
   kratos_selfservice_methods_webauthn_config_rp_origins?: string[] = [];
@@ -368,7 +369,7 @@ export class KratosMappings extends KeywordMappings {
   kratos_serve_public_base_url?: string = 'http://localhost:4433/';
 
   @Expose()
-  @Transform(({ obj, key }) => obj[key] === 'true' || obj[key] === true, {
+  @Transform(({ obj, key }) => strToBool(obj[key]), {
     toClassOnly: true,
   })
   @IsOptional()
@@ -376,10 +377,9 @@ export class KratosMappings extends KeywordMappings {
   kratos_serve_public_cors_enabled?: boolean = false;
 
   @Expose()
-  @Transform(
-    ({ value }) => (value ? value.split(',').map((v) => v.trim()) : []),
-    { toClassOnly: true }
-  )
+  @Transform(({ value }) => strToArray(value), {
+    toClassOnly: true,
+  })
   @IsOptional()
   @IsString({ each: true })
   kratos_serve_public_cors_allowed_origins?: string[] = [
@@ -426,7 +426,7 @@ export function validateMappings<T extends object>(
   mappings: ClassConstructor<T>,
   processEnv: Record<string, string>
 ) {
-  const validatedConfig = plainToClass(mappings, processEnv, {
+  const validatedConfig = plainToInstance(mappings, processEnv, {
     enableImplicitConversion: true,
     excludeExtraneousValues: true,
     exposeDefaultValues: true,

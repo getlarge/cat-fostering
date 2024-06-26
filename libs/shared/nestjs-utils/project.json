@@ -4,16 +4,6 @@
   "sourceRoot": "libs/shared/nestjs-utils/src",
   "projectType": "library",
   "tags": ["scope:shared", "type:utils", "platform:node"],
-  "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/shared/nestjs-utils",
-        "main": "libs/shared/nestjs-utils/src/index.ts",
-        "tsConfig": "libs/shared/nestjs-utils/tsconfig.lib.json",
-        "assets": ["libs/shared/nestjs-utils/*.md"]
-      }
-    }
-  }
+  "// targets": "to see all targets run: nx show project nestjs-utils --web",
+  "targets": {}
 }

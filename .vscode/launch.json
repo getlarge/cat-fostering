@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to cat-fostering-api",
+      "request": "attach",
+      "cwd": "${workspaceFolder}/apps/cat-fostering-api",
+      "type": "node",
+      "port": 9220
+    }
+  ]
+}

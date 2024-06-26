@@ -1,21 +1,36 @@
-import { execSync } from 'node:child_process';
+import { registerTsProject } from '@nx/js/src/internal';
+const cleanupRegisteredPaths = registerTsProject('../../tsconfig.base.json');
+
+import {
+  generateOryKetoConfig,
+  generateOryKratosConfig,
+} from '@cat-fostering/ory-config-generators';
+import { join } from 'node:path';
 import { DataSource } from 'typeorm';
 
-const cwd = process.cwd();
+import { restartService } from './helpers';
+
+const dockerEnvPath = join(__dirname, '..', '..', '..', '..', '.env');
 
 export default async (): Promise<void> => {
   console.log(globalThis.__TEARDOWN_MESSAGE__);
 
-  await (globalThis.__DB_CONNECTION__ as DataSource)?.destroy();
+  if (
+    process.env.CI ||
+    process.env.ACT ||
+    // unfortunately, the task generated for tests splitting do not contain the target name
+    process.env.NX_TASK_TARGET_TARGET?.includes('e2e-ci')
+  ) {
+    return;
+  }
 
-  execSync(
-    'npx ts-node --project tools/tsconfig.json tools/ory/generate-config.ts keto -e .env',
-    { cwd, stdio: 'ignore' }
-  );
-  execSync('docker compose restart keto', { cwd, stdio: 'ignore' });
-  execSync(
-    'npx ts-node --project tools/tsconfig.json tools/ory/generate-config.ts kratos -e .env',
-    { cwd, stdio: 'ignore' }
-  );
-  execSync('docker compose restart kratos', { cwd, stdio: 'ignore' });
+  if (process.env.NX_TASK_TARGET_TARGET === 'e2e') {
+    await (globalThis.__DB_CONNECTION__ as DataSource)?.destroy();
+    generateOryKetoConfig(dockerEnvPath);
+    restartService('keto');
+    generateOryKratosConfig(dockerEnvPath);
+    restartService('kratos');
+  }
 };
+
+cleanupRegisteredPaths();

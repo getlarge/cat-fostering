@@ -2,6 +2,7 @@
 /dist
 /coverage
 /.nx/cache
+/.nx/workspace-data
 .angular
 infra/ory-kratos/kratos-template.yaml
 infra/ory-keto/keto-template.yaml

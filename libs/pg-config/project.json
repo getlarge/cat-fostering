@@ -1,0 +1,9 @@
+{
+  "name": "pg-config",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/pg-config/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:test", "platform:node"],
+  "// targets": "to see all targets run: nx show project pg-config --web",
+  "targets": {}
+}

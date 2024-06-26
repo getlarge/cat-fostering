@@ -13,6 +13,7 @@ import {
   SwaggerModule,
 } from '@nestjs/swagger';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
+import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 
@@ -77,11 +78,12 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, docBuilder);
 
-  await writeFile(
-    resolve(join('apps', 'cat-fostering-api', 'openapi.json')),
-    JSON.stringify(document, null, 2),
-    'utf-8'
+  const openapiPath = resolve(
+    join('apps', 'cat-fostering-api', 'openapi.json')
   );
+  if (existsSync(openapiPath)) {
+    await writeFile(openapiPath, JSON.stringify(document, null, 2), 'utf-8');
+  }
 
   // Swagger UI
   const customOptions: SwaggerCustomOptions = {

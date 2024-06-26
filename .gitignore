@@ -41,12 +41,14 @@ testem.log
 Thumbs.db
 
 .nx/cache
-
-*.env*
-!*.env.example*
+.nx/workspace-data
 
 .env*
+.env.keys
 .flaskenv*
+!*.env.example*
 !.env.project
 !.env.vault
+!.env.ci
+
 .angular

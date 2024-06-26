@@ -23,12 +23,13 @@ export const login = async ({
   identity: string;
 }> => {
   const { stdout, stderr } = await execAsync(
-    `npx @getlarge/kratos-cli login --email '${email}' --password '${password}'`
+    `npx @getlarge/kratos-cli login --email '${email}' --password '${password}'`,
+    { encoding: 'utf-8' }
   );
   if (stderr) {
-    throw new Error(stderr.toString());
+    throw new Error(stderr);
   }
-  return JSON.parse(stdout.toString().trim());
+  return JSON.parse(stdout.trim());
 };
 
 export const register = async ({
@@ -39,10 +40,12 @@ export const register = async ({
   password: string;
 }): Promise<void> => {
   const { stderr } = await execAsync(
-    `npx @getlarge/kratos-cli register --email '${email}' --password '${password}'`
+    `npx @getlarge/kratos-cli register --email '${email}' --password '${password}'`,
+    { encoding: 'utf-8' }
   );
+
   if (stderr) {
-    throw new Error(stderr.toString());
+    throw new Error(stderr);
   }
 };
 
@@ -95,7 +98,7 @@ export const createOryAdminRelation = ({
   execSync(`npx @getlarge/keto-cli create --tuple '${relationTuple}'`);
 };
 
-export const createCat = async ({
+export const createCatProfile = async ({
   name,
   description,
   age,
@@ -125,6 +128,58 @@ export const createCat = async ({
     }
   );
   expect(res.status).toBe(201);
+  return res.data;
+};
+
+export const createFosteringRequest = async ({
+  catProfileId,
+  startDate,
+  endDate,
+  sessionToken,
+}: {
+  catProfileId: string;
+  startDate: Date;
+  endDate: Date;
+  sessionToken: string;
+}): Promise<{
+  startDate: Date;
+  endDate: Date;
+  id: string;
+}> => {
+  const res = await axios.post(
+    'api/fostering',
+    {
+      catProfileId,
+      startDate,
+      endDate,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }
+  );
+  expect(res.status).toBe(201);
+  return res.data;
+};
+
+export const getFosteringRequest = async ({
+  id,
+  sessionToken,
+}: {
+  id: string;
+  sessionToken: string;
+}): Promise<{
+  startDate: Date;
+  endDate: Date;
+  id: string;
+}> => {
+  const res = await axios.get(`api/fostering/${id}`, {
+    headers: {
+      Authorization: `Bearer ${sessionToken}`,
+    },
+  });
+  expect(res.status).toBe(200);
   return res.data;
 };
 

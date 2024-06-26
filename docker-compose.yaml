@@ -29,10 +29,11 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    profiles:
+      - dev
 
   postgres:
     image: postgres:16
-    container_name: app_postgres
     volumes:
       - app_postgres_volume:/var/lib/postgresql/data
     ports:
@@ -40,16 +41,48 @@ services:
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=appdb
+      - POSTGRES_DB=${POSTGRES_DB:-appdb}
+    networks:
+      - ory
+    profiles:
+      - ci
+      - dev
+
+  api:
+    image: ghcr.io/getlarge/cat-fostering/cat-fostering-api:dev
+    pull_policy: never
+    depends_on:
+      - postgres
+      - kratos
+      - keto
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=test
+      - ORY_ACTION_API_KEY=${ORY_ACTION_API_KEY:-unsecure_api_key}
+      - ORY_KETO_ADMIN_URL=http://keto:4467
+      - ORY_KETO_PUBLIC_URL=http://keto:4466
+      - ORY_KRATOS_ADMIN_URL=http://kratos:4434
+      - ORY_KRATOS_PUBLIC_URL=http://kratos:4433
+      - PORT=3000
+      - POSTGRES_URL=postgres://dbuser:secret@postgres:5432
+      - POSTGRES_DB=${POSTGRES_DB:-cat_fostering_api_e2e}
+    networks:
+      - ory
+    profiles:
+      - ci
 
   kratos-migrate:
     image: oryd/kratos:v1.2.0
     volumes:
-      - ./infra/ory-kratos:/etc/config/kratos:ro
+      - ${PWD}/infra/ory-kratos:/etc/config/kratos:ro
     command: -c /etc/config/kratos/kratos.yaml migrate sql -e --yes
     restart: on-failure
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   kratos:
     depends_on:
@@ -61,15 +94,17 @@ services:
     restart: unless-stopped
     command: serve -c /etc/config/kratos/kratos.yaml --dev --watch-courier
     volumes:
-      - ./infra/ory-kratos:/etc/config/kratos:ro
+      - ${PWD}/infra/ory-kratos:/etc/config/kratos:ro
     networks:
       - ory
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+    profiles:
+      - ci
+      - dev
 
   kratos-postgres:
     image: postgres:16
-    container_name: kratos_postgres
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret
@@ -78,6 +113,9 @@ services:
       - kratos_postgres_volume:/var/lib/postgresql/data
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   kratos-selfservice-ui-node:
     image: oryd/kratos-selfservice-ui-node:v1.2.0
@@ -93,6 +131,8 @@ services:
     networks:
       - ory
     restart: on-failure
+    profiles:
+      - dev
 
   mailslurper:
     image: oryd/mailslurper:latest-smtps
@@ -102,15 +142,21 @@ services:
       - '4437:4437'
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   keto-migrate:
     image: oryd/keto:v0.12.0
     volumes:
-      - ./infra/ory-keto:/etc/config/keto:ro
+      - ${PWD}/infra/ory-keto:/etc/config/keto:ro
     command: ['migrate', 'up', '-y', '-c', '/etc/config/keto/keto.yaml']
     restart: on-failure
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   keto:
     depends_on:
@@ -122,13 +168,15 @@ services:
     command: serve -c /etc/config/keto/keto.yaml
     restart: on-failure
     volumes:
-      - ./infra/ory-keto:/etc/config/keto:ro
+      - ${PWD}/infra/ory-keto:/etc/config/keto:ro
     networks:
       - ory
+    profiles:
+      - ci
+      - dev
 
   keto-postgres:
     image: postgres:16
-    container_name: keto_postgres
     environment:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret
@@ -137,3 +185,6 @@ services:
       - keto_postgres_volume:/var/lib/postgresql/data
     networks:
       - ory
+    profiles:
+      - ci
+      - dev

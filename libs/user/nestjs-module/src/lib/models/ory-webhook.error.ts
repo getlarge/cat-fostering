@@ -1,5 +1,9 @@
 import { HttpException } from '@nestjs/common';
 
+/**
+ * @see https://www.ory.sh/docs/kratos/concepts/ui-messages
+ * @see https://www.ory.sh/docs/kratos/concepts/ui-user-interface
+ */
 export type OryWebhookErrorMessages = {
   instance_ptr?: string;
   messages: {

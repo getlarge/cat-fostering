@@ -4,16 +4,6 @@
   "sourceRoot": "libs/shared/entities/src",
   "projectType": "library",
   "tags": ["scope:shared", "type:core", "platform:node"],
-  "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/shared/entities",
-        "main": "libs/shared/entities/src/index.ts",
-        "tsConfig": "libs/shared/entities/tsconfig.lib.json",
-        "assets": ["libs/shared/entities/*.md"]
-      }
-    }
-  }
+  "// targets": "to see all targets run: nx show project entities --web",
+  "targets": {}
 }

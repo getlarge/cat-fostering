@@ -38,14 +38,23 @@
     },
     {
       "plugin": "@nx/jest/plugin",
+      "exclude": ["apps/cat-fostering-api-e2e/**/*"],
       "options": {
         "targetName": "test"
       }
     },
     {
+      "plugin": "@nx/jest/plugin",
+      "include": ["apps/cat-fostering-api-e2e/**/*"],
+      "options": {
+        "targetName": "e2e",
+        "ciTargetName": "e2e-ci"
+      }
+    },
+    {
       "plugin": "@nx/playwright/plugin",
       "options": {
-        "targetName": "e2e"
+        "targetName": "playwright-e2e"
       }
     }
   ],
@@ -59,6 +68,22 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "test": {
+      "cache": true,
+      "inputs": ["default", "^default"],
+      "options": {
+        "jestConfig": "{projectRoot}/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "e2e": {
+      "cache": true,
+      "inputs": ["default", "^default"],
+      "options": {
+        "jestConfig": "{projectRoot}/jest.config.ts",
+        "runInBand": true
+      }
     }
   },
   "generators": {
@@ -75,5 +100,6 @@
     "@nx/angular:component": {
       "style": "css"
     }
-  }
+  },
+  "nxCloudAccessToken": "ZDE5NmQ1N2QtZmZlZS00YTQyLTgzZmMtYzMzYzdiYmQ5YTRmfHJlYWQtd3JpdGU="
 }
