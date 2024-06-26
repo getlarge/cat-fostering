@@ -42,9 +42,35 @@ services:
       - POSTGRES_USER=dbuser
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=appdb
+    networks:
+      - ory
     profiles:
       - ci
       - dev
+
+  api:
+    image: ghcr.io/getlarge/cat-fostering/cat-fostering-api:dev
+    pull_policy: never
+    depends_on:
+      - postgres
+      - kratos
+      - keto
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=test
+      - ORY_ACTION_API_KEY=${ORY_ACTION_API_KEY:-unsecure_api_key}
+      - ORY_KETO_ADMIN_URL=http://keto:4467
+      - ORY_KETO_PUBLIC_URL=http://keto:4466
+      - ORY_KRATOS_ADMIN_URL=http://kratos:4434
+      - ORY_KRATOS_PUBLIC_URL=http://kratos:4433
+      - PORT=3000
+      - POSTGRES_URL=postgres://dbuser:secret@postgres:5432
+      - POSTGRES_DB=${POSTGRES_DB:-appdb}
+    networks:
+      - ory
+    profiles:
+      - ci
 
   kratos-migrate:
     image: oryd/kratos:v1.1.0
