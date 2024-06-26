@@ -27,7 +27,6 @@ export const login = async ({
     { encoding: 'utf-8' }
   );
   if (stderr) {
-    console.error(stderr);
     throw new Error(stderr);
   }
   return JSON.parse(stdout.trim());
@@ -40,14 +39,12 @@ export const register = async ({
   email: string;
   password: string;
 }): Promise<void> => {
-  const { stdout, stderr } = await execAsync(
+  const { stderr } = await execAsync(
     `npx @getlarge/kratos-cli register --email '${email}' --password '${password}'`,
     { encoding: 'utf-8' }
   );
 
-  console.log(stdout);
   if (stderr) {
-    console.error(stderr);
     throw new Error(stderr);
   }
 };

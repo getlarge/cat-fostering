@@ -17,9 +17,12 @@ import {
   UserSchema,
 } from '@cat-fostering/entities';
 import { config, parse } from 'dotenv';
+import { execSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { DataSource, DataSourceOptions } from 'typeorm';
+
+const cwd = process.cwd();
 
 const getConnectionOptions = (envFilePath = '.env.test') => {
   const variables = existsSync(envFilePath)
@@ -54,7 +57,9 @@ export const createTestConnection = async (envFilePath = '.env.test') => {
   const database = urlObject.pathname.replace('/', '');
   const username = urlObject.username;
   try {
-    return await new DataSource(options).initialize();
+    const conn = await new DataSource(options).initialize();
+    await conn.dropDatabase();
+    return conn;
   } catch (error) {
     if (error.message.includes('does not exist')) {
       console.warn(`Creating database ${database}...`);
@@ -72,4 +77,11 @@ export const createTestConnection = async (envFilePath = '.env.test') => {
     }
     throw error;
   }
+};
+
+export const restartService = (service: string): void => {
+  execSync(`docker compose -p cat-fostering restart ${service}`, {
+    cwd,
+    stdio: 'ignore',
+  });
 };

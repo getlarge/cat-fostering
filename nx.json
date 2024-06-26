@@ -65,6 +65,14 @@
         "jestConfig": "{projectRoot}/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "e2e": {
+      "cache": true,
+      "inputs": ["default", "^default"],
+      "options": {
+        "jestConfig": "{projectRoot}/jest.config.ts",
+        "runInBand": true
+      }
     }
   },
   "nxCloudAccessToken": "ZDE5NmQ1N2QtZmZlZS00YTQyLTgzZmMtYzMzYzdiYmQ5YTRmfHJlYWQtd3JpdGU="

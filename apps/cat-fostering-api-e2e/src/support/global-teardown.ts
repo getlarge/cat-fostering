@@ -5,11 +5,10 @@ import {
   generateOryKetoConfig,
   generateOryKratosConfig,
 } from '@cat-fostering/ory-config-generators';
-import { execSync } from 'node:child_process';
 import { join } from 'node:path';
 import { DataSource } from 'typeorm';
+import { restartService } from './helpers';
 
-const cwd = process.cwd();
 const dockerEnvPath = join(__dirname, '..', '..', '..', '..', '.env');
 
 export default async (): Promise<void> => {
@@ -21,16 +20,10 @@ export default async (): Promise<void> => {
     return;
   }
   generateOryKetoConfig(dockerEnvPath);
-  execSync('docker compose -p cat-fostering restart keto', {
-    cwd,
-    stdio: 'ignore',
-  });
+  restartService('keto');
 
   generateOryKratosConfig(dockerEnvPath);
-  execSync('docker compose -p cat-fostering restart kratos', {
-    cwd,
-    stdio: 'ignore',
-  });
+  restartService('kratos');
 };
 
 cleanupRegisteredPaths();

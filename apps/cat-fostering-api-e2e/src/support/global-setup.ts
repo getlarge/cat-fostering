@@ -5,17 +5,17 @@ import {
   generateOryKetoConfig,
   generateOryKratosConfig,
 } from '@cat-fostering/ory-config-generators';
-import { execSync } from 'node:child_process';
 import { join } from 'node:path';
 
-import { createTestConnection } from './helpers';
+import { createTestConnection, restartService } from './helpers';
 
 const applicationEnvPath = join(
   __dirname,
   '..',
   '..',
   '..',
-  'cat-fostering-api/.env.ci'
+  'cat-fostering-api',
+  '.env.ci'
 );
 const dockerEnvPath = join(__dirname, '..', '..', '..', '..', '.env.ci');
 
@@ -28,18 +28,13 @@ export default async (): Promise<void> => {
   globalThis.__TEARDOWN_MESSAGE__ = __TEARDOWN_MESSAGE__;
 
   generateOryKetoConfig(dockerEnvPath);
-  execSync('docker compose -p cat-fostering restart keto', {
-    cwd,
-    stdio: 'ignore',
-  });
+  restartService('keto');
 
   generateOryKratosConfig(dockerEnvPath);
-  execSync('docker compose -p cat-fostering restart kratos', {
-    cwd,
-    stdio: 'ignore',
-  });
+  restartService('kratos');
 
   globalThis.__DB_CONNECTION__ = await createTestConnection(applicationEnvPath);
+  restartService('api');
 };
 
 cleanupRegisteredPaths();

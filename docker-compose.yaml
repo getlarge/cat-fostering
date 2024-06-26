@@ -66,7 +66,7 @@ services:
       - ORY_KRATOS_PUBLIC_URL=http://kratos:4433
       - PORT=3000
       - POSTGRES_URL=postgres://dbuser:secret@postgres:5432
-      - POSTGRES_DB=${POSTGRES_DB:-appdb}
+      - POSTGRES_DB=${POSTGRES_DB:-cat_fostering_api_e2e}
     networks:
       - ory
     profiles:
@@ -75,7 +75,7 @@ services:
   kratos-migrate:
     image: oryd/kratos:v1.1.0
     volumes:
-      - ./infra/ory-kratos:/etc/config/kratos:ro
+      - ${PWD}/infra/ory-kratos:/etc/config/kratos:ro
     command: -c /etc/config/kratos/kratos.yaml migrate sql -e --yes
     restart: on-failure
     networks:
@@ -94,7 +94,7 @@ services:
     restart: unless-stopped
     command: serve -c /etc/config/kratos/kratos.yaml --dev --watch-courier
     volumes:
-      - ./infra/ory-kratos:/etc/config/kratos:ro
+      - ${PWD}/infra/ory-kratos:/etc/config/kratos:ro
     networks:
       - ory
     extra_hosts:
@@ -146,7 +146,7 @@ services:
   keto-migrate:
     image: oryd/keto:v0.12.0
     volumes:
-      - ./infra/ory-keto:/etc/config/keto:ro
+      - ${PWD}/infra/ory-keto:/etc/config/keto:ro
     command: ['migrate', 'up', '-y', '-c', '/etc/config/keto/keto.yaml']
     restart: on-failure
     networks:
@@ -165,7 +165,7 @@ services:
     command: serve -c /etc/config/keto/keto.yaml
     restart: on-failure
     volumes:
-      - ./infra/ory-keto:/etc/config/keto:ro
+      - ${PWD}/infra/ory-keto:/etc/config/keto:ro
     networks:
       - ory
     profiles:
