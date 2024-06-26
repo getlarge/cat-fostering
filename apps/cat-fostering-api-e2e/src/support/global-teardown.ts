@@ -19,7 +19,7 @@ export default async (): Promise<void> => {
     process.env.CI ||
     process.env.ACT ||
     // unfortunately, the task generated for tests splitting do not contain the target name
-    process.env.NX_TASK_TARGET_TARGET === 'e2e-ci'
+    process.env.NX_TASK_TARGET_TARGET?.includes('e2e-ci')
   ) {
     return;
   }

@@ -75,19 +75,17 @@ jobs:
       - run: npx nx-cloud record -- docker compose -p cat-fostering logs keto -n 500
       - run: npx nx-cloud record -- docker compose -p cat-fostering logs kratos -n 500
 
-      - run: npx nx affected -t e2e --no-agents
-        if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'false' }}
+      - name: Run e2e tests
+        run: npx nx affected -t e2e --no-agents
+        # if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'false' }}
 
       # to enable DTE for e2e tests splitting, use the following command instead and set stop-agents-after="e2e-ci"
-      - run: |
-          npm run ory:generate:keto -- -e .env.ci
-          docker compose -p cat-fostering restart keto
-          npm run ory:generate:kratos -- -e .env.ci
-          docker compose -p cat-fostering restart kratos
-          npm run pg:create:connection -- -e .env.ci
-          docker compose -p cat-fostering restart api
-          npx nx affected -t e2e-ci
-        if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'true' }}
+      # - name: Run distributed e2e tests
+      #   run: |
+      #     npm run pg:create:connection -- -e .env.ci
+      #     docker compose -p cat-fostering restart api
+      #     npx nx affected -t e2e-ci
+      #   if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'true' }}
 
       - run: npx nx-cloud complete-ci-run
         if: always() && ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'true' }}
