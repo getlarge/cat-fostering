@@ -72,16 +72,6 @@
         "buildTarget": "cat-fostering-web:build"
       }
     },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/cat-fostering-web/jest.config.ts"
-      }
-    },
     "extract-openapi-spec": {
       "executor": "nx:run-commands",
       "options": {
