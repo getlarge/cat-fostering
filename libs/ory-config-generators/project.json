@@ -1,0 +1,9 @@
+{
+  "name": "ory-config-generators",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ory-config-generators/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:utils", "platform:node"],
+  "// targets": "to see all targets run: nx show project ory-config-generators --web",
+  "targets": {}
+}

@@ -4,14 +4,5 @@
   "projectType": "application",
   "implicitDependencies": ["cat-fostering-api"],
   "tags": ["type:test", "platform:node"],
-  "targets": {
-    "e2e": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
-      "options": {
-        "jestConfig": "apps/cat-fostering-api-e2e/jest.config.ts",
-        "passWithNoTests": true
-      }
-    }
-  }
+  "targets": {}
 }

@@ -42,10 +42,10 @@ Thumbs.db
 .nx/cache
 .nx/workspace-data
 
-*.env*
-!*.env.example*
-
 .env*
+.env.keys
 .flaskenv*
+!*.env.example*
 !.env.project
 !.env.vault
+!.env.ci

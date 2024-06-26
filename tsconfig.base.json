@@ -25,8 +25,14 @@
       "@cat-fostering/nestjs-user-module": [
         "libs/user/nestjs-module/src/index.ts"
       ],
-      "@cat-fostering/nestjs-utils": ["libs/shared/nestjs-utils/src/index.ts"]
-    }
+      "@cat-fostering/nestjs-utils": ["libs/shared/nestjs-utils/src/index.ts"],
+      "@cat-fostering/ory-config-generators": [
+        "libs/ory-config-generators/src/index.ts"
+      ],
+      "@cat-fostering/pg-config": ["libs/pg-config/src/index.ts"]
+    },
+    "typeRoots": ["node_modules/@types", "types"],
+    "types": ["@dotenvx/dotenvx"]
   },
   "exclude": ["node_modules", "tmp"]
 }
