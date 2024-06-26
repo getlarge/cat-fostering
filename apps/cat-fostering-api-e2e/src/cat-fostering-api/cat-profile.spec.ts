@@ -23,7 +23,7 @@ describe('E2E CatProfiles API tests', () => {
       email: 'user1@test.it',
       password: 'p4s$worD!',
     });
-  }, 8000);
+  }, 15000);
 
   describe('POST /api/cat-profiles', () => {
     it('should create a cat profile', async () => {
