@@ -14,7 +14,7 @@
 
 # CatFostering
 
-This demonstration app is a web-based platform (REST API) called `CatFostering`. The CatFoster application is a simplified example that demonstrates the integration of [Ory](https://ory.sh) in a [NestJS](https://nestjs.com) application with the [NestJS Ory Integration libraries](https://github.com/getlarge/nestjs-ory-integration) ~~The application will not cover frontend development and deployment, focusing solely on the backend implementation.~~ 
+This demonstration app is a web-based platform (REST API) called `CatFostering`. The CatFoster application is a simplified example that demonstrates the integration of [Ory](https://ory.sh) in a [NestJS](https://nestjs.com) application with the [NestJS Ory Integration libraries](https://github.com/getlarge/nestjs-ory-integration). ~~The application will not cover frontend development and deployment, focusing solely on the backend implementation.~~ 
 
 <p align="center">
   <a href="https://github.com/getlarge/nestjs-ory-integration/" target="blank"><img src="https://ipfs.io/ipfs/QmQ6CMaraTMrv8byJfY64mDM6o7citx1pgEobMKWEJaSCB?filename=ory-nestjs-min.png" width="120" alt="NestOry Logo" /></a>
@@ -45,22 +45,38 @@ This demonstration app is a web-based platform (REST API) called `CatFostering`.
 ### Architecture
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#5d9fd8', 'textColor': 'black', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#a0c8e8' }}}%%
-graph TD
-    UI(Self-service UI) -->|Register/Login <br>Manage Account| OryKratos(Ory Kratos)
-    NestJSApp(NestJS App) -->|Verify sessions| OryKratos
-    NestJSApp -->|Create relationships <br> Check permissions| OryKeto(Ory Keto)
-    NestJSApp -->|CRUD Operations \n Store User & Cat Profiles| Postgres[(Postgres)]
-    OryKratos -->|Send webhooks| NestJSApp
-    AngularApp(Angular App) -->|REST interactions| NestJSApp
-    AngularApp(Angular App) -->|Redirect to authenticate| UI
-    UI -->|Redirect to application after authentication| AngularApp
+---
+config:
+  fontFamily: ''
+  theme: base
+  themeVariables:
+    primaryColor: '#5d9fd8'
+    textColor: black
+    secondaryColor: '#f8f8f8'
+    fontSize: "12px"
+---
 
-    style UI fill:#a0c8e8,stroke:#333,stroke-width:2px
+flowchart TD
+    UI("fa:fa-laptop Self-service UI -")
+    OryKratos(["fa:fa-shield Ory Kratos -"])
+    OryKeto(["fa:fa-shield Ory Keto -"])
+    NestJSApp("fa:fa-code NestJS App -")
+    AngularApp("fa:fa-code Angular App -")
+    Postgres[("fa:fa-database Postgres -")]    
+    
+    UI -- Register/Login <br>Manage Account --> OryKratos
+    NestJSApp -- Verify cookie \nor JWT --> OryKratos
+    NestJSApp -- Create relationships <br> Check permissions --> OryKeto
+    NestJSApp -- CRUD Operations \n Store User and \nCat Profiles --> Postgres
+    OryKratos -. Send webhooks .-> NestJSApp
+    AngularApp -->|REST interactions| NestJSApp
+    AngularApp -->|Redirect to authenticate| UI
+    
+    style UI fill:#a0c8e8,stroke:#333,stroke-width:2px,stroke-dasharray: 0
     style OryKratos fill:#ffdd57,stroke:#333,stroke-width:2px
-    style OryKeto fill:#6accbc,stroke:#333,stroke-width:2px
     style NestJSApp fill:#ff6f61,stroke:#333,stroke-width:2px
     style AngularApp fill:#ff6f61,stroke:#333,stroke-width:2px
+    style OryKeto fill:#6accbc,stroke:#333,stroke-width:2px
     style Postgres fill:#5d9fd8,stroke:#333,stroke-width:2px
 ```
 
