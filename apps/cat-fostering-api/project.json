@@ -49,6 +49,11 @@
         "tags": ["ghcr.io/getlarge/cat-fostering/cat-fostering-api:latest"],
         "build-args": ["APP_NAME=cat-fostering-api", "NODE_VERSION=20.9.0"]
       }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "inputs": ["production", "^production"],
+      "command": "docker build -f apps/cat-fostering-api/Dockerfile . -t ghcr.io/getlarge/cat-fostering/cat-fostering-api:latest"
     }
   }
 }
