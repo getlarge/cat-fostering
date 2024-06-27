@@ -34,6 +34,11 @@ const urlOptions = {
 
 export class EnvironmentVariables {
   @Expose()
+  @IsString()
+  NODE_ENV: 'local' | 'development' | 'test' | 'ci' | 'production' =
+    'development';
+
+  @Expose()
   @IsNumber()
   PORT?: number = 3000;
 

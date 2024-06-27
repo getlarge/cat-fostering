@@ -73,7 +73,7 @@ services:
       - ci
 
   kratos-migrate:
-    image: oryd/kratos:v1.1.0
+    image: oryd/kratos:v1.2.0
     volumes:
       - ${PWD}/infra/ory-kratos:/etc/config/kratos:ro
     command: -c /etc/config/kratos/kratos.yaml migrate sql -e --yes
@@ -87,7 +87,7 @@ services:
   kratos:
     depends_on:
       - kratos-migrate
-    image: oryd/kratos:v1.1.0
+    image: oryd/kratos:v1.2.0
     ports:
       - '4433:4433' # public
       - '4434:4434' # admin
@@ -118,10 +118,13 @@ services:
       - dev
 
   kratos-selfservice-ui-node:
-    image: oryd/kratos-selfservice-ui-node:v1.0.0
+    image: oryd/kratos-selfservice-ui-node:v1.2.0
     environment:
       - KRATOS_PUBLIC_URL=http://kratos:4433
       - KRATOS_BROWSER_URL=${KRATOS_BROWSER_URL:-http://127.0.0.1:4433}
+      - COOKIE_SECRET=${COOKIE_SECRET:-cookie_secret_not_good_not_secure}
+      - CSRF_COOKIE_NAME=${CSRF_COOKIE_NAME:-csrf_token_local}
+      - CSRF_COOKIE_SECRET=${CSRF_COOKIE_SECRET:-csrf_cookie_secret_not_good_not_secure}
       - PORT=4455
     ports:
       - '4455:4455'

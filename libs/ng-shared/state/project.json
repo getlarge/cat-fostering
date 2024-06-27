@@ -1,0 +1,9 @@
+{
+  "name": "ng-state",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ng-shared/state/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["type:utils", "scope:shared", "platform:angular"],
+  "targets": {}
+}

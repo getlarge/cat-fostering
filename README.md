@@ -14,11 +14,7 @@
 
 # CatFostering
 
-This demonstration app is a web-based platform (REST API) called `CatFostering`. The CatFoster application is a simplified example that demonstrates the integration of [Ory](https://ory.sh) in a [NestJS](https://nestjs.com) application with the [NestJS Ory Integration libraries](https://github.com/getlarge/nestjs-ory-integration). ~~The application will not cover frontend development and deployment, focusing solely on the backend implementation.~~ 
-
-<p align="center">
-  <a href="https://github.com/getlarge/nestjs-ory-integration/" target="blank"><img src="https://ipfs.io/ipfs/QmQ6CMaraTMrv8byJfY64mDM6o7citx1pgEobMKWEJaSCB?filename=ory-nestjs-min.png" width="120" alt="NestOry Logo" /></a>
-</p>
+This demonstration app is a web-based platform (REST API) called `CatFostering`. The CatFoster application is a simplified example that demonstrates the integration of [Ory](https://ory.sh) in a [NestJS](https://nestjs.com) application with the [NestJS Ory Integration libraries](https://github.com/getlarge/nestjs-ory-integration).
 
 > **Note**
 > If this is your first time working with Ory, I recommend reading the [Introduction to Ory](https://dev.to/getlarge/introduction-to-ory-47nh) article to familiarize yourself with the core components and concepts of Ory.
@@ -62,8 +58,8 @@ flowchart TD
     OryKeto(["fa:fa-shield Ory Keto -"])
     NestJSApp("fa:fa-code NestJS App -")
     AngularApp("fa:fa-code Angular App -")
-    Postgres[("fa:fa-database Postgres -")]    
-    
+    Postgres[("fa:fa-database Postgres -")]
+
     UI -- Register/Login <br>Manage Account --> OryKratos
     NestJSApp -- Verify cookie \nor JWT --> OryKratos
     NestJSApp -- Create relationships <br> Check permissions --> OryKeto
@@ -71,7 +67,7 @@ flowchart TD
     OryKratos -. Send webhooks .-> NestJSApp
     AngularApp -->|REST interactions| NestJSApp
     AngularApp -->|Redirect to authenticate| UI
-    
+
     style UI fill:#a0c8e8,stroke:#333,stroke-width:2px,stroke-dasharray: 0
     style OryKratos fill:#ffdd57,stroke:#333,stroke-width:2px
     style NestJSApp fill:#ff6f61,stroke:#333,stroke-width:2px
@@ -83,7 +79,7 @@ flowchart TD
 - **Self-service UI**: This is the frontend where users can log in and manage their accounts. It communicates directly with Ory Kratos for authentication-related tasks.
 - **Ory Kratos**: Handles authentication. It's responsible for user login, account management, and session management. It interacts with the NestJS app via HTTP webhooks to replicate user data on signup.
 - **HTTP Webhooks**: Serve as the communication link between Ory Kratos and the NestJS app, ensuring the user is replicated in the local database upon signup.
-- **NestJS App**: The core of your application is handling business logic, CRUD operations with the Postgres database, authentication checks with Ory Kratos, and authorization with Ory Keto. 
+- **NestJS App**: The core of your application is handling business logic, CRUD operations with the Postgres database, authentication checks with Ory Kratos, and authorization with Ory Keto.
 - **Ory Keto**: Manages authorization, determining what authenticated users are allowed to do within the application.
 - **Postgres**: The database where user data (replicated from Ory on signup), cat profiles and fostering requests are stored. The NestJS app interacts with Postgres for all data storage and retrieval operations.
 

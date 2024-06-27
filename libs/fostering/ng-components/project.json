@@ -1,0 +1,9 @@
+{
+  "name": "ng-fostering-components",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/fostering/ng-components/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["scope:fostering", "type:ui", "platform:angular"],
+  "targets": {}
+}

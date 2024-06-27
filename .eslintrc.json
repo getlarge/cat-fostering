@@ -18,7 +18,9 @@
                   "type:api",
                   "type:const",
                   "type:core",
+                  "type:data-access",
                   "type:env",
+                  "type:ui",
                   "type:utils",
                   "type:testing"
                 ]
@@ -47,6 +49,16 @@
                 "onlyDependOnLibsWithTags": ["type:const"]
               },
               {
+                "sourceTag": "type:data-access",
+                "onlyDependOnLibsWithTags": [
+                  "type:const",
+                  "type:core",
+                  "type:data-access",
+                  "type:env",
+                  "type:utils"
+                ]
+              },
+              {
                 "sourceTag": "type:env",
                 "onlyDependOnLibsWithTags": ["type:const", "type:env"]
               },
@@ -54,6 +66,16 @@
                 "sourceTag": "type:testing",
                 "onlyDependOnLibsWithTags": [
                   "type:const",
+                  "type:env",
+                  "type:utils"
+                ]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": [
+                  "type:const",
+                  "type:core",
+                  "type:data-access",
                   "type:env",
                   "type:utils"
                 ]
@@ -68,11 +90,19 @@
               },
               {
                 "sourceTag": "scope:catprofile",
-                "onlyDependOnLibsWithTags": ["scope:shared", "scope:catprofile"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:catprofile",
+                  "scope:user"
+                ]
               },
               {
                 "sourceTag": "scope:fostering",
-                "onlyDependOnLibsWithTags": ["scope:shared", "scope:fostering"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:fostering",
+                  "scope:user"
+                ]
               },
               {
                 "sourceTag": "scope:user",
@@ -84,12 +114,20 @@
                   "platform:node",
                   "platform:shared"
                 ],
-                "bannedExternalImports": []
+                "bannedExternalImports": ["*angular*"]
+              },
+              {
+                "sourceTag": "platform:angular",
+                "onlyDependOnLibsWithTags": [
+                  "platform:angular",
+                  "platform:shared"
+                ],
+                "bannedExternalImports": ["*nestjs*"]
               },
               {
                 "sourceTag": "platform:shared",
                 "onlyDependOnLibsWithTags": ["platform:shared"],
-                "bannedExternalImports": ["*nestjs*"]
+                "bannedExternalImports": ["*angular*", "*nestjs*"]
               },
               {
                 "sourceTag": "platform:cli",
@@ -119,7 +157,16 @@
         "simple-import-sort/imports": [
           "error",
           {
-            "groups": [["^\\u0000"], ["^@?\\w"], ["^"], ["^\\."]]
+            "groups": [
+              // Side effects.
+              ["^\\u0000"],
+              // 3rd party.
+              ["^@?\\w"],
+              // Anything not fitting group above.
+              ["^"],
+              // Relative imports.
+              ["^\\."]
+            ]
           }
         ],
         "simple-import-sort/exports": "error",
@@ -146,7 +193,16 @@
         "simple-import-sort/imports": [
           "error",
           {
-            "groups": [["^\\u0000"], ["^@?\\w"], ["^"], ["^\\."]]
+            "groups": [
+              // Side effects.
+              ["^\\u0000"],
+              // 3rd party.
+              ["^@?\\w"],
+              // Anything not fitting group above.
+              ["^"],
+              // Relative imports.
+              ["^\\."]
+            ]
           }
         ],
         "simple-import-sort/exports": "error",

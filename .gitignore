@@ -24,6 +24,7 @@ node_modules
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/thunder-tests
+.vscode/thunder-tests/environments
 
 # misc
 /.sass-cache
@@ -49,3 +50,5 @@ Thumbs.db
 !.env.project
 !.env.vault
 !.env.ci
+
+.angular

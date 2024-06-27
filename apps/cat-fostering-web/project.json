@@ -1,0 +1,87 @@
+{
+  "name": "cat-fostering-web",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/cat-fostering-web/src",
+  "tags": ["type:app", "platform:angular"],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/cat-fostering-web",
+        "index": "apps/cat-fostering-web/src/index.html",
+        "main": "apps/cat-fostering-web/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/cat-fostering-web/tsconfig.app.json",
+        "assets": [
+          "apps/cat-fostering-web/src/favicon.ico",
+          "apps/cat-fostering-web/src/assets"
+        ],
+        "styles": [
+          "@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "apps/cat-fostering-web/src/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "50kb",
+              "maximumError": "200kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "cat-fostering-web:build:production"
+        },
+        "development": {
+          "buildTarget": "cat-fostering-web:build:development",
+          "host": "127.0.0.1",
+          "port": 4200
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "cat-fostering-web:build"
+      }
+    },
+    "extract-openapi-spec": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx openapi-generator-cli generate -i apps/cat-fostering-api/openapi.json -g typescript-angular -o libs/ng-shared/data-access/src/lib --skip-validate-spec",
+          "nx run ng-data-access:lint --fix",
+          "nx format --projects ng-data-access"
+        ],
+        "parallel": false
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+launch-templates:
+  custom-linux-small-js:
+    resource-class: 'docker_linux_amd64/small'
+    image: 'ubuntu22.04-node20.11-v7'
+    init-steps:
+      - name: Checkout
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/checkout/main.yaml'
+
+      - name: Restore Node Modules Cache
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
+        inputs:
+          key: 'package-lock.json|yarn.lock|pnpm-lock.yaml'
+          paths: 'node_modules'
+          base-branch: 'main'
+
+      - name: Restore Browser Binary Cache
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
+        inputs:
+          key: 'package-lock.json|yarn.lock|pnpm-lock.yaml|"browsers"'
+          paths: |
+            '../.cache/Cypress'
+            '../.cache/ms-playwright'
+          base-branch: 'main'
+
+      - name: Install Node Modules
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-node-modules/main.yaml'
+
+      - name: Install Browsers (if needed)
+        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-browsers/main.yaml'
+
+      - name: Generate Ory Configuration
+        script: |
+          npm run ory:generate:kratos -- -e .env.ci
+          npm run ory:generate:keto -- -e .env.ci
+
+      - name: Build Docker Image
+        script: npx nx run cat-fostering-api:docker-build --no-agents
+
+      # !BLOCKER: it is not possible to install Docker in Nx agents at the moment, see https://github.com/nrwl/nx-cloud-workflows/issues/52
+
+      #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
+      - name: Start Docker Compose
+        script: npx @dotenvx/dotenvx run -- docker compose --profile ci -p cat-fostering up -d
+
+      - script: sleep 10
+
+      # - script: |
+      #     npx nx-cloud record -- docker ps
+      #     npx nx-cloud record -- docker compose -p cat-fostering logs keto -n 500
+      #     npx nx-cloud record -- docker compose -p cat-fostering logs kratos -n 500

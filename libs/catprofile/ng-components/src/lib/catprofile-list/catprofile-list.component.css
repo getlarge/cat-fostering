@@ -1,0 +1,16 @@
+.cat-profile-card {
+  margin-bottom: 16px;
+}
+
+mat-card {
+  max-width: 400px;
+  margin: auto;
+}
+
+mat-card-title {
+  font-size: 1.5em;
+}
+
+mat-card-content p {
+  margin: 0;
+}

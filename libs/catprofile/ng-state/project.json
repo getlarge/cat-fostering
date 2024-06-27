@@ -1,0 +1,9 @@
+{
+  "name": "ng-catprofile-state",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/catprofile/ng-state/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["scope:catprofile", "type:data-access", "platform:angular"],
+  "targets": {}
+}

@@ -1,0 +1,9 @@
+{
+  "name": "ng-env",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ng-shared/env/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:env", "platform:angular"],
+  "// targets": "to see all targets run: nx show project ng-env --web",
+  "targets": {}
+}

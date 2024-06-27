@@ -39,7 +39,8 @@ const AuthenticationGuard = (): Type<CanActivate> =>
       ctx
         .switchToHttp()
         .getRequest()
-        .headers?.authorization?.replace('Bearer ', ''),
+        .headers?.authorization?.replace('Bearer', '')
+        ?.trim(),
     postValidationHook: (ctx, session) => {
       if (!isValidOrySession(session)) {
         throw new HttpException(
@@ -76,7 +77,6 @@ const AuthorizationGuard = (): Type<CanActivate> =>
     },
   });
 
-
 @ApiBearerAuth()
 @ApiCookieAuth()
 @ApiTags('cat-profiles')
@@ -94,7 +94,10 @@ export class CatProfilesController {
   @UsePipes(
     new ValidationPipe({
       transform: true,
-      transformOptions: { enableImplicitConversion: true },
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+      whitelist: true,
     })
   )
   @Post()
@@ -120,6 +123,7 @@ export class CatProfilesController {
     new ValidationPipe({
       transform: true,
       transformOptions: { enableImplicitConversion: true },
+      whitelist: true,
     })
   )
   @Patch(':id')

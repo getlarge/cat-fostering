@@ -1,0 +1,9 @@
+{
+  "name": "ng-user-state",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/user/ng-state/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["scope:user", "type:data-access", "platform:angular"],
+  "targets": {}
+}

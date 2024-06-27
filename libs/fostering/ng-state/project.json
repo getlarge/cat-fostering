@@ -1,0 +1,9 @@
+{
+  "name": "ng-fostering-state",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/fostering/ng-state/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["scope:fostering", "type:data-access", "platform:angular"],
+  "targets": {}
+}

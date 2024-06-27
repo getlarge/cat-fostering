@@ -35,11 +35,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      # TODO: ensure vars are shared with agents --with-env-vars="auto"
-
       # --require-explicit-completion because Nx agents might not receive tasks for more than 30 seconds when preparing the e2e test environment
       # @see https://nx.dev/ci/troubleshooting/ci-execution-failed#the-nx-cloud-heartbeat-process-failed-to-report-its-status-in-time
-      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci" --require-explicit-completion
+      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-small-js" --stop-agents-after="e2e-ci" --require-explicit-completion --with-env-vars="DOTENV_PRIVATE_KEY_CI,POSTGRES_DB,POSTGRES_URL"
         if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'true' }}
 
       - uses: actions/setup-node@v4

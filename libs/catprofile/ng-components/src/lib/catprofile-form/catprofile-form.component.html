@@ -1,0 +1,69 @@
+<mat-card class="box cat-profile-card">
+  <mat-card-header *rxIf="isCreateMode$">
+    <mat-card-title>Create new Cat profile</mat-card-title>
+  </mat-card-header>
+
+  <form>
+    <mat-card-content>
+      <mat-form-field *rxLet="name$; let name">
+        <mat-label for="cat-profile-name">Name</mat-label>
+        <input
+          matInput
+          id="cat-profile-name"
+          #nameInput
+          type="text"
+          [value]="name"
+          [readonly]="isReadMode$ | async"
+          (input)="ui.update({ name: nameInput.value })"
+        />
+      </mat-form-field>
+      <mat-form-field *rxLet="description$; let description">
+        <mat-label for="cat-profile-description">Description</mat-label>
+        <input
+          matInput
+          id="cat-profile-description"
+          #descriptionInput
+          type="text"
+          [value]="description"
+          [readonly]="isReadMode$ | async"
+          (input)="ui.update({ description: descriptionInput.value })"
+        />
+      </mat-form-field>
+      <mat-form-field *rxLet="age$; let age">
+        <mat-label for="cat-profile-age">age</mat-label>
+        <input
+          matInput
+          id="cat-profile-age"
+          #ageInput
+          type="number"
+          [value]="age"
+          [readonly]="isReadMode$ | async"
+          (input)="ui.update({ age: ageInput.value })"
+        />
+      </mat-form-field>
+    </mat-card-content>
+  </form>
+  <ng-container *rxLet="valid$; let valid">
+    <button
+      mat-raised-button
+      [disabled]="!valid"
+      color="primary"
+      name="save"
+      aria-label="Save profile"
+      (click)="ui.submit()"
+    >
+      Save
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      name="delete"
+      aria-label="Delete
+    profile"
+      *rxIf="isEditMode$"
+      (click)="ui.delete()"
+    >
+      Delete
+    </button>
+  </ng-container>
+</mat-card>

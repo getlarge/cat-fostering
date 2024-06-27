@@ -50,10 +50,21 @@
         "targetName": "e2e",
         "ciTargetName": "e2e-ci"
       }
+    },
+    {
+      "plugin": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "playwright-e2e"
+      }
     }
   ],
   "targetDefaults": {
     "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "@angular-devkit/build-angular:browser": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
@@ -73,6 +84,21 @@
         "jestConfig": "{projectRoot}/jest.config.ts",
         "runInBand": true
       }
+    }
+  },
+  "generators": {
+    "@nx/angular:application": {
+      "e2eTestRunner": "playwright",
+      "linter": "eslint",
+      "style": "css",
+      "unitTestRunner": "jest"
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nx/angular:component": {
+      "style": "css"
     }
   },
   "nxCloudAccessToken": "ZDE5NmQ1N2QtZmZlZS00YTQyLTgzZmMtYzMzYzdiYmQ5YTRmfHJlYWQtd3JpdGU="

@@ -5,15 +5,14 @@
 
 ARG NODE_VERSION=20.9.0
 
-### optimize
-FROM node:$NODE_VERSION AS optimize
+### Dependency installation
+FROM node:$NODE_VERSION AS deps
 
 WORKDIR /app
 
 RUN echo "Building cat-fostering-api image with NODE_VERSION=$NODE_VERSION"
 
 COPY ./apps/cat-fostering-api/package*.json ./
-COPY --chown=node:node ./dist/apps/cat-fostering-api ./
 
 RUN npm install --omit=dev -f --loglevel=error
 RUN curl -sf https://gobinaries.com/tj/node-prune | sh
@@ -30,6 +29,7 @@ ENV PORT=3000
 
 WORKDIR /app
 
-COPY --from=optimize /app ./
+COPY --from=deps /app ./
+COPY --chown=node:node ./dist/apps/cat-fostering-api ./
 
 CMD ["node", "main.js"]
