@@ -36,6 +36,8 @@ launch-templates:
       - name: Build Docker Image
         script: npx nx run cat-fostering-api:docker-build --no-agents
 
+      # !BLOCKER: it is not possible to install Docker in Nx agents at the moment, see https://github.com/nrwl/nx-cloud-workflows/issues/52
+
       #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
       - name: Start Docker Compose
         script: npx @dotenvx/dotenvx run -- docker compose --profile ci -p cat-fostering up -d
