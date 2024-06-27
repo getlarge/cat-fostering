@@ -39,7 +39,7 @@ jobs:
 
       # --require-explicit-completion because Nx agents might not receive tasks for more than 30 seconds when preparing the e2e test environment
       # @see https://nx.dev/ci/troubleshooting/ci-execution-failed#the-nx-cloud-heartbeat-process-failed-to-report-its-status-in-time
-      - run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci" --require-explicit-completion
+      - run: npx nx-cloud start-ci-run --distribute-on="3 custom-linux-small-js" --stop-agents-after="e2e-ci" --require-explicit-completion
         if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'true' }}
 
       - uses: actions/setup-node@v4
@@ -77,15 +77,15 @@ jobs:
 
       - name: Run e2e tests
         run: npx nx affected -t e2e --no-agents
-        # if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'false' }}
+        if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'false' }}
 
       # to enable DTE for e2e tests splitting, use the following command instead and set stop-agents-after="e2e-ci"
-      # - name: Run distributed e2e tests
-      #   run: |
-      #     npm run pg:create:connection -- -e .env.ci
-      #     docker compose -p cat-fostering restart api
-      #     npx nx affected -t e2e-ci
-      #   if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'true' }}
+      - name: Run distributed e2e tests
+        run: |
+          npm run pg:create:connection -- -e .env.ci
+          docker compose -p cat-fostering restart api
+          npx nx affected -t e2e-ci
+        if: ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'true' }}
 
       - run: npx nx-cloud complete-ci-run
         if: always() && ${{ env.NX_CLOUD_DISTRIBUTED_EXECUTION == 'true' }}
