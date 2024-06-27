@@ -9,11 +9,11 @@ import {
 } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { CatProfileStateService } from '@cat-fostering/ng-catprofile-state';
-import { UserStateService } from '@cat-fostering/ng-user-state';
 import {
   CreateCatProfile,
   UpdateCatProfile,
 } from '@cat-fostering/ng-data-acess';
+import { UserStateService } from '@cat-fostering/ng-user-state';
 import { patch } from '@rx-angular/cdk/transformations';
 import { RxState } from '@rx-angular/state';
 import { rxActions } from '@rx-angular/state/actions';

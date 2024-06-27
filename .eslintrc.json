@@ -90,11 +90,19 @@
               },
               {
                 "sourceTag": "scope:catprofile",
-                "onlyDependOnLibsWithTags": ["scope:shared", "scope:catprofile"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:catprofile",
+                  "scope:user"
+                ]
               },
               {
                 "sourceTag": "scope:fostering",
-                "onlyDependOnLibsWithTags": ["scope:shared", "scope:fostering"]
+                "onlyDependOnLibsWithTags": [
+                  "scope:shared",
+                  "scope:fostering",
+                  "scope:user"
+                ]
               },
               {
                 "sourceTag": "scope:user",

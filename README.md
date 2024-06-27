@@ -16,10 +16,6 @@
 
 This demonstration app is a web-based platform (REST API) called `CatFostering`. The CatFoster application is a simplified example that demonstrates the integration of [Ory](https://ory.sh) in a [NestJS](https://nestjs.com) application with the [NestJS Ory Integration libraries](https://github.com/getlarge/nestjs-ory-integration).
 
-<p align="center">
-  <a href="https://github.com/getlarge/nestjs-ory-integration/" target="blank"><img src="https://ipfs.io/ipfs/QmQ6CMaraTMrv8byJfY64mDM6o7citx1pgEobMKWEJaSCB?filename=ory-nestjs-min.png" width="120" alt="NestOry Logo" /></a>
-</p>
-
 > **Note**
 > If this is your first time working with Ory, I recommend reading the [Introduction to Ory](https://dev.to/getlarge/introduction-to-ory-47nh) article to familiarize yourself with the core components and concepts of Ory.
 
