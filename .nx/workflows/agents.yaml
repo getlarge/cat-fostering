@@ -33,7 +33,7 @@ launch-templates:
           npm run ory:generate:kratos -- -e .env.ci
           npm run ory:generate:keto -- -e .env.ci
 
-      - run: Build Docker Image
+      - name: Build Docker Image
         script: npx nx run cat-fostering-api:docker-build --no-agents
 
       #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
