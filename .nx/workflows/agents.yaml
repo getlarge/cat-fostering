@@ -28,13 +28,16 @@ launch-templates:
       - name: Install Browsers (if needed)
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-browsers/main.yaml'
 
-      - run: |
+      - name: Generate Ory Configuration
+        script: |
           npm run ory:generate:kratos -- -e .env.ci
           npm run ory:generate:keto -- -e .env.ci
 
-      - run: npx nx run cat-fostering-api:docker-build --no-agents
+      - run: Build Docker Image
+        script: npx nx run cat-fostering-api:docker-build --no-agents
 
       #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
-      - run: npx @dotenvx/dotenvx run -- docker compose --profile ci -p cat-fostering up -d
+      - name: Start Docker Compose
+        script: npx @dotenvx/dotenvx run -- docker compose --profile ci -p cat-fostering up -d
 
-      - run: sleep 10
+      - script: sleep 10
