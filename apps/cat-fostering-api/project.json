@@ -4,6 +4,9 @@
   "sourceRoot": "apps/cat-fostering-api/src",
   "projectType": "application",
   "tags": ["type:app", "platform:node"],
+  "namedInputs": {
+    "dockerFiles": ["{projectRoot}/Dockerfile"]
+  },
   "targets": {
     "serve": {
       "executor": "@nx/js:node",
@@ -51,8 +54,12 @@
       }
     },
     "docker-build": {
+      "cache": true,
       "dependsOn": ["lint", "build"],
-      "inputs": ["production", "^production"],
+      "inputs": [
+        "dockerFiles",
+        { "dependentTasksOutputFiles": "**/dist/**/*", "transitive": true }
+      ],
       "command": "docker build -f apps/cat-fostering-api/Dockerfile . -t ghcr.io/getlarge/cat-fostering/cat-fostering-api:dev"
     }
   }
