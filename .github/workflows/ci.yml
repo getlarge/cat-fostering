@@ -54,6 +54,8 @@ jobs:
         with:
           workflow-id: 'ci.yml'
 
+      - run: npx nx format:check
+
       - run: npx nx affected -t lint test build
         if: ${{ !env.ACT }}
 
