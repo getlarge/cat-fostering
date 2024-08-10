@@ -49,7 +49,7 @@ services:
       - dev
 
   api:
-    image: ghcr.io/getlarge/cat-fostering/cat-fostering-api:dev
+    image: ghcr.io/getlarge/cat-fostering/cat-fostering-api:${DOCKER_API_TAG:-dev}
     pull_policy: never
     depends_on:
       - postgres

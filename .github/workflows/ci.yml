@@ -63,10 +63,16 @@ jobs:
           npm run ory:generate:kratos -- -e .env.ci
           npm run ory:generate:keto -- -e .env.ci
 
-      - run: npx nx run cat-fostering-api:docker-build --no-agents
+      - run: echo "DOCKER_API_TAG=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+
+      - run: npx nx run cat-fostering-api:docker-push --skip-nx-cache --no-agents \
+          --platforms=linux/arm64 --load=true --push-false \
+          --tags='ghcr.io/getlarge/cat-fostering/cat-fostering-api:${{ env.DOCKER_API_TAG }}'
 
       #  can't use --wait --wait-timeout N options since Keto and Kratos migrate containers will exit before the Keto and Kratos services are ready
       - run: npx @dotenvx/dotenvx run -- docker compose --profile ci -p cat-fostering up -d
+        env:
+          DOCKER_API_TAG: ${{ env.DOCKER_API_TAG }}
 
       - run: sleep 10
 
