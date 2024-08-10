@@ -38,9 +38,7 @@
             }
           }
         },
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
             "ory-action": []
@@ -74,9 +72,7 @@
             }
           }
         },
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
             "ory-action": []
@@ -100,9 +96,7 @@
             }
           }
         },
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
             "cookie": []
@@ -132,9 +126,7 @@
             }
           }
         },
-        "tags": [
-          "cat-profiles"
-        ],
+        "tags": ["cat-profiles"],
         "security": [
           {
             "cookie": []
@@ -169,9 +161,7 @@
             }
           }
         },
-        "tags": [
-          "cat-profiles"
-        ],
+        "tags": ["cat-profiles"],
         "security": [
           {
             "cookie": []
@@ -207,9 +197,7 @@
             }
           }
         },
-        "tags": [
-          "cat-profiles"
-        ],
+        "tags": ["cat-profiles"],
         "security": [
           {
             "cookie": []
@@ -253,9 +241,7 @@
             }
           }
         },
-        "tags": [
-          "cat-profiles"
-        ],
+        "tags": ["cat-profiles"],
         "security": [
           {
             "cookie": []
@@ -282,9 +268,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "cat-profiles"
-        ],
+        "tags": ["cat-profiles"],
         "security": [
           {
             "cookie": []
@@ -314,9 +298,7 @@
             }
           }
         },
-        "tags": [
-          "fostering"
-        ],
+        "tags": ["fostering"],
         "security": [
           {
             "cookie": []
@@ -351,9 +333,7 @@
             }
           }
         },
-        "tags": [
-          "fostering"
-        ],
+        "tags": ["fostering"],
         "security": [
           {
             "cookie": []
@@ -389,9 +369,7 @@
             }
           }
         },
-        "tags": [
-          "fostering"
-        ],
+        "tags": ["fostering"],
         "security": [
           {
             "cookie": []
@@ -427,9 +405,7 @@
             }
           }
         },
-        "tags": [
-          "fostering"
-        ],
+        "tags": ["fostering"],
         "security": [
           {
             "cookie": []
@@ -458,9 +434,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "fostering"
-        ],
+        "tags": ["fostering"],
         "security": [
           {
             "cookie": []
@@ -519,9 +493,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "email"
-        ]
+        "required": ["email"]
       },
       "OryIdentityDto": {
         "type": "object",
@@ -540,10 +512,7 @@
           },
           "state": {
             "type": "string",
-            "enum": [
-              "active",
-              "inactive"
-            ]
+            "enum": ["active", "inactive"]
           },
           "recovery_addresses": {
             "type": "array",
@@ -597,9 +566,7 @@
             "$ref": "#/components/schemas/OryIdentityDto"
           }
         },
-        "required": [
-          "identity"
-        ]
+        "required": ["identity"]
       },
       "OnOrySignInDto": {
         "type": "object",
@@ -608,9 +575,7 @@
             "$ref": "#/components/schemas/OryIdentityDto"
           }
         },
-        "required": [
-          "identity"
-        ]
+        "required": ["identity"]
       },
       "Fostering": {
         "type": "object",
@@ -627,11 +592,7 @@
             "type": "string"
           },
           "status": {
-            "enum": [
-              "PENDING",
-              "APPROVED",
-              "REJECTED"
-            ],
+            "enum": ["PENDING", "APPROVED", "REJECTED"],
             "type": "string"
           },
           "catProfile": {
@@ -677,11 +638,7 @@
             }
           }
         },
-        "required": [
-          "id",
-          "name",
-          "email"
-        ]
+        "required": ["id", "name", "email"]
       },
       "CatProfile": {
         "type": "object",
@@ -718,14 +675,7 @@
             }
           }
         },
-        "required": [
-          "id",
-          "name",
-          "age",
-          "description",
-          "photosUrls",
-          "owner"
-        ]
+        "required": ["id", "name", "age", "description", "photosUrls", "owner"]
       },
       "CreateCatProfile": {
         "type": "object",
@@ -744,11 +694,7 @@
             "maxLength": 300
           }
         },
-        "required": [
-          "name",
-          "age",
-          "description"
-        ]
+        "required": ["name", "age", "description"]
       },
       "UpdateCatProfile": {
         "type": "object",
@@ -783,11 +729,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "catProfileId",
-          "startDate",
-          "endDate"
-        ]
+        "required": ["catProfileId", "startDate", "endDate"]
       }
     }
   }

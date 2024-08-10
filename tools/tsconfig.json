@@ -3,9 +3,7 @@
   "ts-node": {
     "transpileOnly": true,
     "files": true,
-    "require": [
-      "tsconfig-paths/register"
-    ],
+    "require": ["tsconfig-paths/register"],
     "esm": false,
     "compilerOptions": {
       // compilerOptions specified here will override those declared below,
@@ -13,21 +11,15 @@
       // different options with a single tsconfig.json.
       "module": "CommonJS",
       "target": "es2021",
-      "lib": [
-        "es2021"
-      ],
+      "lib": ["es2021"],
       "strict": true
     }
   },
   "compilerOptions": {
     "module": "CommonJS",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "target": "es2021",
-    "lib": [
-      "es2021"
-    ],
+    "lib": ["es2021"],
     "noEmitHelpers": true,
     "importHelpers": true,
     "emitDecoratorMetadata": true,
@@ -36,10 +28,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "types": [
-    "node"
-  ]
+  "include": ["**/*.ts"],
+  "types": ["node"]
 }

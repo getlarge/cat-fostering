@@ -1,36 +1,35 @@
 {
-    "_id": "361ba671-579f-4a65-86ec-00fd1a930b2d",
-    "name": "CatFostering",
-    "default": false,
-    "sortNum": 10000,
-    "created": "2024-05-19T19:05:50.272Z",
-    "modified": "2024-05-19T19:05:50.272Z",
-    "data": [
-        {
-            "name": "baseUrl",
-            "value": "http://localhost:3000"
-        },
-        {
-            "name": "orySessionToken",
-            "value": "",
-            "secret": true
-        },
-        {
-            "name": "user1Id",
-            "value": ""
-        },
-        {
-            "name": "user1CatProfileId",
-            "value": ""
-        },
-        {
-            "name": "user2Id",
-            "value": ""
-        },
-        {
-            "name": "user2FosteringId",
-            "value": ""
-        }
-    ],
-    "envFile": "../../.env.thunderclient"
+  "_id": "361ba671-579f-4a65-86ec-00fd1a930b2d",
+  "name": "CatFostering",
+  "default": true,
+  "sortNum": 10000,
+  "created": "2024-05-19T19:05:50.272Z",
+  "modified": "2024-05-19T19:05:50.272Z",
+  "data": [
+    {
+      "name": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "name": "sessionToken",
+      "value": "ory_st_aUFfSyTXnrTcbGbLffcxwVZ91yRdzuk1",
+      "secret": true
+    },
+    {
+      "name": "user1Id",
+      "value": ""
+    },
+    {
+      "name": "user1CatProfileId",
+      "value": ""
+    },
+    {
+      "name": "user2Id",
+      "value": ""
+    },
+    {
+      "name": "user2FosteringId",
+      "value": ""
+    }
+  ]
 }
