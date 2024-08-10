@@ -1,6 +1,9 @@
 const { NxWebpackPlugin } = require('@nx/webpack');
 const { join } = require('path');
 
+/**
+ * @type {import('webpack').Configuration}
+ */
 module.exports = {
   output: {
     path: join(__dirname, '../../dist/apps/cat-fostering-api'),
@@ -29,4 +32,8 @@ module.exports = {
       ],
     }),
   ],
+  // not working, why?
+  // watchOptions: {
+  //   ignored: ['**/openapi.json'],
+  // },
 };

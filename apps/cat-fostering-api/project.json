@@ -12,7 +12,10 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "local",
       "options": {
-        "buildTarget": "cat-fostering-api:build"
+        "buildTarget": "cat-fostering-api:build",
+        "runBuildTargetDependencies": false,
+        "watch": true,
+        "debounce": 500
       },
       "configurations": {
         "local": {
@@ -41,9 +44,12 @@
         }
       }
     },
-    "docker-push": {
+    "container": {
       "executor": "@nx-tools/nx-container:build",
-      "inputs": ["production", "^production"],
+      "inputs": [
+        "dockerFiles",
+        { "dependentTasksOutputFiles": "**/dist/**/*", "transitive": true }
+      ],
       "dependsOn": ["lint", "build"],
       "options": {
         "file": "apps/cat-fostering-api/Dockerfile",

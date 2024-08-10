@@ -1,47 +1,47 @@
 {
-    "_id": "11d9d233-af83-41c6-9dce-0afe40547244",
-    "name": "CatFostering Demo",
-    "default": true,
-    "sortNum": 20000,
-    "created": "2024-05-19T19:39:54.612Z",
-    "modified": "2024-05-19T19:39:54.612Z",
-    "data": [
-        {
-            "name": "baseUrl",
-            "value": "http://localhost:3000"
-        },
-        {
-            "name": "orySessionToken",
-            "value": ""
-        },
-        {
-            "name": "user1Id",
-            "value": ""
-        },
-        {
-            "name": "user1CatProfileId",
-            "value": ""
-        },
-        {
-            "name": "user2Id",
-            "value": ""
-        },
-        {
-            "name": "user2FosteringId",
-            "value": ""
-        },
-        {
-            "name": "orySessionToken1",
-            "value": ""
-        },
-        {
-            "name": "orySessionToken2",
-            "value": ""
-        },
-        {
-            "name": "orySessionToken3",
-            "value": ""
-        }
-    ],
-    "envFile": "../../.env.demo.thunderclient"
+  "_id": "11d9d233-af83-41c6-9dce-0afe40547244",
+  "name": "CatFostering Demo",
+  "default": false,
+  "sortNum": 20000,
+  "created": "2024-05-19T19:39:54.612Z",
+  "modified": "2024-05-19T19:39:54.612Z",
+  "data": [
+    {
+      "name": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "name": "orySessionToken",
+      "value": ""
+    },
+    {
+      "name": "user1Id",
+      "value": ""
+    },
+    {
+      "name": "user1CatProfileId",
+      "value": ""
+    },
+    {
+      "name": "user2Id",
+      "value": ""
+    },
+    {
+      "name": "user2FosteringId",
+      "value": ""
+    },
+    {
+      "name": "orySessionToken1",
+      "value": ""
+    },
+    {
+      "name": "orySessionToken2",
+      "value": ""
+    },
+    {
+      "name": "orySessionToken3",
+      "value": ""
+    }
+  ],
+  "envFile": "../../.env.demo.thunderclient"
 }
