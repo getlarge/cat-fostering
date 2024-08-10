@@ -27,6 +27,7 @@ async function bootstrap() {
     {
       logger: ['error', 'warn', 'log', 'debug', 'verbose'],
       bufferLogs: true,
+      snapshot: true,
     }
   );
   const configService =
@@ -94,7 +95,8 @@ async function bootstrap() {
   SwaggerModule.setup('open-api', app, document, customOptions);
 
   const port = configService.get('PORT', { infer: true });
-  await app.listen(port);
+  const host = configService.get('HOST', { infer: true });
+  await app.listen(port, host);
   logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );

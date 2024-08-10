@@ -43,6 +43,16 @@ export class EnvironmentVariables {
   PORT?: number = 3000;
 
   @Expose()
+  @IsString()
+  @IsOptional()
+  HOST?: string = '0.0.0.0';
+
+  @Expose()
+  @IsOptional()
+  @IsNumber()
+  DEVTOOLS_PORT?: number = 8000;
+
+  @Expose()
   @IsUrl({
     protocols: ['postgres', 'postgresql'],
     require_valid_protocol: true,
