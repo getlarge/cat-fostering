@@ -2,7 +2,8 @@ import { CatProfilesModule } from '@cat-fostering/nestjs-catprofile-module';
 import { FosteringModule } from '@cat-fostering/nestjs-fostering-module';
 import { UsersModule } from '@cat-fostering/nestjs-user-module';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConditionalModule, ConfigModule, ConfigService } from '@nestjs/config';
+import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerModule } from 'nestjs-pino';
 import path from 'node:path';
@@ -29,6 +30,18 @@ import {
         )
       ),
     }),
+    ConditionalModule.registerWhen(
+      DevtoolsModule.registerAsync({
+        inject: [ConfigService],
+        useFactory: (
+          configService: ConfigService<EnvironmentVariables, true>
+        ) => ({
+          http: true,
+          port: configService.get('DEVTOOLS_PORT', { infer: true }),
+        }),
+      }),
+      (env: NodeJS.ProcessEnv) => env.NODE_ENV === 'development'
+    ),
     LoggerModule.forRoot({
       pinoHttp: {
         redact: [
