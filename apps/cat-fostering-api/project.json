@@ -44,7 +44,7 @@
         }
       }
     },
-    "docker-push": {
+    "container": {
       "executor": "@nx-tools/nx-container:build",
       "inputs": [
         "dockerFiles",
