@@ -50,6 +50,7 @@
         "dockerFiles",
         { "dependentTasksOutputFiles": "**/dist/**/*", "transitive": true }
       ],
+      "cache": true,
       "dependsOn": ["lint", "build"],
       "options": {
         "file": "apps/cat-fostering-api/Dockerfile",
@@ -59,14 +60,39 @@
         "build-args": ["APP_NAME=cat-fostering-api", "NODE_VERSION=20.9.0"]
       }
     },
-    "docker-build": {
-      "cache": true,
-      "dependsOn": ["lint", "build"],
-      "inputs": [
-        "dockerFiles",
-        { "dependentTasksOutputFiles": "**/dist/**/*", "transitive": true }
+    "generate-lock-file": {
+      "inputs": ["{projectRoot}/package.json"],
+      "outputs": ["{projectRoot}/package-lock.json"],
+      "dependsOn": [
+        {
+          "target": "lint",
+          "params": "forward"
+        }
       ],
-      "command": "docker build -f apps/cat-fostering-api/Dockerfile . -t ghcr.io/getlarge/cat-fostering/cat-fostering-api:dev"
+      "cache": true,
+      "command": "npm i --prefix apps/cat-fostering-api --package-lock-only",
+      "metadata": {
+        "description": "Generate NPM lock file"
+      }
+    },
+    "nsci": {
+      "inputs": [
+        "{workspaceRoot}/.nodesecurerc",
+        "{workspaceRoot}/.nodesecureignore",
+        {
+          "dependentTasksOutputFiles": "apps/cat-fostering-api/package-lock.json"
+        }
+      ],
+      "dependsOn": ["generate-lock-file", "build"],
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nsci --directory=dist/apps/cat-fostering-api --strategy=npm --vulnerabilities=medium run",
+        "forwardAllArgs": true
+      },
+      "metadata": {
+        "description": "Run the NodeSecure CI analysis"
+      }
     }
   }
 }
