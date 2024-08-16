@@ -15,6 +15,7 @@
     "docker:dev:clean": "docker compose --profile dev -p cat-fostering down -v --rmi all",
     "docker:caddy:build": "docker buildx build infra/caddy -f infra/caddy/Dockerfile -t ghcr.io/getlarge/cat-fostering/caddy --load",
     "docker:caddy:push": "docker buildx build infra/caddy -f infra/caddy/Dockerfile --platform linux/amd64,linux/arm64 -t ghcr.io/getlarge/cat-fostering/caddy --push",
+    "nsci": "nsci",
     "postinstall": "patch-package",
     "prepare": "husky"
   },
@@ -44,6 +45,7 @@
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
+    "@nodesecure/ci": "^1.7.0",
     "@rx-angular/cdk": "17.1.0",
     "@rx-angular/state": "17.2.0",
     "@rx-angular/template": "17.2.0",
