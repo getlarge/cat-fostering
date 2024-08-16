@@ -46,9 +46,10 @@ Thumbs.db
 .env*
 .env.keys
 .flaskenv*
-!*.env.example*
+!*.env.example
 !.env.project
 !.env.vault
 !.env.ci
+.env.example.thunderclient
 
 .angular

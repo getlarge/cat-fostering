@@ -1,0 +1,11 @@
+{
+  "warnings": {
+    "unsafe-regex": [
+      "class-validator",
+      "validator"
+    ],
+    " unsafe-import": [
+      "pino"
+    ]
+  }
+}

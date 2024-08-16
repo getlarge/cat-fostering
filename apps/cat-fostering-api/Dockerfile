@@ -1,5 +1,5 @@
-# Build the docker image with `npx nx docker-build cat-fostering-api`.
-# Tip: Modify "docker-build" options in project.json to change docker build args.
+# Build the docker image with `npx nx run cat-fostering-api:container`.
+# Tip: Modify "container" options in project.json to change docker build args.
 #
 # Run the container with `docker run -e ORY_ACTION_API_KEY='hello' -e POSTGRES_URL='postgres://dbuser:secret@postgres:5432/appdb' --network cat-fostering_ory -p 3000:3000 -t ghcr.io/getlarge/cat-fostering/cat-fostering-api:latest`.
 
@@ -12,7 +12,7 @@ WORKDIR /app
 
 RUN echo "Building cat-fostering-api image with NODE_VERSION=$NODE_VERSION"
 
-COPY ./apps/cat-fostering-api/package*.json ./
+COPY ./dist/apps/cat-fostering-api/package*.json ./
 
 RUN npm install --omit=dev -f --loglevel=error
 RUN curl -sf https://gobinaries.com/tj/node-prune | sh

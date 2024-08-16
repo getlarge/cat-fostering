@@ -1,2 +1,3 @@
 [ -n "$CI" ] && exit 0
 npx lint-staged --concurrent false --relative
+npx dotenvx ext precommit
