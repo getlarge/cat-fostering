@@ -5,7 +5,7 @@
   "projectType": "application",
   "tags": ["type:app", "platform:node"],
   "namedInputs": {
-    "dockerFiles": ["{projectRoot}/Dockerfile"]
+    "dockerFiles": ["{projectRoot}/Dockerfile", "{projectRoot}/package.json"]
   },
   "targets": {
     "serve": {
