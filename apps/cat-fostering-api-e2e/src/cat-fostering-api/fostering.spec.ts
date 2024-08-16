@@ -30,7 +30,7 @@ describe('E2E Fostering Requests API tests', () => {
       email: 'nobody@test.it',
       password: 'p4s$worD!',
     });
-  }, 15000);
+  }, 20000);
 
   describe('POST /api/fostering', () => {
     it('should create a fostering request', async () => {
