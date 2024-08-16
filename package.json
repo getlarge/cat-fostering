@@ -16,6 +16,8 @@
     "docker:caddy:build": "docker buildx build infra/caddy -f infra/caddy/Dockerfile -t ghcr.io/getlarge/cat-fostering/caddy --load",
     "docker:caddy:push": "docker buildx build infra/caddy -f infra/caddy/Dockerfile --platform linux/amd64,linux/arm64 -t ghcr.io/getlarge/cat-fostering/caddy --push",
     "nsci": "nsci",
+    "ci:run": "make ci",
+    "ci:clean": "make ci-clean",
     "postinstall": "patch-package",
     "prepare": "husky"
   },
