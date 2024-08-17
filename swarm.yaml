@@ -8,7 +8,7 @@ volumes:
 
 services:
   cat-fostering-api:
-    image: ghcr.io/getlarge/cat-fostering/cat-fostering-api:latest
+    image: getlarge/cat-fostering-api:latest
     environment:
       - ORY_KETO_ADMIN_URL=https://determined-kare-xyskz239is.projects.oryapis.com
       - ORY_KETO_PUBLIC_URL=https://determined-kare-xyskz239is.projects.oryapis.com
@@ -38,7 +38,7 @@ services:
         window: 120s
 
   cat-fostering-web:
-    image: ghcr.io/getlarge/cat-fostering/cat-fostering-web:latest
+    image: getlarge/cat-fostering-web:latest
     ports:
       - '4000:4000'
     deploy:
@@ -51,7 +51,7 @@ services:
         window: 120s
 
   caddy:
-    image: ghcr.io/getlarge/cat-fostering/caddy:latest
+    image: getlarge/cat-fostering-caddy:latest
     ports:
       - '8080:80'
       - '4443:443'

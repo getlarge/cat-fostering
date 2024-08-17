@@ -104,7 +104,7 @@
         "file": "apps/cat-fostering-web/Dockerfile",
         "platforms": ["linux/amd64", "linux/arm64"],
         "push": true,
-        "tags": ["ghcr.io/getlarge/cat-fostering/cat-fostering-web:latest"],
+        "tags": ["getlarge/cat-fostering-web:latest"],
         "build-args": ["APP_NAME=cat-fostering-web"]
       }
     }
