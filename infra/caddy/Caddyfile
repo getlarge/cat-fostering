@@ -23,12 +23,12 @@
 
 # TODO: 443 ports in prod
 
-# localhost:80 {
-# 	encode zstd gzip
-# 	import static
+{$FRONTEND_DOMAIN}:80 {
+	encode zstd gzip
+	import static
 
-# 	reverse_proxy  http://front-end:4000
-# }
+	reverse_proxy  http://cat-fostering-web:4000
+}
 
 {$BACKEND_DOMAIN}:80 {
 	reverse_proxy http://cat-fostering-api:3000

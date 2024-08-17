@@ -37,6 +37,19 @@ services:
         max_attempts: 3
         window: 120s
 
+  cat-fostering-web:
+    image: ghcr.io/getlarge/cat-fostering/cat-fostering-web:latest
+    ports:
+      - '4000:4000'
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
   caddy:
     image: ghcr.io/getlarge/cat-fostering/caddy:latest
     ports:
@@ -47,6 +60,7 @@ services:
       - caddy_config:/config
     environment:
       - BACKEND_DOMAIN=backend
+      - FRONTEND_DOMAIN=frontend
     deploy:
       mode: replicated
       replicas: 1
