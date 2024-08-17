@@ -125,3 +125,30 @@ jobs:
         run: |
           npx nx-cloud record -- docker compose -p cat-fostering logs api -n 200
           npx nx-cloud record -- docker compose -p cat-fostering logs kratos -n 200
+
+  ory:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [main, e2e]
+    runs-on: ubuntu-latest
+    env:
+      DOTENV_PRIVATE_KEY_STAGING: ${{ secrets.DOTENV_PRIVATE_KEY_STAGING }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            **/package-lock.json
+            patches/*.patch
+
+      - run: npm ci
+
+      - name: Install ory CLI
+        run: |
+          bash <(curl https://raw.githubusercontent.com/ory/meta/master/install.sh) -b . ory
+          export PATH=$PATH:$GITHUB_WORKSPACE/ory
+
+      - run: npx nx run cat-fostering-api:ory:update:network -- -p ${{ env.ORY_PROJECT_ID }}
