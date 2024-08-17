@@ -5,6 +5,9 @@
   "prefix": "app",
   "sourceRoot": "apps/cat-fostering-web/src",
   "tags": ["type:app", "platform:angular"],
+  "namedInputs": {
+    "dockerFiles": ["{projectRoot}/Dockerfile", "{projectRoot}/nginx.conf"]
+  },
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -81,6 +84,22 @@
           "nx format --projects ng-data-access"
         ],
         "parallel": false
+      }
+    },
+    "container": {
+      "executor": "@nx-tools/nx-container:build",
+      "inputs": [
+        "dockerFiles",
+        { "dependentTasksOutputFiles": "**/dist/**/*", "transitive": true }
+      ],
+      "cache": true,
+      "dependsOn": ["build"],
+      "options": {
+        "file": "apps/cat-fostering-web/Dockerfile",
+        "platforms": ["linux/amd64", "linux/arm64"],
+        "push": true,
+        "tags": ["ghcr.io/getlarge/cat-fostering/cat-fostering-web:latest"],
+        "build-args": ["APP_NAME=cat-fostering-web"]
       }
     }
   }
