@@ -211,6 +211,7 @@ export function updateOryNetworkConfig(projectId: string, envFile: string) {
   console.log(inspect(oryConfig, { depth: null }));
   const oryNetworkConfigPath = join(ORY_NETWORK_DIRECTORY, 'config.json');
   writeFileSync(oryNetworkConfigPath, JSON.stringify(oryConfig));
+  // TODO: check ORY CLI version
   execSync(
     `ory update project ${projectId} --format json --file ${oryNetworkConfigPath}`,
     {

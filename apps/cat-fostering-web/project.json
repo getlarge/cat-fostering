@@ -47,6 +47,21 @@
           ],
           "outputHashing": "all"
         },
+        "staging": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "50kb",
+              "maximumError": "200kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
         "development": {
           "buildOptimizer": false,
           "optimization": false,
@@ -63,6 +78,11 @@
       "configurations": {
         "production": {
           "buildTarget": "cat-fostering-web:build:production"
+        },
+        "staging": {
+          "buildTarget": "cat-fostering-web:build:staging",
+          "host": "127.0.0.1",
+          "port": 4200
         },
         "development": {
           "buildTarget": "cat-fostering-web:build:development",

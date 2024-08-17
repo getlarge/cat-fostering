@@ -1,13 +1,13 @@
 const { DefinePlugin } = require('webpack');
 
-const myOrgEnvRegex = /^CAT_FOSTERING_|ORY_/i;
+const supportedEnvVariablesPattern = /^CAT_FOSTERING_|ORY_/i;
 
 function getClientEnvironment() {
   const envVars = {
     production: process.env.NODE_ENV === 'production',
   };
   for (const key in process.env) {
-    if (myOrgEnvRegex.test(key)) {
+    if (supportedEnvVariablesPattern.test(key)) {
       envVars[key] = process.env[key];
     }
   }

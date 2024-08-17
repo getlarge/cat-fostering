@@ -31,6 +31,7 @@ services:
         window: 120s
     profiles:
       - dev
+      - staging
 
   postgres:
     image: postgres:16
@@ -47,6 +48,7 @@ services:
     profiles:
       - ci
       - dev
+      - staging
 
   api:
     image: getlarge/cat-fostering-api:${DOCKER_API_TAG:-dev}
