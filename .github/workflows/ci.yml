@@ -17,14 +17,6 @@ env:
   POSTGRES_DB: cat_fostering_api_e2e
   NX_CLOUD_DISTRIBUTED_EXECUTION: ${{ vars.NX_CLOUD_DISTRIBUTED_EXECUTION || 'true' }}
   # ?NX_CI_EXECUTION_ID: 9682651267
-  # E2E config
-  DEBUG:KRATOS_CLI: true
-  DEBUG:KETO_CLI: true
-  ORY_KRATOS_PUBLIC_URL: http://127.0.0.1:4433
-  ORY_KETO_ADMIN_URL: http://127.0.0.1:4467
-  ORY_KETO_PUBLIC_URL: http://127.0.0.1:4466
-  API_HOST: 127.0.0.1
-  API_PORT: 3000
 
 jobs:
   main:
@@ -58,6 +50,40 @@ jobs:
 
       - run: npx nx affected -t lint test build
         if: env.ACT != 'true'
+
+      - run: npx nx-cloud complete-ci-run
+        if: failure() && env.NX_CLOUD_DISTRIBUTED_EXECUTION != 'false'
+
+  e2e:
+    needs: main
+    runs-on: ubuntu-latest
+    env:
+      DEBUG:KRATOS_CLI: true
+      DEBUG:KETO_CLI: true
+      ORY_KRATOS_PUBLIC_URL: http://127.0.0.1:4433
+      ORY_KETO_ADMIN_URL: http://127.0.0.1:4467
+      ORY_KETO_PUBLIC_URL: http://127.0.0.1:4466
+      API_HOST: 127.0.0.1
+      API_PORT: 3000
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            **/package-lock.json
+            patches/*.patch
+
+      - run: npm ci
+
+      - uses: nrwl/nx-set-shas@v4
+        with:
+          workflow-id: 'ci.yml'
 
       - run: |
           npm run ory:generate:kratos -- -e .env.ci
