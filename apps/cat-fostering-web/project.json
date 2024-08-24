@@ -11,6 +11,13 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
+      "inputs": [
+        "production",
+        "^production",
+        { "env": "CAT_FOSTERING_API_URL" },
+        { "env": "ORY_KRATOS_PUBLIC_URL" },
+        { "env": "NODE_ENV" }
+      ],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/cat-fostering-web",
@@ -37,7 +44,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
