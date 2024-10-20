@@ -48,7 +48,10 @@
       "executor": "@nx-tools/nx-container:build",
       "inputs": [
         "dockerFiles",
-        { "dependentTasksOutputFiles": "**/dist/**/*", "transitive": true }
+        {
+          "dependentTasksOutputFiles": "**/dist/**/*",
+          "transitive": true
+        }
       ],
       "cache": true,
       "dependsOn": ["lint", "build"],

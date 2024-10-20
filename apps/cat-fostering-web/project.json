@@ -14,9 +14,15 @@
       "inputs": [
         "production",
         "^production",
-        { "env": "CAT_FOSTERING_API_URL" },
-        { "env": "ORY_KRATOS_PUBLIC_URL" },
-        { "env": "NODE_ENV" }
+        {
+          "env": "CAT_FOSTERING_API_URL"
+        },
+        {
+          "env": "ORY_KRATOS_PUBLIC_URL"
+        },
+        {
+          "env": "NODE_ENV"
+        }
       ],
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -123,7 +129,10 @@
       "executor": "@nx-tools/nx-container:build",
       "inputs": [
         "dockerFiles",
-        { "dependentTasksOutputFiles": "**/dist/**/*", "transitive": true }
+        {
+          "dependentTasksOutputFiles": "**/dist/**/*",
+          "transitive": true
+        }
       ],
       "cache": true,
       "dependsOn": ["build"],

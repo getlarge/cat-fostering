@@ -5,5 +5,6 @@
   "prefix": "lib",
   "projectType": "library",
   "tags": ["type:utils", "scope:shared", "platform:angular"],
+  "// targets": "to see all targets run: nx show project ng-state --web",
   "targets": {}
 }
